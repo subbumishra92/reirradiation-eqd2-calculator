@@ -2,54 +2,23 @@ import streamlit as st
 
 # ——— Data definitions ———
 OARS = [
-    "Bile Duct", "Bone (Weight‑bearing)", "Brain Stem", "Cervical Esophagus",
-    "Chiasm / Optic Nerve", "Cochlea", "Colon", "Duodenum", "Esophagus",
-    "Femoral Heads", "Glottic Larynx", "Heart", "Hippocampi", "Kidneys",
-    "Lens", "Liver", "Lung", "Mandible", "Oral Cavity", "Ovaries", "Parotid",
-    "Penile Bulb", "Pharyngeal Constrictors", "Pituitary", "Small Bowel",
-    "Spleen", "Spinal Cord", "Stomach", "Submandibular Gland", "Testicles",
-    "Thyroid"
+    "Brain Stem", "Optic Nerve", "Optic Chiasm", "Cochlea", "Small Bowel", "Spinal Cord", "Cauda Equina", "Sacral Plexus"
 ]
 
 OAR_CONSTRAINTS = {
-    "Bile Duct":            [{"type":"max",  "value":63}],
-    "Bone (Weight‑bearing)":[{"type":"mean","value":37}],
     "Brain Stem":           [{"type":"max",  "value":54}],
-    "Cervical Esophagus":   [{"type":"mean","value":30}],
-    "Chiasm / Optic Nerve": [{"type":"max",  "value":54}],
-    "Cochlea":              [{"type":"mean","value":35}],
-    "Colon":                [{"type":"max",  "value":60}],
-    "Duodenum":             [{"type":"max",  "value":55}],
-    "Esophagus":            [{"type":"mean","value":34}],
-    "Femoral Heads":        [{"type":"mean","value":50}],
-    "Glottic Larynx":       [{"type":"mean","value":45}],
-    "Heart":                [{"type":"mean","value":20}],
-    "Hippocampi":           [{"type":"max",  "value":16}],
-    "Kidneys": [
-        {"type":"mean","value":15},
-        {"type":"mean","value":9,  "note":"single functional kidney, V18<15%"}
-    ],
-    "Lens":                 [{"type":"max",  "value":7}],
-    "Liver":                [{"type":"mean","value":25}],
-    "Lung":                 [{"type":"mean","value":20}],
-    "Mandible":             [{"type":"max",  "value":70}],
-    "Oral Cavity":          [{"type":"mean","value":30}],
-    "Ovaries":              [{"type":"max",  "value":3}],
-    "Parotid":              [{"type":"mean","value":26}],
-    "Penile Bulb":          [{"type":"mean","value":52}],
-    "Pharyngeal Constrictors":[{"type":"mean","value":50}],
-    "Pituitary":            [{"type":"mean","value":40}],
+    "Optic Nerve":          [{"type":"max",  "value":54}],
+    "Optic Chiasm":         [{"type":"max",  "value":54}],
+    "Cochlea":              [{"type":"max","value":45}],
     "Small Bowel":          [{"type":"max",  "value":52}],
-    "Spleen":               [{"type":"mean","value":9}],
     "Spinal Cord":          [{"type":"max",  "value":45}],
-    "Stomach":              [{"type":"max",  "value":50}],
-    "Submandibular Gland":  [{"type":"mean","value":39}],
-    "Testicles":            [{"type":"max",  "value":3}],
-    "Thyroid":              [{"type":"mean","value":37}],
+    "Cauda Equina":         [{"type":"max",  "value":45}],
+    "Sacral Plexus":        [{"type":"max",  "value":45}],
+
 }
 
 OAR_ALPHA_BETA = {
-    o: (2 if any(x in o for x in ["Spinal Cord","Chiasm","Brain Stem","Lens","Mandible","Hippocampi","Cochlea","Ovaries","Parotid","Submandibular Gland","Testicles"])
+    o: (2 if any(x in o for x in ["Spinal Cord","Chiasm","Brain Stem","Cochlea"])
         else 3)
     for o in OARS
 }
