@@ -19,7 +19,7 @@ OAR_CONSTRAINTS = {
     }.items()
 }
 
-# Default α/β per OAR
+# Exact default α/β map
 OAR_ALPHA_BETA = {
     o: (2 if o in [
         "Spinal Cord","Optic Chiasm","Brain Stem",
@@ -31,7 +31,7 @@ OAR_ALPHA_BETA = {
 RECOVERY_FACTORS = {"<6 months":0.00, "6–12 months":0.25, "12+ months":0.50}
 FRACTION_OPTIONS   = [1,3,5,10]
 
-# ——— Radiobiology & solver (cached) ———
+# ——— Radiobiology & solver ———
 @st.cache_data
 def eqd2(n, d, αβ):
     return n * d * (1 + d/αβ) / (1 + 2/αβ)
@@ -47,29 +47,28 @@ def max_d_per_fraction(n, target_eqd2, αβ):
     return max(d1, d2)
 
 # ——— Helper: compute report ———
-def compute_report(selected, global_int, prior_data, override_ab):
+def compute_report(selected, global_interval, prior_data, override_ab):
     report = {}
     for o in selected:
         ab = override_ab.get(o, OAR_ALPHA_BETA[o])
-        # sum and recover between courses
+        # accumulate with inter‐course recovery
         cumulative = 0.0
         raw_sum = 0.0
-        for idx, cr in enumerate(prior_data[o]):
-            dose, fx = cr["dose"], cr["fractions"]
-            eq = eqd2(fx, dose/fx, ab)
+        courses = prior_data[o]
+        for idx, cr in enumerate(courses):
+            eq = eqd2(cr["fractions"], cr["dose"]/cr["fractions"], ab)
             raw_sum += eq
-            if idx == 0:
+            if idx==0:
                 cumulative = eq
             else:
-                recov = RECOVERY_FACTORS[cr["interval_prev"]]
-                cumulative = cumulative*(1-recov) + eq
-        # final recovery to new plan
-        final_recov = RECOVERY_FACTORS[global_int]
-        effective   = cumulative*(1-final_recov)
-        recovered   = raw_sum - effective
-        limit       = OAR_CONSTRAINTS[o][0]["value"]
-        remaining   = max(limit - effective, 0.0)
-        # store
+                f = RECOVERY_FACTORS[cr["interval_prev"]]
+                cumulative = cumulative*(1-f) + eq
+        # final recovery to upcoming course
+        f_last = RECOVERY_FACTORS[global_interval]
+        effective = cumulative*(1-f_last)
+        recovered = raw_sum - effective
+        limit = OAR_CONSTRAINTS[o][0]["value"]
+        remaining = max(limit - effective, 0.0)
         report[o] = {
             "limit":     limit,
             "raw_sum":   raw_sum,
@@ -80,24 +79,23 @@ def compute_report(selected, global_int, prior_data, override_ab):
         }
     return report
 
-# ——— Helper: render a single OAR’s results ———
+# ——— Helper: render results ———
 def show_oar_results(o, data):
     st.write(f"- Hard EQD₂ max limit: **{data['limit']:.1f} Gy**")
     st.write(f"- Sum raw EQD₂ delivered: **{data['raw_sum']:.1f} Gy**")
     st.write(f"- Total recovered: **{data['recovered']:.1f} Gy**")
     st.write(f"- Effective prior EQD₂: **{data['effective']:.1f} Gy**")
-    st.write(f"- Remaining re‑irradiation room: **{data['remaining']:.1f} Gy**")
+    st.write(f"- Remaining room: **{data['remaining']:.1f} Gy**")
     st.info(f"α/β used: **{data['ab']} Gy**")
     st.success(f"→ New EQD₂ max constraint: {data['remaining']:.1f} Gy")
-    # regimens
     lines = ["**Permissible regimens:**"]
     for n in FRACTION_OPTIONS:
         d = max_d_per_fraction(n, data["remaining"], data["ab"])
         lines.append(f"- {n} fx: {d*n:.1f} Gy (*{d:.2f} Gy/fx*)")
     st.markdown("\n".join(lines))
 
-# ——— Main form & flow ———
-with st.form("calc_form"):
+# ——— Main form ———
+with st.form("calc_form", clear_on_submit=False):
     st.header("Re‑irradiation EQD₂ Inputs")
 
     selected = st.multiselect("Which OAR(s) to re‑irradiate?", OARS)
@@ -106,6 +104,8 @@ with st.form("calc_form"):
             "Time since last RT to upcoming course",
             list(RECOVERY_FACTORS.keys())
         )
+
+        # Collect up to 3 prior courses
         prior_data = {}
         for o in selected:
             st.subheader(o)
@@ -114,31 +114,37 @@ with st.form("calc_form"):
                 f"Number of prior courses for {o}", [1,2,3], key=f"{o}_nc"
             )
             courses = []
-            for i in range(1, n_courses+1):
-                if i > 1:
-                    interval_prev = st.selectbox(
-                        f"Interval between course {i-1} and {i}",
-                        list(RECOVERY_FACTORS.keys()),
-                        key=f"{o}_int_{i}"
+            for i in range(1, 4):
+                if i <= n_courses:
+                    if i > 1:
+                        interval_prev = st.selectbox(
+                            f"Interval between course {i-1} & {i}",
+                            list(RECOVERY_FACTORS.keys()),
+                            key=f"{o}_int_{i}"
+                        )
+                    else:
+                        interval_prev = None
+
+                    dose = st.number_input(
+                        f"Course {i} {ctype} dose (Gy)",
+                        min_value=0.0, step=0.1, key=f"{o}_dose_{i}"
                     )
+                    fx = st.number_input(
+                        f"Course {i} fractions",
+                        min_value=0, step=1, key=f"{o}_fx_{i}"
+                    )
+                    if dose > 0 and fx > 0:
+                        courses.append({
+                            "dose": dose,
+                            "fractions": int(fx),
+                            "interval_prev": interval_prev
+                        })
                 else:
-                    interval_prev = None
-                dose = st.number_input(
-                    f"  Course {i} {ctype} dose (Gy)",
-                    min_value=0.0, step=0.1, key=f"{o}_dose_{i}"
-                )
-                fx = st.number_input(
-                    f"  Course {i} fractions",
-                    min_value=0, step=1, key=f"{o}_fx_{i}"
-                )
-                if dose>0 and fx>0:
-                    courses.append({
-                        "dose": dose,
-                        "fractions": int(fx),
-                        "interval_prev": interval_prev
-                    })
+                    # ensure consistent form state
+                    st.empty()
             prior_data[o] = courses
 
+        # Optional α/β override
         override_ab = {}
         st.subheader("Optional: override α/β values")
         for o in selected:
