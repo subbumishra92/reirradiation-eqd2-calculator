@@ -19,8 +19,7 @@ OAR_CONSTRAINTS = {
 }
 
 OAR_ALPHA_BETA = {
-    o: (2 if any(x in o for x in ["Spinal Cord","Chiasm","Brain Stem","Cochlea"])
-        else 3)
+    o: (2 if any(x in o for x in ["Spinal Cord","Chiasm","Brain Stem","Cochlea"]) else 3)
     for o in OARS
 }
 
@@ -41,7 +40,6 @@ def eqd2(n, d, αβ):
 FRACTION_OPTIONS = [1, 3, 5, 10]
 
 def max_d_per_fraction(n, target_eqd2, alpha_beta):
-    """Solve for d in BED equation given n and target EQD₂."""
     target_bed = target_eqd2 * (1 + 2/alpha_beta)
     a = n / alpha_beta
     b = n
@@ -58,54 +56,65 @@ def main():
     st.set_page_config(page_title="Re‑irradiation EQD₂", layout="wide")
     st.title("Re‑irradiation EQD₂ Calculator")
 
-    # --- Sidebar inputs, all visible immediately ---
+    # Sidebar inputs
     st.sidebar.header("Inputs")
+    selected = st.sidebar.multiselect("OAR(s) to re‑irradiate", options=OARS)
+    interval = st.sidebar.selectbox("Time since last RT",
+        options=["<6 months","6–12 months","12+ months"])
 
-    selected = st.sidebar.multiselect(
-        "OAR(s) to re‑irradiate",
-        options=OARS,
-        help="Select one or more organs at risk"
-    )
-
-    interval = st.sidebar.selectbox(
-        "Time since last RT",
-        options=["<6 months","6–12 months","12+ months"],
-        help="Recovery fraction applied to prior EQD₂"
-    )
-
-    # For each selected OAR, ask prior dose & fractions
+    # Collect up to 3 prior courses per OAR
     prior_data = {}
     for o in selected:
         st.sidebar.subheader(o)
         ctype = OAR_CONSTRAINTS[o][0]["type"]
-        dose = st.sidebar.number_input(
-            f"Prior {ctype} dose (Gy)", min_value=0.0, step=0.1, key=f"dose_{o}"
+        n_courses = st.sidebar.selectbox(
+            f"Number of prior courses for {o}",
+            options=[1,2,3], key=f"nc_{o}"
         )
-        fx = st.sidebar.number_input(
-            "Fractions", min_value=1, step=1, key=f"fx_{o}"
-        )
-        prior_data[o] = {"type": ctype, "dose": dose, "fractions": int(fx)}
+        courses = []
+        for i in range(1, n_courses+1):
+            dose = st.sidebar.number_input(
+                f"  Course {i} {ctype} dose (Gy)",
+                min_value=0.0, step=0.1,
+                key=f"dose_{o}_{i}"
+            )
+            fx = st.sidebar.number_input(
+                f"  Course {i} fractions",
+                min_value=0, step=1,
+                key=f"fx_{o}_{i}"
+            )
+            # assume unfilled (zero) entries => zero dose
+            if dose <= 0 or fx <= 0:
+                courses.append({"dose": 0.0, "fractions": 0})
+            else:
+                courses.append({"dose": dose, "fractions": int(fx)})
+        prior_data[o] = {"type": ctype, "courses": courses}
 
-    # The calculate button
     calculate = st.sidebar.button("Calculate re‑irradiation room")
 
-    # --- Main area: results ---
+    # Main results
     if calculate:
         if not selected:
-            st.warning("Please select at least one OAR before calculating.")
+            st.warning("Select at least one OAR before calculating.")
             return
 
-        # 1) compute prior EQD2
-        received = {
-            o: eqd2(d["fractions"], d["dose"]/d["fractions"], OAR_ALPHA_BETA[o])
-            for o,d in prior_data.items()
-        }
+        # 1) compute total prior EQD2 per OAR (sum over courses)
+        received = {}
+        for o, info in prior_data.items():
+            total_eqd2 = 0.0
+            αβ = OAR_ALPHA_BETA[o]
+            for cr in info["courses"]:
+                n, tot = cr["fractions"], cr["dose"]
+                if n > 0 and tot > 0:
+                    d = tot / n
+                    total_eqd2 += eqd2(n, d, αβ)
+            received[o] = total_eqd2
 
-        # 2) compute remaining room
+        # 2) prepare report
         report = {}
         for o, rec in received.items():
-            lim = OAR_CONSTRAINTS[o][0]["value"]
-            f   = RECOVERY_FACTORS[interval]
+            lim   = OAR_CONSTRAINTS[o][0]["value"]
+            f     = RECOVERY_FACTORS[interval]
             recov = rec * f
             eff   = rec - recov
             rem   = max(lim - eff, 0.0)
@@ -119,24 +128,30 @@ def main():
                 "remaining":       rem
             }
 
-        # 3) display in main area
+        # 3) display
         st.header("Results")
         for o, stt in report.items():
             with st.expander(o, expanded=True):
-                # 1) Show the new EQD2 constraint up front
+                # Detailed breakdown
+                st.write(f"- Hard EQD₂ {stt['ctype']} limit: **{stt['limit']:.1f} Gy**")
+                st.write(f"- Sum prior EQD₂ received: **{stt['received']:.1f} Gy**")
+                st.write(f"- Recovery factor: **{int(stt['recovery_factor']*100)}%**")
+                st.write(f"- Amount recovered: **{stt['recovered']:.1f} Gy**")
+                st.write(f"- Effective prior EQD₂: **{stt['effective']:.1f} Gy**")
+                st.write(f"- Remaining re‑irradiation room: **{stt['remaining']:.1f} Gy**")
+
+                # New max constraint first
                 new_limit = stt["remaining"]
                 st.success(f"→ New EQD₂ {stt['ctype']} max constraint: {new_limit:.1f} Gy")
 
-                # 2) Show per‑fraction regimens cleanly:
+                # Markdown list of permissible regimens with italics
                 αβ = OAR_ALPHA_BETA[o]
-                pieces = []
+                md_lines = ["**Permissible regimens:**"]
                 for n in FRACTION_OPTIONS:
                     d = max_d_per_fraction(n, new_limit, αβ)
                     total = d * n
-                    pieces.append(f"{n} fx: {total:.1f} Gy ({d:.2f} Gy/fx)")
-                st.write("**Permissible regimens:** " + " · ".join(pieces))
-
-    # If calculate==False, nothing shows in main area yet.
+                    md_lines.append(f"- {n} fx: {total:.1f} Gy (*{d:.2f} Gy/fx*)")
+                st.markdown("\n".join(md_lines))
 
 if __name__=="__main__":
     main()
