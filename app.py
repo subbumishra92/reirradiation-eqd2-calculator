@@ -65,7 +65,7 @@ THREED_CONSTRAINTS = {
         {"OAR":"Thyroid Gland",   "Preferred":None,                             "Acceptable":"Mean < 37 Gy, no hot spots"},
         {"OAR":"Oral Cavity",     "Preferred":None,                             "Acceptable":"Minimize volume ≥ 30 Gy"},
         {"OAR":"Spinal Cord",     "Preferred":None,                             "Acceptable":"As low as possible; ≤ 105 % Rx"},
-        {"OAR":"Skin",            "Preferred":None,                             "Acceptable":"Dmax (0.03 cc) ≤ 35 Gy; V₂₀ Gy < 10 cc"},
+        {"OAR":"Skin",            "Preferred":None,                             "Acceptable":"Dmax <107%"},
         {"OAR":"Max Point Dose",  "Preferred":"< 105 %",                        "Acceptable":"< 108 %"},
     ],
     "Thorax": [
@@ -77,7 +77,7 @@ THREED_CONSTRAINTS = {
         {"OAR":"Trachea & Large Bronchi","Preferred":None,                     "Acceptable":"Mean < 30 Gy"},
         {"OAR":"Chest Wall",          "Preferred":None,                       "Acceptable":"No hot spots"},
         {"OAR":"Spinal Cord",         "Preferred":None,                       "Acceptable":"As low as possible; ≤ 45 Gy"},
-        {"OAR":"Skin",                "Preferred":None,                       "Acceptable":"Dmax (0.03 cc) ≤ 35 Gy; V₂₀ Gy < 10 cc"},
+        {"OAR":"Skin",                "Preferred":None,                       "Acceptable":"Dmax <107%"},
         {"OAR":"Max Point Dose",      "Preferred":"< 105 %",                  "Acceptable":"< 108 %"},
     ],
     "Abdomen": [
@@ -88,7 +88,7 @@ THREED_CONSTRAINTS = {
         {"OAR":"Esophagus",           "Preferred":None,                       "Acceptable":"Mean < 34 Gy; V₆₀ < 10 cc"},
         {"OAR":"Lungs",               "Preferred":None,                       "Acceptable":"V₅ < 42 %; V₂₀ < 37 %, Mean < 20 Gy"},
         {"OAR":"Spinal Cord",         "Preferred":None,                       "Acceptable":"As low as possible; ≤ 45 Gy"},
-        {"OAR":"Skin",                "Preferred":None,                       "Acceptable":"Dmax (0.03 cc) ≤ 35 Gy; V₂₀ Gy < 10 cc"},
+        {"OAR":"Skin",                "Preferred":None,                       "Acceptable":"Dmax <107%"},
         {"OAR":"Max Point Dose",      "Preferred":"< 105 %",                  "Acceptable":"< 108 %"},
     ],
     "Female Pelvis": [
@@ -98,7 +98,7 @@ THREED_CONSTRAINTS = {
         {"OAR":"Large Bowel",         "Preferred":None,                       "Acceptable":"As low as possible"},
         {"OAR":"Kidneys",             "Preferred":None,                       "Acceptable":"Mean < 15 Gy (or < 9 Gy if solitary)"},
         {"OAR":"Ureter",              "Preferred":None,                       "Acceptable":"Dmax < 45 Gy"},
-        {"OAR":"Skin",                "Preferred":None,                       "Acceptable":"Dmax (0.03 cc) ≤ 35 Gy; V₂₀ Gy < 10 cc"},
+        {"OAR":"Skin",                "Preferred":None,                       "Acceptable":"Dmax <107%"},
         {"OAR":"Max Point Dose",      "Preferred":"< 105 %",                  "Acceptable":"< 108 %"},
     ],
     "Male Pelvis": [
@@ -108,31 +108,31 @@ THREED_CONSTRAINTS = {
         {"OAR":"Large Bowel",         "Preferred":None,                       "Acceptable":"As low as possible"},
         {"OAR":"Kidneys",             "Preferred":None,                       "Acceptable":"Mean < 15 Gy (or < 9 Gy if solitary)"},
         {"OAR":"Ureter",              "Preferred":None,                       "Acceptable":"Dmax < 45 Gy"},
-        {"OAR":"Skin",                "Preferred":None,                       "Acceptable":"Dmax (0.03 cc) ≤ 35 Gy; V₂₀ Gy < 10 cc"},
+        {"OAR":"Skin",                "Preferred":None,                       "Acceptable":"Dmax <107%"},
         {"OAR":"Max Point Dose",      "Preferred":"< 105 %",                  "Acceptable":"< 108 %"},
     ],
     "Proximal Upper Extremity": [
         {"OAR":"Brachial Plexus","Preferred":None,                  "Acceptable":"Optimal 27 Gy; Mandatory 29 Gy"},
-        {"OAR":"Skin",           "Preferred":None,                  "Acceptable":"Dmax (0.03 cc) ≤ 35 Gy; V₂₀ Gy < 10 cc"},
+        {"OAR":"Skin",           "Preferred":None,                  "Acceptable":"Dmax <107%"},
         {"OAR":"Cortical Bone",  "Preferred":None,                  "Acceptable":"V₂₅ < 50 %; V₃₀ < 35 %"},
         {"OAR":"Articular Cartilage","Preferred":None,              "Acceptable":"Dmax ≤ 35 Gy"},
         {"OAR":"Max Point Dose","Preferred":"< 105 %",               "Acceptable":"< 108 %"},
     ],
     "Distal Upper Extremity": [
-        {"OAR":"Skin",           "Preferred":None,                  "Acceptable":"Dmax (0.03 cc) ≤ 35 Gy; V₂₀ Gy < 10 cc"},
+        {"OAR":"Skin",           "Preferred":None,                  "Acceptable":"Dmax <107%"},
         {"OAR":"Cortical Bone",  "Preferred":None,                  "Acceptable":"V₂₅ < 50 %; V₃₀ < 35 %"},
         {"OAR":"Articular Cartilage","Preferred":None,              "Acceptable":"Dmax ≤ 35 Gy"},
         {"OAR":"Max Point Dose","Preferred":"< 105 %",               "Acceptable":"< 108 %"},
     ],
     "Proximal Lower Extremity": [
-        {"OAR":"Skin",           "Preferred":None,                  "Acceptable":"Dmax (0.03 cc) ≤ 35 Gy; V₂₀ Gy < 10 cc"},
+        {"OAR":"Skin",           "Preferred":None,                  "Acceptable":"Dmax <107%"},
         {"OAR":"Cortical Bone",  "Preferred":None,                  "Acceptable":"V₂₅ < 50 %; V₃₀ < 35 %"},
         {"OAR":"Articular Cartilage","Preferred":None,              "Acceptable":"Dmax ≤ 35 Gy"},
         {"OAR":"Lumbosacral Plexus","Preferred":None,               "Acceptable":"Dmax ≤ 30 Gy"},
         {"OAR":"Max Point Dose","Preferred":"< 105 %",               "Acceptable":"< 108 %"},
     ],
     "Distal Lower Extremity": [
-        {"OAR":"Skin",           "Preferred":None,                  "Acceptable":"Dmax (0.03 cc) ≤ 35 Gy; V₂₀ Gy < 10 cc"},
+        {"OAR":"Skin",           "Preferred":None,                  "Acceptable":"Dmax <107%"},
         {"OAR":"Cortical Bone",  "Preferred":None,                  "Acceptable":"V₂₅ < 50 %; V₃₀ < 35 %"},
         {"OAR":"Articular Cartilage","Preferred":None,              "Acceptable":"Dmax ≤ 35 Gy"},
         {"OAR":"Max Point Dose","Preferred":"< 105 %",               "Acceptable":"< 108 %"},
@@ -145,6 +145,15 @@ SBRT_INTRACRANIAL = [
     {"OAR":"Cochlea","Metric":"Dmean","3fx_opt":None,"3fx_man":17.1,        "5fx_opt":None,"5fx_man":25,  "Endpoint":"Hearing Loss"},
     {"OAR":"Brainstem","Metric":"D0.1cc","3fx_opt":18,"3fx_man":23.1,        "5fx_opt":23,  "5fx_man":31,  "Endpoint":"Cranial Neuropathy"},
     {"OAR":"Spinal Canal","Metric":"D0.1cc","3fx_opt":18,"3fx_man":21.9,     "5fx_opt":23,  "5fx_man":30,  "Endpoint":"Myelitis"},
+SBRT_INTRACRANIAL.append({
+    "OAR":       "Skin",
+    "Metric":    "D0.03 cc / V20 Gy",
+    "3fx_opt":   None,
+    "3fx_man":   None,
+    "5fx_opt":   None,
+    "5fx_man":   "Dmax (0.03 cc) ≤ 35 Gy; V20 Gy < 10 cc",
+    "Endpoint":  None
+})
 ]
 
 SBRT_BODY = [
@@ -168,6 +177,15 @@ SBRT_BODY = [
     {"OAR":"Ureter","Metric":"Dmax","3fx_opt":None,"3fx_man":40,           "5fx_opt":None,"5fx_man":45,  "Endpoint":None},
     {"OAR":"Skin","Metric":"D0.5cc","3fx_opt":33,"3fx_man":30,             "5fx_opt":39.5,"5fx_man":36.5,"Endpoint":"Ulceration"},
     {"OAR":"Femoral Head","Metric":"D10cc","3fx_opt":21.9,"3fx_man":None,  "5fx_opt":30,  "5fx_man":None,"Endpoint":"Fracture"},
+SBRT_BODY.append({
+    "OAR":       "Skin",
+    "Metric":    "D0.03 cc / V20 Gy",
+    "3fx_opt":   None,
+    "3fx_man":   None,
+    "5fx_opt":   None,
+    "5fx_man":   "Dmax (0.03 cc) ≤ 35 Gy; V20 Gy < 10 cc",
+    "Endpoint":  None
+})
 ]
 
 # ——— SBRT_CONSTRAINTS by site ———
