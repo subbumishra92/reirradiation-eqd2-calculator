@@ -341,15 +341,32 @@ with tab2:
                     if o not in agg:
                         agg[o] = {"OAR": o, "Plan Specific Constraints": ""}
                     ab = OAR_ALPHA_BETA.get(o, 3)
-                    # helper to adjust any "< X Gy" to regimen‑specific
+                    # helper to  any "< X Gy" to regimen‑specific
                     def adjust(txt):
-                        if not txt: return None
-                        def repl(m):
+                        if not txt:
+                            return None
+
+                        # repl for absolute‐dose caps (< X Gy)
+                        def repl_cap(m):
                             eq = float(m.group(1))
-                            d = max_d_per_fraction(n_fx, eq, ab)
-                            total = d * n_fx
+                            d_phys = max_d_per_fraction(n_fx, eq, ab)
+                            total = d_phys * n_fx
                             return f"< {total:.2f} Gy"
-                        return re.sub(r"<\s*([\d\.]+)\s*Gy", repl, txt)
+
+                        # repl for volume thresholds (V X Gy)
+                        def repl_vol(m):
+                            eq = float(m.group(2))
+                            d_phys = max_d_per_fraction(n_fx, eq, ab)
+                            total = d_phys * n_fx
+                            # preserve the “V” and any spacing
+                            return f"{m.group(1)}{total:.2f} Gy"
+
+                        # 1) replace all “< X Gy”  
+                        out = re.sub(r"<\s*([\d\.]+)\s*Gy", repl_cap, txt)
+                        # 2) replace all “V X Gy”  (capture “V” or “D” prefix if you want)
+                        out = re.sub(r"\b(V)\s*([\d\.]+)\s*Gy", repl_vol, out)
+
+                        return out
 
                     pref_orig = row["Preferred"]
                     acc_orig  = row["Acceptable"]
