@@ -349,7 +349,7 @@ with tab2:
                             d = max_d_per_fraction(n_fx, eq, ab)
                             total = d * n_fx
                             return f"< {total:.2f} Gy"
-                    return re.sub(r"<\s*([\d\.]+)\s*Gy", repl, txt)
+                        return re.sub(r"<\s*([\d\.]+)\s*Gy", repl, txt)
 
                     pref_orig = row["Preferred"]
                     acc_orig  = row["Acceptable"]
