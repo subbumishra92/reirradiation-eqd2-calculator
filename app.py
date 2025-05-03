@@ -69,27 +69,27 @@ THREED_CONSTRAINTS = {
         {"OAR":"Max Point Dose", "Preferred":"< 105 %",                        "Acceptable":"< 108 %"},
     ],
     "Thorax": [
-        {"OAR":"Lungs",          "Preferred":"V₅ < 42 %",                "Acceptable":"V₂₀ < 37 %, Mean < 20 Gy"},
-        {"OAR":"Esophagus",      "Preferred":None,                        "Acceptable":"Mean < 30 Gy, no hot spots"},
-        {"OAR":"Brachial Plexus","Preferred":None,                        "Acceptable":"No hot spots"},
-        {"OAR":"Heart",          "Preferred":None,                        "Acceptable":"V₆₀ < 33 %"},
-        {"OAR":"Great Vessels",  "Preferred":None,                        "Acceptable":"No hot spots"},
-        {"OAR":"Trachea",        "Preferred":None,                        "Acceptable":"Mean < 30 Gy"},
-        {"OAR":"Chest Wall",     "Preferred":None,                        "Acceptable":"No hot spots"},
-        {"OAR":"Spinal Cord",    "Preferred":None,                        "Acceptable":"As low as possible; ≤ 45 Gy"},
-        {"OAR":"Skin",           "Preferred":None,                        "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
-        {"OAR":"Max Point Dose", "Preferred":"< 105 %",                   "Acceptable":"< 108 %"},
+        {"OAR":"Lungs",          "Preferred":"V₅ < 42 %",                    "Acceptable":"V₂₀ < 37 %, Mean < 20 Gy"},
+        {"OAR":"Esophagus",      "Preferred":None,                             "Acceptable":"Mean < 30 Gy, no hot spots"},
+        {"OAR":"Brachial Plexus","Preferred":None,                             "Acceptable":"No hot spots"},
+        {"OAR":"Heart",          "Preferred":None,                             "Acceptable":"V₆₀ < 33 %"},
+        {"OAR":"Great Vessels",  "Preferred":None,                             "Acceptable":"No hot spots"},
+        {"OAR":"Trachea",        "Preferred":None,                             "Acceptable":"Mean < 30 Gy"},
+        {"OAR":"Chest Wall",     "Preferred":None,                             "Acceptable":"No hot spots"},
+        {"OAR":"Spinal Cord",    "Preferred":None,                             "Acceptable":"As low as possible; ≤ 45 Gy"},
+        {"OAR":"Skin",           "Preferred":None,                             "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
+        {"OAR":"Max Point Dose", "Preferred":"< 105 %",                        "Acceptable":"< 108 %"},
     ],
     "Abdomen": [
-        {"OAR":"Small Bowel",   "Preferred":None,                         "Acceptable":"As low as possible; Max 45 Gy or 105 % Rx"},
-        {"OAR":"Kidneys",       "Preferred":None,                         "Acceptable":"Mean < 15 Gy (or < 9 Gy if solitary)"},
-        {"OAR":"Liver",         "Preferred":None,                         "Acceptable":"As low as possible; 50 % < 30 Gy"},
-        {"OAR":"Stomach",       "Preferred":None,                         "Acceptable":"As low as possible; 25 % < 45 Gy or 105 % Rx"},
-        {"OAR":"Esophagus",     "Preferred":None,                         "Acceptable":"Mean < 34 Gy; V₆₀ < 10 cc"},
-        {"OAR":"Lungs",         "Preferred":None,                         "Acceptable":"V₅ < 42 %; V₂₀ < 37 %, Mean < 20 Gy"},
-        {"OAR":"Spinal Cord",   "Preferred":None,                         "Acceptable":"As low as possible; ≤ 45 Gy"},
-        {"OAR":"Skin",          "Preferred":None,                         "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
-        {"OAR":"Max Point Dose","Preferred":"< 105 %",                    "Acceptable":"< 108 %"},
+        {"OAR":"Small Bowel",   "Preferred":None,                             "Acceptable":"As low as possible; Max 45 Gy or 105 % Rx"},
+        {"OAR":"Kidneys",       "Preferred":None,                             "Acceptable":"Mean < 15 Gy (or < 9 Gy if solitary)"},
+        {"OAR":"Liver",         "Preferred":None,                             "Acceptable":"As low as possible; 50 % < 30 Gy"},
+        {"OAR":"Stomach",       "Preferred":None,                             "Acceptable":"As low as possible; 25 % < 45 Gy or 105 % Rx"},
+        {"OAR":"Esophagus",     "Preferred":None,                             "Acceptable":"Mean < 34 Gy; V₆₀ < 10 cc"},
+        {"OAR":"Lungs",         "Preferred":None,                             "Acceptable":"V₅ < 42 %; V₂₀ < 37 %, Mean < 20 Gy"},
+        {"OAR":"Spinal Cord",   "Preferred":None,                             "Acceptable":"As low as possible; ≤ 45 Gy"},
+        {"OAR":"Skin",          "Preferred":None,                             "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
+        {"OAR":"Max Point Dose","Preferred":"< 105 %",                        "Acceptable":"< 108 %"},
     ],
     "Female Pelvis": [
         {"OAR":"Reproductive Organs","Preferred":None,                  "Acceptable":"V₂₀ < 50 %"},
@@ -112,59 +112,61 @@ THREED_CONSTRAINTS = {
         {"OAR":"Max Point Dose",     "Preferred":"< 105 %",             "Acceptable":"< 108 %"},
     ],
     "Proximal Upper Extremity": [
-        {"OAR":"Brachial Plexus","Preferred":None,                     "Acceptable":"No hot spots"},
-        {"OAR":"Skin",          "Preferred":None,                     "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
-        {"OAR":"Max Point Dose","Preferred":"< 105 %",                "Acceptable":"< 108 %"},
+        {"OAR":"Brachial Plexus",    "Preferred":None,                  "Acceptable":"No hot spots"},
+        {"OAR":"Skin",               "Preferred":None,                  "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
+        {"OAR":"Max Point Dose",     "Preferred":"< 105 %",             "Acceptable":"< 108 %"},
     ],
     "Distal Upper Extremity": [
-        {"OAR":"Skin",          "Preferred":None,                     "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
-        {"OAR":"Max Point Dose","Preferred":"< 105 %",                "Acceptable":"< 108 %"},
+        {"OAR":"Skin",               "Preferred":None,                  "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
+        {"OAR":"Max Point Dose",     "Preferred":"< 105 %",             "Acceptable":"< 108 %"},
     ],
     "Proximal Lower Extremity": [
-        {"OAR":"Skin",          "Preferred":None,                     "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
-        {"OAR":"Max Point Dose","Preferred":"< 105 %",                "Acceptable":"< 108 %"},
+        {"OAR":"Skin",               "Preferred":None,                  "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
+        {"OAR":"Max Point Dose",     "Preferred":"< 105 %",             "Acceptable":"< 108 %"},
     ],
     "Distal Lower Extremity": [
-        {"OAR":"Skin",          "Preferred":None,                     "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
-        {"OAR":"Max Point Dose","Preferred":"< 105 %",                "Acceptable":"< 108 %"},
+        {"OAR":"Skin",               "Preferred":None,                  "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
+        {"OAR":"Max Point Dose",     "Preferred":"< 105 %",             "Acceptable":"< 108 %"},
     ],
 }
 
 # ——— SBRT Intracranial & Body Lists ———
 SBRT_INTRACRANIAL = [
-    {"OAR":"Optic Pathway","Metric":"D0.1cc","3fx_opt":None,  "3fx_man":15,  "5fx_opt":None, "5fx_man":22.5,"Endpoint":"Optic Neuritis"},
-    {"OAR":"Cochlea",       "Metric":"Dmean", "3fx_opt":None,  "3fx_man":17.1,"5fx_opt":None, "5fx_man":25,  "Endpoint":"Hearing Loss"},
-    {"OAR":"Brainstem",     "Metric":"D0.1cc","3fx_opt":18,    "3fx_man":23.1,"5fx_opt":23,   "5fx_man":31,  "Endpoint":"Cranial Neuropathy"},
-    {"OAR":"Spinal Canal",  "Metric":"D0.1cc","3fx_opt":18,    "3fx_man":21.9,"5fx_opt":23,   "5fx_man":30,  "Endpoint":"Myelitis"},
+    {"OAR":"Optic Pathway","Metric":"D0.1cc","3fx_opt":None, "3fx_man":15,  "5fx_opt":None, "5fx_man":22.5,"Endpoint":"Optic Neuritis"},
+    {"OAR":"Cochlea",       "Metric":"Dmean", "3fx_opt":None, "3fx_man":17.1,"5fx_opt":None, "5fx_man":25,  "Endpoint":"Hearing Loss"},
+    {"OAR":"Brainstem",     "Metric":"D0.1cc","3fx_opt":18,   "3fx_man":23.1,"5fx_opt":23,   "5fx_man":31,  "Endpoint":"Cranial Neuropathy"},
+    {"OAR":"Spinal Canal",  "Metric":"D0.1cc","3fx_opt":18,   "3fx_man":21.9,"5fx_opt":23,   "5fx_man":30,  "Endpoint":"Myelitis"},
 ]
 # 5fx Skin only, endpoint Ulceration
 skin_entry = {
-    "OAR":      "Skin",
-    "Metric":   "D0.03 cc / V20 Gy",
-    "3fx_opt":  None,
-    "3fx_man":  None,
-    "5fx_opt":  None,
-    "5fx_man":  "Dmax (0.03 cc) ≤ 35 Gy; V20 Gy < 10 cc",
-    "Endpoint": "Ulceration"
+    "OAR":"Skin",
+    "Metric":"D0.03 cc / V20 Gy",
+    "3fx_opt":None,
+    "3fx_man":None,
+    "5fx_opt":None,
+    "5fx_man":"Dmax (0.03 cc) ≤ 35 Gy; V20 Gy < 10 cc",
+    "Endpoint":"Ulceration"
 }
 SBRT_INTRACRANIAL.append(skin_entry)
 
 SBRT_BODY = [
-    {"OAR":"Brachial Plexus",     "Metric":"D0.5cc","3fx_opt":24,   "3fx_man":26,  "5fx_opt":27,  "5fx_man":29,  "Endpoint":"Neuropathy"},
-    {"OAR":"Heart / Pericardium", "Metric":"D0.5cc","3fx_opt":24,   "3fx_man":26,  "5fx_opt":27,  "5fx_man":29,  "Endpoint":"Pericarditis"},
-    {"OAR":"Great Vessels",       "Metric":"D0.5cc","3fx_opt":None, "3fx_man":45,  "5fx_opt":None,"5fx_man":53,  "Endpoint":"Aneurysm"},
-    {"OAR":"Trachea",             "Metric":"D0.5cc","3fx_opt":30,   "3fx_man":32,  "5fx_opt":32,  "5fx_man":35,  "Endpoint":"Stenosis / Fistula"},
-    {"OAR":"Chest Wall",          "Metric":"D0.5cc","3fx_opt":37,   "3fx_man":30,  "5fx_opt":39,  "5fx_man":32,  "Endpoint":"Pain / Fracture"},
-    {"OAR":"Lungs",               "Metric":"V20Gy", "3fx_opt":None, "3fx_man":"10%","5fx_opt":None,"5fx_man":"10%","Endpoint":"Pneumonitis"},
-    {"OAR":"Esophagus",           "Metric":"D0.5cc","3fx_opt":None, "3fx_man":25.2,"5fx_opt":32,  "5fx_man":34,  "Endpoint":"Stenosis / Fistula"},
-    {"OAR":"Stomach",             "Metric":"D5cc",  "3fx_opt":None, "3fx_man":16.5,"5fx_opt":25,  "5fx_man":12,  "Endpoint":"Ulceration / Fistula"},
-    {"OAR":"Duodenum",            "Metric":"D5cc",  "3fx_opt":None, "3fx_man":16.5,"5fx_opt":25,  "5fx_man":None,"Endpoint":"Ulceration"},
-    {"OAR":"Small Bowel",         "Metric":"D0.5cc","3fx_opt":None, "3fx_man":25.2,"5fx_opt":30,  "5fx_man":35,  "Endpoint":"Enteritis / Obstruction"},
-    {"OAR":"Large Bowel",         "Metric":"D0.5cc","3fx_opt":None, "3fx_man":28.2,"5fx_opt":None,"5fx_man":32,  "Endpoint":"Colitis / Fistula"},
-    {"OAR":"Rectum",              "Metric":"D0.5cc","3fx_opt":None, "3fx_man":28.2,"5fx_opt":None,"5fx_man":32,  "Endpoint":"Proctitis / Fistula"},
-    {"OAR":"Cauda Equina",        "Metric":"D0.1cc","3fx_opt":16,   "3fx_man":14,  "5fx_opt":32,  "5fx_man":30,  "Endpoint":"Neuritis"},
-    {"OAR":"Lumbosacral Plexus",  "Metric":"D0.03cc","3fx_opt":None,"3fx_man":None,"5fx_opt":None,"5fx_man":"Dmax ≤ 30 Gy","Endpoint":None},
-    {"OAR":"Ureter",              "Metric":"Dmax",  "3fx_opt":None, "3fx_man":40,  "5fx_opt":None,"5fx_man":45,  "Endpoint":"Stricture"},
+    {"OAR":"Brachial Plexus",    "Metric":"D0.5cc","3fx_opt":24,   "3fx_man":26,  "5fx_opt":27,  "5fx_man":29,  "Endpoint":"Neuropathy"},
+    {"OAR":"Heart",              "Metric":"D0.5cc","3fx_opt":24,   "3fx_man":26,  "5fx_opt":27,  "5fx_man":29,  "Endpoint":"Pericarditis"},
+    {"OAR":"Great Vessels",      "Metric":"D0.5cc","3fx_opt":None, "3fx_man":45,  "5fx_opt":None,"5fx_man":53,  "Endpoint":"Aneurysm"},
+    {"OAR":"Trachea",            "Metric":"D0.5cc","3fx_opt":30,   "3fx_man":32,  "5fx_opt":32,  "5fx_man":35,  "Endpoint":"Stenosis / Fistula"},
+    {"OAR":"Chest Wall",         "Metric":"D0.5cc","3fx_opt":37,   "3fx_man":30,  "5fx_opt":39,  "5fx_man":32,  "Endpoint":"Pain / Fracture"},
+    {"OAR":"Lungs",              "Metric":"V20Gy", "3fx_opt":None, "3fx_man":"10%","5fx_opt":None,"5fx_man":"10%","Endpoint":"Pneumonitis"},
+    {"OAR":"Esophagus",          "Metric":"D0.5cc","3fx_opt":None, "3fx_man":25.2,"5fx_opt":32,  "5fx_man":34,  "Endpoint":"Stenosis / Fistula"},
+    {"OAR":"Stomach",            "Metric":"D5cc",  "3fx_opt":None, "3fx_man":16.5,"5fx_opt":25,  "5fx_man":12,  "Endpoint":"Ulceration / Fistula"},
+    {"OAR":"Duodenum",           "Metric":"D5cc",  "3fx_opt":None, "3fx_man":16.5,"5fx_opt":25,  "5fx_man":None,"Endpoint":"Ulceration"},
+    {"OAR":"Small Bowel",        "Metric":"D0.5cc","3fx_opt":None, "3fx_man":25.2,"5fx_opt":30,  "5fx_man":35,  "Endpoint":"Enteritis / Obstruction"},
+    {"OAR":"Large Bowel",        "Metric":"D0.5cc","3fx_opt":None, "3fx_man":28.2,"5fx_opt":None,"5fx_man":32,  "Endpoint":"Colitis / Fistula"},
+    {"OAR":"Rectum",             "Metric":"D0.5cc","3fx_opt":None, "3fx_man":28.2,"5fx_opt":None,"5fx_man":32,  "Endpoint":"Proctitis / Fistula"},
+    {"OAR":"Cauda Equina",       "Metric":"D0.1cc","3fx_opt":16,   "3fx_man":14,  "5fx_opt":32,  "5fx_man":30,  "Endpoint":"Neuritis"},
+    {"OAR":"Lumbosacral Plexus", "Metric":"D0.03 cc","3fx_opt":None,"3fx_man":None,"5fx_opt":None,"5fx_man":"Dmax ≤ 30 Gy","Endpoint":"Plexopathy"},
+    {"OAR":"Cortical Bone",      "Metric":"V25Gy/V30Gy","3fx_opt":None,"3fx_man":None,"5fx_opt":None,"5fx_man":"V25 < 50 %; V30 < 35 %","Endpoint":"Fracture"},
+    {"OAR":"Articular Cartilage","Metric":"Dmax","3fx_opt":None,"3fx_man":None,"5fx_opt":None,"5fx_man":"Dmax ≤ 35 Gy","Endpoint":"Joint Integrity"},
+    {"OAR":"Ureter",             "Metric":"Dmax",  "3fx_opt":None, "3fx_man":40,  "5fx_opt":None,"5fx_man":45,  "Endpoint":"Stricture"},
 ]
 # Append skin to all SBRT lists
 SBRT_BODY.append(skin_entry)
@@ -175,22 +177,24 @@ SBRT_CONSTRAINTS = {
         SBRT_INTRACRANIAL +
         [r for r in SBRT_BODY if r["OAR"] in ("Esophagus","Brachial Plexus")]
     ),
-    "Thorax": [
-        r for r in SBRT_BODY
-        if r["OAR"] in (
-            "Lungs","Esophagus","Brachial Plexus",
-            "Heart","Great Vessels",
-            "Trachea","Chest Wall","Spinal Canal"
-        )
-    ],
-    "Abdomen": [
-        r for r in SBRT_BODY
-        if r["OAR"] in (
-            "Stomach","Duodenum","Small Bowel",
-            "Large Bowel","Kidneys","Ureter",
-            "Spinal Canal","Cauda Equina","Lumbosacral Plexus"
-        )
-    ],
+    "Thorax": (
+        [r for r in SBRT_INTRACRANIAL if r["OAR"] == "Spinal Canal"] +
+        [r for r in SBRT_BODY
+            if r["OAR"] in (
+                "Lungs","Esophagus","Brachial Plexus",
+                "Heart","Great Vessels","Trachea","Chest Wall"
+            )
+        ]
+    ),
+    "Abdomen": (
+        [r for r in SBRT_INTRACRANIAL if r["OAR"] == "Spinal Canal"] +
+        [r for r in SBRT_BODY
+            if r["OAR"] in (
+                "Stomach","Duodenum","Small Bowel","Large Bowel",
+                "Kidneys","Ureter","Cauda Equina","Lumbosacral Plexus"
+            )
+        ]
+    ),
     "Female Pelvis": [
         r for r in SBRT_BODY
         if r["OAR"] in (
@@ -207,26 +211,17 @@ SBRT_CONSTRAINTS = {
     ],
     "Proximal Upper Extremity": [
         r for r in SBRT_BODY if r["OAR"] == "Brachial Plexus"
-    ] + [
-        skin_entry,
-        {"OAR":"Cortical Bone","Metric":"V25Gy/V30Gy","3fx_opt":None,"3fx_man":None,"5fx_opt":None,"5fx_man":"V25 < 50 %; V30 < 35 %","Endpoint":None},
-        {"OAR":"Articular Cartilage","Metric":"Dmax","3fx_opt":None,"3fx_man":None,"5fx_opt":None,"5fx_man":"Dmax ≤ 35 Gy","Endpoint":None},
+    ] + [skin_entry] + [
+        r for r in SBRT_BODY if r["OAR"] in ("Cortical Bone","Articular Cartilage")
     ],
-    "Distal Upper Extremity": [
-        skin_entry,
-        {"OAR":"Cortical Bone","Metric":"V25Gy/V30Gy","3fx_opt":None,"3fx_man":None,"5fx_opt":None,"5fx_man":"V25 < 50 %; V30 < 35 %","Endpoint":None},
-        {"OAR":"Articular Cartilage","Metric":"Dmax","3fx_opt":None,"3fx_man":None,"5fx_opt":None,"5fx_man":"Dmax ≤ 35 Gy","Endpoint":None},
+    "Distal Upper Extremity": [skin_entry] + [
+        r for r in SBRT_BODY if r["OAR"] in ("Cortical Bone","Articular Cartilage")
     ],
-    "Proximal Lower Extremity": [
-        skin_entry,
-        {"OAR":"Cortical Bone","Metric":"V25Gy/V30Gy","3fx_opt":None,"3fx_man":None,"5fx_opt":None,"5fx_man":"V25 < 50 %; V30 < 35 %","Endpoint":None},
-        {"OAR":"Articular Cartilage","Metric":"Dmax","3fx_opt":None,"3fx_man":None,"5fx_opt":None,"5fx_man":"Dmax ≤ 35 Gy","Endpoint":None},
-        {"OAR":"Lumbosacral Plexus","Metric":"D0.03cc","3fx_opt":None,"3fx_man":None,"5fx_opt":None,"5fx_man":"Dmax ≤ 30 Gy","Endpoint":None},
+    "Proximal Lower Extremity": [skin_entry] + [
+        r for r in SBRT_BODY if r["OAR"] in ("Cortical Bone","Articular Cartilage","Lumbosacral Plexus")
     ],
-    "Distal Lower Extremity": [
-        skin_entry,
-        {"OAR":"Cortical Bone","Metric":"V25Gy/V30Gy","3fx_opt":None,"3fx_man":None,"5fx_opt":None,"5fx_man":"V25 < 50 %; V30 < 35 %","Endpoint":None},
-        {"OAR":"Articular Cartilage","Metric":"Dmax","3fx_opt":None,"3fx_man":None,"5fx_opt":None,"5fx_man":"Dmax ≤ 35 Gy","Endpoint":None},
+    "Distal Lower Extremity": [skin_entry] + [
+        r for r in SBRT_BODY if r["OAR"] in ("Cortical Bone","Articular Cartilage")
     ],
 }
 
@@ -310,7 +305,6 @@ with tab1:
                     d = max_d_per_fraction(n, stt["remaining"], stt["ab"])
                     lines.append(f"- {n} fx: {d*n:.1f} Gy (*{d:.2f} Gy/fx*)")
                 st.markdown("\n".join(lines))
-
         c1, c2 = st.columns(2)
         with c1:
             if st.button("← Back to inputs"):
@@ -370,7 +364,7 @@ with tab2:
                 lines.append("")
             st.text_area("Copyable constraints", "\n".join(lines), height=200)
 
-    else:  # SBRT
+    else:
         fx = st.selectbox("Select fractionation", [3, 5])
         if not selected_sites:
             st.info("Select at least one body site.")
@@ -378,7 +372,6 @@ with tab2:
             agg = {}
             for site in selected_sites:
                 for r in SBRT_CONSTRAINTS.get(site, []):
-                    # skip unwanted for 3fx
                     if fx == 3 and r["OAR"] in EXCLUDE_3FX:
                         continue
                     key = (r["OAR"], r.get("Metric"))
