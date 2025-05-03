@@ -5,31 +5,59 @@ import math
 st.set_page_config(page_title="Re‑irradiation EQD₂", layout="wide")
 
 # ——— Data & defaults ———
-OARS = ["Brain Stem","Optic Nerve","Optic Chiasm","Cochlea",
-        "Small Bowel","Spinal Cord","Cauda Equina","Sacral Plexus"]
-OAR_CONSTRAINTS = {o:[{"type":"max","value":v}] 
-    for o,v in {"Brain Stem":54,"Optic Nerve":54,"Optic Chiasm":54,
-                "Cochlea":45,"Small Bowel":52,"Spinal Cord":45,
-                "Cauda Equina":45,"Sacral Plexus":45}.items()}
-OAR_ALPHA_BETA = {o:(2 if o in ["Spinal Cord","Optic Chiasm","Brain Stem",
-                                "Optic Nerve","Sacral Plexus","Cauda Equina"] else 3)
-                  for o in OARS}
-RECOVERY = {"<6 months":0.0,"6–12 months":0.25,"12+ months":0.50}
-FRACTIONS = [1,3,5,10]
+OARS = [
+    "Brain Stem", "Optic Nerve", "Optic Chiasm", "Cochlea",
+    "Small Bowel", "Spinal Cord", "Cauda Equina", "Sacral Plexus"
+]
 
-# ——— Radiobiology ———
-def bed(n,d,αβ): return n*d*(1 + d/αβ)
-def eqd2(n,d,αβ): return bed(n,d,αβ)/(1+2/αβ)
-def max_dpf(n, eqd2_lim, αβ):
-    tb = eqd2_lim*(1+2/αβ)
-    a,b,c = n/αβ, n, -tb
-    disc = b*b - 4*a*c
-    if disc<0: return 0.0
-    d1 = (-b+math.sqrt(disc))/(2*a)
-    d2 = (-b-math.sqrt(disc))/(2*a)
-    return max(d1,d2)
+OAR_CONSTRAINTS = {
+    o: [{"type": "max", "value": v}]
+    for o, v in {
+        "Brain Stem": 54,
+        "Optic Nerve": 54,
+        "Optic Chiasm": 54,
+        "Cochlea": 45,
+        "Small Bowel": 52,
+        "Spinal Cord": 45,
+        "Cauda Equina": 45,
+        "Sacral Plexus": 45
+    }.items()
+}
 
-# ——— Session state ———
+# Exact default α/β map
+OAR_ALPHA_BETA = {
+    o: (2 if o in [
+        "Spinal Cord", "Optic Chiasm", "Brain Stem",
+        "Optic Nerve", "Sacral Plexus", "Cauda Equina"
+    ] else 3)
+    for o in OARS
+}
+
+RECOVERY_FACTORS = {
+    "<6 months": 0.0,
+    "6–12 months": 0.25,
+    "12+ months": 0.50
+}
+FRACTION_OPTIONS = [1, 3, 5, 10]
+
+# ——— Radiobiology & solver ———
+def bed(n, d, αβ):
+    return n * d * (1 + d / αβ)
+
+def eqd2(n, d, αβ):
+    return bed(n, d, αβ) / (1 + 2 / αβ)
+
+def max_d_per_fraction(n, target_eqd2, αβ):
+    tb = target_eqd2 * (1 + 2 / αβ)
+    a, b, c = n / αβ, n, -tb
+    disc = b * b - 4 * a * c
+    if disc < 0:
+        return 0.0
+    d1 = (-b + math.sqrt(disc)) / (2 * a)
+    d2 = (-b - math.sqrt(disc)) / (2 * a)
+    return max(d1, d2)
+
+# ——— Session state flags ———
 if "stage" not in st.session_state:
     st.session_state.stage = "input"
 if "custom_ab" not in st.session_state:
@@ -40,53 +68,54 @@ st.title("Re‑irradiation EQD₂ Calculator")
 # ─── INPUT STAGE ─────────────────────────────────────────────────────────────
 if st.session_state.stage == "input":
     selected = st.multiselect("Select OAR(s)", OARS)
-    interval = st.selectbox("Time since last RT", list(RECOVERY.keys()))
+    interval = st.selectbox("Time since last RT", list(RECOVERY_FACTORS.keys()))
 
     prior_data = {}
     for o in selected:
-        st.markdown(f"**{o}**")
+        st.markdown(f"### {o}")
         ctype = OAR_CONSTRAINTS[o][0]["type"]
-        n_courses = st.selectbox(f"How many prior courses for {o}?", [1,2,3], key=o+"_nc")
+        n_courses = st.selectbox(f"How many prior courses for {o}?", [1, 2, 3], key=f"{o}_nc")
         courses = []
-        for i in range(1, n_courses+1):
-            dose = st.number_input(f" Course {i} {ctype} dose (Gy)", min_value=0.0, step=0.1, key=f"{o}_d{i}")
-            fx   = st.number_input(f" Course {i} fractions",     min_value=0,   step=1,   key=f"{o}_f{i}")
-            if dose>0 and fx>0:
-                courses.append((dose,fx))
+        for i in range(1, n_courses + 1):
+            dose = st.number_input(f"Course {i} {ctype} dose (Gy)", min_value=0.0, step=0.1, key=f"{o}_d{i}")
+            fx = st.number_input(f"Course {i} fractions", min_value=0, step=1, key=f"{o}_f{i}")
+            if dose > 0 and fx > 0:
+                courses.append((dose, fx))
         prior_data[o] = courses
 
     if st.button("Calculate"):
-        # Save inputs
-        st.session_state.selected   = selected
-        st.session_state.interval   = interval
+        st.session_state.selected = selected
+        st.session_state.interval = interval
         st.session_state.prior_data = prior_data
-        st.session_state.stage      = "results"
-        st.experimental_rerun()
+        st.session_state.stage = "results"
+        st.rerun()
 
 # ─── RESULTS STAGE ────────────────────────────────────────────────────────────
 elif st.session_state.stage == "results":
-    selected   = st.session_state.selected
-    interval   = st.session_state.interval
+    selected = st.session_state.selected
+    interval = st.session_state.interval
     prior_data = st.session_state.prior_data
 
-    # Compute delivered EQD2
+    # Compute delivered EQD2 per OAR
     report = {}
     for o, courses in prior_data.items():
-        total = 0.0
-        ab    = st.session_state.custom_ab.get(o, OAR_ALPHA_BETA[o])
-        for dose,fx in courses:
-            total += eqd2(fx, dose/fx, ab)
-        report[o] = {"delivered": total, "ab": ab}
+        total_eqd2 = 0.0
+        ab = st.session_state.custom_ab.get(o, OAR_ALPHA_BETA[o])
+        for dose, fx in courses:
+            total_eqd2 += eqd2(fx, dose / fx, ab)
+        report[o] = {"delivered": total_eqd2, "ab": ab}
 
-    # Apply recovery and compute remaining
-    for o, entry in report.items():
-        lim   = OAR_CONSTRAINTS[o][0]["value"]
-        recov = entry["delivered"] * RECOVERY[interval]
-        eff   = entry["delivered"] - recov
-        rem   = max(lim - eff, 0.0)
-        report[o].update({
-            "limit":lim, "recovered":recov,
-            "effective":eff, "remaining":rem
+    # Apply recovery & compute remaining
+    for o, stt in report.items():
+        lim = OAR_CONSTRAINTS[o][0]["value"]
+        recov = stt["delivered"] * RECOVERY_FACTORS[interval]
+        eff = stt["delivered"] - recov
+        rem = max(lim - eff, 0.0)
+        stt.update({
+            "limit": lim,
+            "recovered": recov,
+            "effective": eff,
+            "remaining": rem
         })
 
     st.header("Results")
@@ -99,22 +128,22 @@ elif st.session_state.stage == "results":
             st.write(f"- Remaining: **{stt['remaining']:.1f} Gy**")
             st.info(f"α/β used: **{stt['ab']} Gy**")
             st.success(f"→ New EQD₂ max: {stt['remaining']:.1f} Gy")
+
             lines = ["**Permissible regimens:**"]
-            for n in FRACTIONS:
-                d = max_dpf(n, stt["remaining"], stt["ab"])
-                lines.append(f"- {n} fx: {d*n:.1f} Gy (*{d:.2f} Gy/fx*)")
+            for n in FRACTION_OPTIONS:
+                d = max_d_per_fraction(n, stt["remaining"], stt["ab"])
+                lines.append(f"- {n} fx: {d * n:.1f} Gy (*{d:.2f} Gy/fx*)")
             st.markdown("\n".join(lines))
 
-    # Action buttons
     c1, c2 = st.columns(2)
     with c1:
         if st.button("← Back to inputs"):
             st.session_state.stage = "input"
-            st.experimental_rerun()
+            st.rerun()
     with c2:
         if st.button("Edit α/β"):
             st.session_state.stage = "edit_ab"
-            st.experimental_rerun()
+            st.rerun()
 
 # ─── EDIT α/β STAGE ───────────────────────────────────────────────────────────
 elif st.session_state.stage == "edit_ab":
@@ -122,16 +151,21 @@ elif st.session_state.stage == "edit_ab":
     new_ab = {}
     for o in st.session_state.selected:
         current = st.session_state.custom_ab.get(o, OAR_ALPHA_BETA[o])
-        val = st.number_input(f"{o} α/β (Gy)", value=float(current), step=0.1, min_value=0.1, key="ab_"+o)
+        val = st.number_input(
+            f"{o} α/β (Gy)",
+            min_value=0.1, step=0.1,
+            value=float(current),
+            key=f"ab_{o}"
+        )
         new_ab[o] = val
 
     c1, c2 = st.columns(2)
     with c1:
         if st.button("← Cancel"):
             st.session_state.stage = "results"
-            st.experimental_rerun()
+            st.rerun()
     with c2:
         if st.button("Apply and Recalculate"):
             st.session_state.custom_ab.update(new_ab)
             st.session_state.stage = "results"
-            st.experimental_rerun()
+            st.rerun()
