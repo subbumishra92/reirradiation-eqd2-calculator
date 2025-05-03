@@ -347,8 +347,10 @@ with tab2:
                         def repl(m):
                             eq = float(m.group(1))
                             d = max_d_per_fraction(n_fx, eq, ab)
-                            return f"< {d:.2f} Gy"
-                        return re.sub(r"<\s*([\d\.]+)\s*Gy", repl, txt)
+                            total = d * n_fx
+                            return f"< {total:.2f} Gy"
+                    return re.sub(r"<\s*([\d\.]+)\s*Gy", repl, txt)
+
                     pref_orig = row["Preferred"]
                     acc_orig  = row["Acceptable"]
                     pref_adj = adjust(pref_orig) if pref_orig else None
