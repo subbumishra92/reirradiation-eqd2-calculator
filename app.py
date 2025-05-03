@@ -35,17 +35,31 @@ RECOVERY_FACTORS = {
 
 FRACTION_OPTIONS = [1, 3, 5, 10]
 
-# ——— Radiobiology & solver ———
-def bed(n, d, αβ): return n * d * (1 + d/αβ)
-def eqd2(n, d, αβ): return bed(n, d, αβ) / (1 + 2/αβ)
+# ——— Radiobiology funcs ———
+def bed(n, d, αβ):
+    return n * d * (1 + d/αβ)
+
+def eqd2(n, d, αβ):
+    return bed(n, d, αβ) / (1 + 2/αβ)
+
 def max_d_per_fraction(n, target_eqd2, αβ):
     tb = target_eqd2 * (1 + 2/αβ)
     a, b, c = n/αβ, n, -tb
     disc = b*b - 4*a*c
-    if disc<0: return 0.0
-    d1 = (-b + math.sqrt(disc))/(2*a)
-    d2 = (-b - math.sqrt(disc))/(2*a)
+    if disc < 0:
+        return 0.0
+    d1 = (-b + math.sqrt(disc)) / (2*a)
+    d2 = (-b - math.sqrt(disc)) / (2*a)
     return max(d1, d2)
+
+def combine_intervals_list(intervals):
+    """Pick the longest‐time bucket among intervals."""
+    ranks = {"<6 months": 0, "6–12 months": 1, "12+ months": 2}
+    # filter out None, then pick max rank
+    valid = [i for i in intervals if i in ranks]
+    if not valid:
+        return "<6 months"
+    return max(valid, key=lambda x: ranks[x])
 
 # ——— Session state flags ———
 if "stage" not in st.session_state:
@@ -58,27 +72,45 @@ st.title("Re‑irradiation EQD₂ Calculator")
 # ─── INPUT STAGE ─────────────────────────────────────────────────────────────
 if st.session_state.stage == "input":
     selected = st.multiselect("Select OAR(s)", OARS)
-    global_interval = st.selectbox("Time since last RT to new course", list(RECOVERY_FACTORS.keys()))
+    global_interval = st.selectbox(
+        "Time since last RT to upcoming course",
+        list(RECOVERY_FACTORS.keys())
+    )
 
     prior_data = {}
     for o in selected:
         st.markdown(f"### {o}")
         ctype = OAR_CONSTRAINTS[o][0]["type"]
-        n_courses = st.selectbox(f"How many prior courses for {o}?", [1,2,3], key=f"{o}_nc")
+        n_courses = st.selectbox(
+            f"How many prior courses for {o}?", [1, 2, 3], key=f"{o}_nc"
+        )
         courses = []
-        for i in range(1, n_courses+1):
+        for i in range(1, n_courses + 1):
             if i > 1:
-                interval_prev = st.selectbox(f"Interval between course {i-1} and {i}", list(RECOVERY_FACTORS.keys()), key=f"{o}_int_{i}")
+                interval_prev = st.selectbox(
+                    f"Interval between course {i-1} and {i}",
+                    list(RECOVERY_FACTORS.keys()),
+                    key=f"{o}_int_{i}"
+                )
             else:
                 interval_prev = None
-            dose = st.number_input(f"Course {i} {ctype} dose (Gy)", min_value=0.0, step=0.1, key=f"{o}_d{i}")
-            fx   = st.number_input(f"Course {i} fractions",     min_value=0,   step=1,   key=f"{o}_f{i}")
-            if dose>0 and fx>0:
+
+            dose = st.number_input(
+                f"Course {i} {ctype} dose (Gy)",
+                min_value=0.0, step=0.1, key=f"{o}_d{i}"
+            )
+            fx = st.number_input(
+                f"Course {i} fractions",
+                min_value=0, step=1, key=f"{o}_f{i}"
+            )
+
+            if dose > 0 and fx > 0:
                 courses.append({
                     "dose": dose,
                     "fractions": int(fx),
                     "interval_prev": interval_prev
                 })
+
         prior_data[o] = courses
 
     if st.button("Calculate"):
@@ -90,35 +122,43 @@ if st.session_state.stage == "input":
 
 # ─── RESULTS STAGE ────────────────────────────────────────────────────────────
 elif st.session_state.stage == "results":
-    selected       = st.session_state.selected
-    global_interval= st.session_state.global_interval
-    prior_data     = st.session_state.prior_data
+    selected = st.session_state.selected
+    global_interval = st.session_state.global_interval
+    prior_data = st.session_state.prior_data
 
     report = {}
     for o, courses in prior_data.items():
         ab = st.session_state.custom_ab.get(o, OAR_ALPHA_BETA[o])
-        # iterative cumulative with inter-course recovery
-        cumulative = 0.0
-        raw_sum    = 0.0
+        raw_sum = 0.0
+        total_effective = 0.0
+
         for idx, cr in enumerate(courses):
-            eq = eqd2(cr["fractions"], cr["dose"]/cr["fractions"], ab)
+            n, dose = cr["fractions"], cr["dose"]
+            eq = eqd2(n, dose/n, ab)
             raw_sum += eq
-            if idx == 0:
-                cumulative = eq
-            else:
-                f = RECOVERY_FACTORS[cr["interval_prev"]]
-                cumulative = cumulative*(1-f) + eq
-        # recovery after last course to new RT
-        f_last = RECOVERY_FACTORS[global_interval]
-        effective = cumulative*(1 - f_last)
-        total_recovered = raw_sum - effective
+
+            # build intervals from THIS course to upcoming
+            intervals = []
+            # intervals between this and subsequent courses
+            for k in range(idx+1, len(courses)):
+                ip = courses[k]["interval_prev"]
+                if ip:
+                    intervals.append(ip)
+            # finally, interval to new RT
+            intervals.append(global_interval)
+
+            comb = combine_intervals_list(intervals)
+            f_i = RECOVERY_FACTORS[comb]
+            effective_i = eq * (1 - f_i)
+            total_effective += effective_i
+
         limit = OAR_CONSTRAINTS[o][0]["value"]
-        remaining = max(limit - effective, 0.0)
+        remaining = max(limit - total_effective, 0.0)
 
         report[o] = {
             "raw_sum": raw_sum,
-            "recovered": total_recovered,
-            "effective": effective,
+            "recovered": raw_sum - total_effective,
+            "effective": total_effective,
             "limit": limit,
             "remaining": remaining,
             "ab": ab
@@ -134,6 +174,7 @@ elif st.session_state.stage == "results":
             st.write(f"- Remaining room: **{stt['remaining']:.1f} Gy**")
             st.info(f"α/β used for {o}: **{stt['ab']} Gy**")
             st.success(f"→ New EQD₂ max: {stt['remaining']:.1f} Gy")
+
             md = ["**Permissible regimens:**"]
             for n in FRACTION_OPTIONS:
                 d = max_d_per_fraction(n, stt["remaining"], stt["ab"])
