@@ -46,8 +46,7 @@ def max_d_per_fraction(n, target_eqd2, αβ):
     tb = target_eqd2 * (1 + 2/αβ)
     a, b, c = n/αβ, n, -tb
     disc = b*b - 4*a*c
-    if disc < 0:
-        return 0.0
+    if disc < 0: return 0.0
     d1 = (-b + math.sqrt(disc)) / (2*a)
     d2 = (-b - math.sqrt(disc)) / (2*a)
     return max(d1, d2)
@@ -193,7 +192,6 @@ SBRT_CONSTRAINTS = {
             )
         ]
     ),
-    # unified Pelvis for SBRT
     "Pelvis": SBRT_BODY,
     "Proximal Upper Extremity": [
         r for r in SBRT_BODY if r["OAR"] == "Brachial Plexus"
@@ -322,57 +320,58 @@ with tab2:
     modality = st.radio("Select modality", ["3D", "SBRT"])
 
     if modality == "3D":
-        # regimen selector
         regimen_map = {
-            "8 Gy × 1 fx":    (1, 8.0),
-            "20 Gy × 5 fx":   (5, 20.0),
-            "24 Gy × 6 fx":   (6, 24.0),
-            "30 Gy × 10 fx":  (10, 30.0),
-            "35 Gy × 10 fx":  (10, 35.0),
+            "8 Gy × 1 fx":    (1, 8.0),
+            "20 Gy × 5 fx":   (5, 20.0),
+            "24 Gy × 6 fx":   (6, 24.0),
+            "30 Gy × 10 fx":  (10, 30.0),
+            "35 Gy × 10 fx":  (10, 35.0),
         }
         regimen = st.selectbox("Select regimen", list(regimen_map.keys()))
-        n_fx, total_physical = regimen_map[regimen]
+        n_fx, _ = regimen_map[regimen]
 
         selected_sites = st.multiselect("Select body site(s)", list(THREED_CONSTRAINTS.keys()))
         if not selected_sites:
             st.info("Select at least one body site.")
         else:
-            # aggregate & dedupe
             agg = {}
             for site in selected_sites:
                 for row in THREED_CONSTRAINTS[site]:
                     o = row["OAR"]
                     if o not in agg:
-                        agg[o] = {
-                            "OAR":        o,
-                            "Preferred":  row["Preferred"],
-                            "Acceptable": row["Acceptable"],
-                            "Physical Limit": ""
-                        }
-                    # build physical limit if absolute Gy found
-                    text = row["Acceptable"] or row["Preferred"] or ""
-                    m = re.search(r"<\s*([\d\.]+)\s*Gy", text)
-                    if m:
-                        eqd2_lim = float(m.group(1))
-                        ab = OAR_ALPHA_BETA.get(o, 3)
-                        d_per = max_d_per_fraction(n_fx, eqd2_lim, ab)
-                        phys_tot = d_per * n_fx
-                        agg[o]["Physical Limit"] = f"{phys_tot:.1f} Gy ({d_per:.2f} Gy/fx)"
+                        agg[o] = {"OAR": o, "Plan Specific Constraints": ""}
+                    ab = OAR_ALPHA_BETA.get(o, 3)
+                    # helper to adjust any "< X Gy" to regimen‑specific
+                    def adjust(txt):
+                        if not txt: return None
+                        def repl(m):
+                            eq = float(m.group(1))
+                            d = max_d_per_fraction(n_fx, eq, ab)
+                            return f"< {d:.2f} Gy"
+                        return re.sub(r"<\s*([\d\.]+)\s*Gy", repl, txt)
+                    pref_orig = row["Preferred"]
+                    acc_orig  = row["Acceptable"]
+                    pref_adj = adjust(pref_orig) if pref_orig else None
+                    acc_adj  = adjust(acc_orig ) if acc_orig  else None
+                    final_pref = pref_adj if pref_adj else pref_orig
+                    final_acc  = acc_adj  if acc_adj  else acc_orig
+                    parts = []
+                    if final_pref:
+                        parts.append(f"Preferred: {final_pref}")
+                    if final_acc:
+                        parts.append(f"Acceptable: {final_acc}")
+                    agg[o]["Plan Specific Constraints"] = " -- ".join(parts)
+
             df3d = pd.DataFrame(agg.values())
             st.subheader("3D‑CRT constraints")
             st.dataframe(df3d, use_container_width=True)
-            # copyable
+
             lines = []
             for r in df3d.itertuples():
-                lines.append(f"{r.OAR}:")
-                if r.Preferred:  lines.append(f"  Preferred: {r.Preferred}")
-                if r.Acceptable: lines.append(f"  Acceptable: {r.Acceptable}")
-                if r._4:         lines.append(f"  Physical limit ({regimen}): {r._4}")
-                lines.append("")
+                lines.append(f"{r.OAR}: {r._2}")
             st.text_area("Copyable constraints", "\n".join(lines), height=250)
 
     else:
-        # SBRT unchanged (with unified Pelvis, full labels)
         selected_sites = st.multiselect("Select body site(s)", list(SBRT_CONSTRAINTS.keys()))
         fx = st.selectbox("Select fractionation", [3, 5])
         if not selected_sites:
@@ -406,9 +405,9 @@ with tab2:
             lines = []
             for r in dfsbrt.itertuples():
                 parts = [r.OAR]
-                if r.Metric:    parts.append(f"({r.Metric})")
-                if r.Optimal is not None:   parts.append(f"Optimal: {r.Optimal}")
-                if r.Mandatory is not None: parts.append(f"Mandatory: {r.Mandatory}")
-                if r.Endpoint: parts.append(f"Endpoint: {r.Endpoint}")
+                if r.Metric:                   parts.append(f"({r.Metric})")
+                if r.Optimal is not None:      parts.append(f"Optimal: {r.Optimal}")
+                if r.Mandatory is not None:    parts.append(f"Mandatory: {r.Mandatory}")
+                if r.Endpoint:                 parts.append(f"Endpoint: {r.Endpoint}")
                 lines.append(" — ".join(parts))
             st.text_area("Copyable constraints", "\n".join(lines), height=200)
