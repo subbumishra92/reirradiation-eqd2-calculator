@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import math
+import re
 
 # ——— Page config ———
 st.set_page_config(page_title="Re‑irradiation & Palliative OARs", layout="wide")
@@ -45,7 +46,8 @@ def max_d_per_fraction(n, target_eqd2, αβ):
     tb = target_eqd2 * (1 + 2/αβ)
     a, b, c = n/αβ, n, -tb
     disc = b*b - 4*a*c
-    if disc < 0: return 0.0
+    if disc < 0:
+        return 0.0
     d1 = (-b + math.sqrt(disc)) / (2*a)
     d2 = (-b - math.sqrt(disc)) / (2*a)
     return max(d1, d2)
@@ -112,21 +114,21 @@ THREED_CONSTRAINTS = {
         {"OAR":"Max Point Dose",     "Preferred":"< 105 %",             "Acceptable":"< 108 %"},
     ],
     "Proximal Upper Extremity": [
-        {"OAR":"Brachial Plexus",    "Preferred":None,                  "Acceptable":"No hot spots"},
-        {"OAR":"Skin",               "Preferred":None,                  "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
-        {"OAR":"Max Point Dose",     "Preferred":"< 105 %",             "Acceptable":"< 108 %"},
+        {"OAR":"Brachial Plexus","Preferred":None,                     "Acceptable":"No hot spots"},
+        {"OAR":"Skin",          "Preferred":None,                     "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
+        {"OAR":"Max Point Dose","Preferred":"< 105 %",                "Acceptable":"< 108 %"},
     ],
     "Distal Upper Extremity": [
-        {"OAR":"Skin",               "Preferred":None,                  "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
-        {"OAR":"Max Point Dose",     "Preferred":"< 105 %",             "Acceptable":"< 108 %"},
+        {"OAR":"Skin",          "Preferred":None,                     "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
+        {"OAR":"Max Point Dose","Preferred":"< 105 %",                "Acceptable":"< 108 %"},
     ],
     "Proximal Lower Extremity": [
-        {"OAR":"Skin",               "Preferred":None,                  "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
-        {"OAR":"Max Point Dose",     "Preferred":"< 105 %",             "Acceptable":"< 108 %"},
+        {"OAR":"Skin",          "Preferred":None,                     "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
+        {"OAR":"Max Point Dose","Preferred":"< 105 %",                "Acceptable":"< 108 %"},
     ],
     "Distal Lower Extremity": [
-        {"OAR":"Skin",               "Preferred":None,                  "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
-        {"OAR":"Max Point Dose",     "Preferred":"< 105 %",             "Acceptable":"< 108 %"},
+        {"OAR":"Skin",          "Preferred":None,                     "Acceptable":"No slices 100 % circumf.; Hot‑spot < 107 %"},
+        {"OAR":"Max Point Dose","Preferred":"< 105 %",                "Acceptable":"< 108 %"},
     ],
 }
 
@@ -137,14 +139,11 @@ SBRT_INTRACRANIAL = [
     {"OAR":"Brainstem",     "Metric":"D0.1cc","3fx_opt":18,   "3fx_man":23.1,"5fx_opt":23,   "5fx_man":31,  "Endpoint":"Cranial Neuropathy"},
     {"OAR":"Spinal Canal",  "Metric":"D0.1cc","3fx_opt":18,   "3fx_man":21.9,"5fx_opt":23,   "5fx_man":30,  "Endpoint":"Myelitis"},
 ]
-# 5fx Skin only, endpoint Ulceration
 skin_entry = {
     "OAR":"Skin",
     "Metric":"D0.03 cc / V20 Gy",
-    "3fx_opt":None,
-    "3fx_man":None,
-    "5fx_opt":None,
-    "5fx_man":"Dmax (0.03 cc) ≤ 35 Gy; V20 Gy < 10 cc",
+    "3fx_opt":None, "3fx_man":None,
+    "5fx_opt":None, "5fx_man":"Dmax (0.03 cc) ≤ 35 Gy; V20 Gy < 10 cc",
     "Endpoint":"Ulceration"
 }
 SBRT_INTRACRANIAL.append(skin_entry)
@@ -168,7 +167,6 @@ SBRT_BODY = [
     {"OAR":"Articular Cartilage","Metric":"Dmax","3fx_opt":None,"3fx_man":None,"5fx_opt":None,"5fx_man":"Dmax ≤ 35 Gy","Endpoint":"Joint Integrity"},
     {"OAR":"Ureter",             "Metric":"Dmax",  "3fx_opt":None, "3fx_man":40,  "5fx_opt":None,"5fx_man":45,  "Endpoint":"Stricture"},
 ]
-# Append skin to all SBRT lists
 SBRT_BODY.append(skin_entry)
 
 # ——— SBRT_CONSTRAINTS by site ———
@@ -195,20 +193,8 @@ SBRT_CONSTRAINTS = {
             )
         ]
     ),
-    "Female Pelvis": [
-        r for r in SBRT_BODY
-        if r["OAR"] in (
-            "Bladder","Small Bowel","Large Bowel",
-            "Kidneys","Ureter","Cauda Equina","Lumbosacral Plexus"
-        )
-    ],
-    "Male Pelvis": [
-        r for r in SBRT_BODY
-        if r["OAR"] in (
-            "Bladder","Small Bowel","Large Bowel",
-            "Kidneys","Ureter","Cauda Equina","Lumbosacral Plexus"
-        )
-    ],
+    # unified Pelvis for SBRT
+    "Pelvis": SBRT_BODY,
     "Proximal Upper Extremity": [
         r for r in SBRT_BODY if r["OAR"] == "Brachial Plexus"
     ] + [skin_entry] + [
@@ -233,11 +219,7 @@ if "custom_ab" not in st.session_state:
 
 # ——— Main UI ———
 st.title("Re‑irradiation EQD₂ & Palliative OAR Constraints")
-
-tab1, tab2 = st.tabs([
-    "Re‑irradiation EQD₂",
-    "Palliative OAR Constraints",
-])
+tab1, tab2 = st.tabs(["Re‑irradiation EQD₂", "Palliative OAR Constraints"])
 
 # ─── Tab 1: EQD₂ Calculator ───────────────────────────────────────────────────
 with tab1:
@@ -336,35 +318,62 @@ with tab1:
 # ─── Tab 2: Palliative OAR Constraints ───────────────────────────────────────
 with tab2:
     st.header("Palliative OAR Constraints")
+
     modality = st.radio("Select modality", ["3D", "SBRT"])
-    selected_sites = st.multiselect("Select body site(s)", list(THREED_CONSTRAINTS.keys()))
 
     if modality == "3D":
+        # regimen selector
+        regimen_map = {
+            "8 Gy × 1 fx":    (1, 8.0),
+            "20 Gy × 5 fx":   (5, 20.0),
+            "24 Gy × 6 fx":   (6, 24.0),
+            "30 Gy × 10 fx":  (10, 30.0),
+            "35 Gy × 10 fx":  (10, 35.0),
+        }
+        regimen = st.selectbox("Select regimen", list(regimen_map.keys()))
+        n_fx, total_physical = regimen_map[regimen]
+
+        selected_sites = st.multiselect("Select body site(s)", list(THREED_CONSTRAINTS.keys()))
         if not selected_sites:
             st.info("Select at least one body site.")
         else:
+            # aggregate & dedupe
             agg = {}
             for site in selected_sites:
                 for row in THREED_CONSTRAINTS[site]:
                     o = row["OAR"]
                     if o not in agg:
-                        agg[o] = {"OAR":o,"Preferred":None,"Acceptable":None}
-                    if row["Preferred"]:
-                        agg[o]["Preferred"] = row["Preferred"]
-                    if row["Acceptable"]:
-                        agg[o]["Acceptable"] = row["Acceptable"]
+                        agg[o] = {
+                            "OAR":        o,
+                            "Preferred":  row["Preferred"],
+                            "Acceptable": row["Acceptable"],
+                            "Physical Limit": ""
+                        }
+                    # build physical limit if absolute Gy found
+                    text = row["Acceptable"] or row["Preferred"] or ""
+                    m = re.search(r"<\s*([\d\.]+)\s*Gy", text)
+                    if m:
+                        eqd2_lim = float(m.group(1))
+                        ab = OAR_ALPHA_BETA.get(o, 3)
+                        d_per = max_d_per_fraction(n_fx, eqd2_lim, ab)
+                        phys_tot = d_per * n_fx
+                        agg[o]["Physical Limit"] = f"{phys_tot:.1f} Gy ({d_per:.2f} Gy/fx)"
             df3d = pd.DataFrame(agg.values())
-            st.subheader("Combined 3D‑CRT constraints")
+            st.subheader("3D‑CRT constraints")
             st.dataframe(df3d, use_container_width=True)
+            # copyable
             lines = []
             for r in df3d.itertuples():
                 lines.append(f"{r.OAR}:")
-                if r.Preferred: lines.append(f"  Preferred: {r.Preferred}")
+                if r.Preferred:  lines.append(f"  Preferred: {r.Preferred}")
                 if r.Acceptable: lines.append(f"  Acceptable: {r.Acceptable}")
+                if r._4:         lines.append(f"  Physical limit ({regimen}): {r._4}")
                 lines.append("")
-            st.text_area("Copyable constraints", "\n".join(lines), height=200)
+            st.text_area("Copyable constraints", "\n".join(lines), height=250)
 
     else:
+        # SBRT unchanged (with unified Pelvis, full labels)
+        selected_sites = st.multiselect("Select body site(s)", list(SBRT_CONSTRAINTS.keys()))
         fx = st.selectbox("Select fractionation", [3, 5])
         if not selected_sites:
             st.info("Select at least one body site.")
@@ -397,9 +406,9 @@ with tab2:
             lines = []
             for r in dfsbrt.itertuples():
                 parts = [r.OAR]
-                if r.Metric: parts.append(f"({r.Metric})")
-                if r.Optimal is not None: parts.append(f"Opt: {r.Optimal}")
-                if r.Mandatory is not None: parts.append(f"Man: {r.Mandatory}")
+                if r.Metric:    parts.append(f"({r.Metric})")
+                if r.Optimal is not None:   parts.append(f"Optimal: {r.Optimal}")
+                if r.Mandatory is not None: parts.append(f"Mandatory: {r.Mandatory}")
                 if r.Endpoint: parts.append(f"Endpoint: {r.Endpoint}")
                 lines.append(" — ".join(parts))
             st.text_area("Copyable constraints", "\n".join(lines), height=200)
