@@ -46,7 +46,8 @@ def max_d_per_fraction(n, target_eqd2, αβ):
     tb = target_eqd2 * (1 + 2/αβ)
     a, b, c = n/αβ, n, -tb
     disc = b*b - 4*a*c
-    if disc < 0: return 0.0
+    if disc < 0:
+        return 0.0
     d1 = (-b + math.sqrt(disc)) / (2*a)
     d2 = (-b - math.sqrt(disc)) / (2*a)
     return max(d1, d2)
@@ -334,6 +335,39 @@ with tab2:
         if not selected_sites:
             st.info("Select at least one body site.")
         else:
+
+            def adjust(txt, ab):
+                if not txt:
+                    return None
+                # < X Gy
+                def repl_cap(m):
+                    eq = float(m.group(1))
+                    d_phys = max_d_per_fraction(n_fx, eq, ab)
+                    return f"< {d_phys*n_fx:.2f} Gy"
+                # V X Gy
+                def repl_vol(m):
+                    eq = float(m.group(2))
+                    d_phys = max_d_per_fraction(n_fx, eq, ab)
+                    return f"{m.group(1)}{d_phys*n_fx:.2f} Gy"
+                # ≥ X Gy
+                def repl_ge(m):
+                    eq = float(m.group(2))
+                    d_phys = max_d_per_fraction(n_fx, eq, ab)
+                    return f"≥ {d_phys*n_fx:.2f} Gy"
+                # Max … X Gy
+                def repl_max(m):
+                    prefix = m.group(1).strip()
+                    eq = float(m.group(2))
+                    d_phys = max_d_per_fraction(n_fx, eq, ab)
+                    return f"{prefix} {d_phys*n_fx:.2f} Gy"
+
+                out = txt
+                out = re.sub(r"<\s*([\d\.]+)\s*Gy", repl_cap, out)
+                out = re.sub(r"\b(V)\s*([\d\.]+)\s*Gy", repl_vol, out)
+                out = re.sub(r"(≥)\s*([\d\.]+)\s*Gy", repl_ge, out)
+                out = re.sub(r"(Max[^\d<≥]*)\s*([\d\.]+)\s*Gy", repl_max, out)
+                return out
+
             agg = {}
             for site in selected_sites:
                 for row in THREED_CONSTRAINTS[site]:
@@ -341,44 +375,17 @@ with tab2:
                     if o not in agg:
                         agg[o] = {"OAR": o, "Plan Specific Constraints": ""}
                     ab = OAR_ALPHA_BETA.get(o, 3)
-                    # helper to  any "< X Gy" to regimen‑specific
-                    def adjust(txt):
-                        if not txt:
-                            return None
-
-                        # repl for absolute‐dose caps (< X Gy)
-                        def repl_cap(m):
-                            eq = float(m.group(1))
-                            d_phys = max_d_per_fraction(n_fx, eq, ab)
-                            total = d_phys * n_fx
-                            return f"< {total:.2f} Gy"
-
-                        # repl for volume thresholds (V X Gy)
-                        def repl_vol(m):
-                            eq = float(m.group(2))
-                            d_phys = max_d_per_fraction(n_fx, eq, ab)
-                            total = d_phys * n_fx
-                            # preserve the “V” and any spacing
-                            return f"{m.group(1)}{total:.2f} Gy"
-
-                        # 1) replace all “< X Gy”  
-                        out = re.sub(r"<\s*([\d\.]+)\s*Gy", repl_cap, txt)
-                        # 2) replace all “V X Gy”  (capture “V” or “D” prefix if you want)
-                        out = re.sub(r"\b(V)\s*([\d\.]+)\s*Gy", repl_vol, out)
-
-                        return out
-
-                    pref_orig = row["Preferred"]
-                    acc_orig  = row["Acceptable"]
-                    pref_adj = adjust(pref_orig) if pref_orig else None
-                    acc_adj  = adjust(acc_orig ) if acc_orig  else None
-                    final_pref = pref_adj if pref_adj else pref_orig
-                    final_acc  = acc_adj  if acc_adj  else acc_orig
+                    pref = adjust(row["Preferred"], ab) if row["Preferred"] else None
+                    acc  = adjust(row["Acceptable"], ab) if row["Acceptable"] else None
                     parts = []
-                    if final_pref:
-                        parts.append(f"Preferred: {final_pref}")
-                    if final_acc:
-                        parts.append(f"Acceptable: {final_acc}")
+                    if pref:
+                        parts.append(f"Preferred: {pref}")
+                    elif row["Preferred"]:
+                        parts.append(f"Preferred: {row['Preferred']}")
+                    if acc:
+                        parts.append(f"Acceptable: {acc}")
+                    elif row["Acceptable"]:
+                        parts.append(f"Acceptable: {row['Acceptable']}")
                     agg[o]["Plan Specific Constraints"] = " -- ".join(parts)
 
             df3d = pd.DataFrame(agg.values())
