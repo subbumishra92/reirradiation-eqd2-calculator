@@ -47,6 +47,8 @@ def max_d_per_fraction(n, target_eqd2, αβ):
 # ——— Session state flags ———
 if "calculated" not in st.session_state:
     st.session_state.calculated = False
+if "edit_ab" not in st.session_state:
+    st.session_state.edit_ab = False
 if "custom_ab" not in st.session_state:
     st.session_state.custom_ab = {}
 
@@ -62,7 +64,6 @@ with center:
     interval = st.selectbox("Time since last RT",
         ["<6 months","6–12 months","12+ months"])
 
-    # Gather up to 3 prior courses per OAR
     prior_data = {}
     for o in selected:
         st.subheader(o)
@@ -91,7 +92,7 @@ if calc:
     if not selected:
         st.warning("Please select at least one OAR.")
     else:
-        # 1) Sum prior EQD2 using either default or custom α/β
+        # 1) Sum prior EQD2 with default or custom α/β
         received = {}
         for o, info in prior_data.items():
             total_eqd2 = 0.0
@@ -121,11 +122,10 @@ if calc:
                 "alpha_beta":      st.session_state.custom_ab.get(o, OAR_ALPHA_BETA[o])
             }
 
-        # Render results
+        # render results
         st.header("Results")
         for o, stt in report.items():
             with st.expander(o, expanded=True):
-                # Detailed breakdown
                 st.write(f"- Hard EQD₂ {stt['ctype']} limit: **{stt['limit']:.1f} Gy**")
                 st.write(f"- Sum prior EQD₂ received: **{stt['received']:.1f} Gy**")
                 st.write(f"- Recovery factor: **{int(stt['recovery_factor']*100)}%**")
@@ -133,38 +133,47 @@ if calc:
                 st.write(f"- Effective prior EQD₂: **{stt['effective']:.1f} Gy**")
                 st.write(f"- Remaining room: **{stt['remaining']:.1f} Gy**")
 
-                # Show α/β used
+                # α/β used
                 st.info(f"α/β used for {o}: **{stt['alpha_beta']} Gy**")
 
-                # New constraint
+                # new constraint
                 new_lim = stt["remaining"]
                 st.success(f"→ New EQD₂ {stt['ctype']} max constraint: {new_lim:.1f} Gy")
 
-                # Permissible regimens
-                lines = ["**Permissible regimens:**"]
+                # permissible regimens
+                md = ["**Permissible regimens:**"]
                 for n in FRACTION_OPTIONS:
                     d = max_d_per_fraction(n, new_lim, stt["alpha_beta"])
                     total = d * n
-                    lines.append(f"- {n} fx: {total:.1f} Gy (*{d:.2f} Gy/fx*)")
-                st.markdown("\n".join(lines))
+                    md.append(f"- {n} fx: {total:.1f} Gy (*{d:.2f} Gy/fx*)")
+                st.markdown("\n".join(md))
 
-        # Actions
+        # 3) Actions: Edit inputs or Edit α/β
         col1, col2, col3 = st.columns([1,2,1])
         with col2:
             if st.button("Edit inputs"):
+                st.session_state.calculated = False
+                st.session_state.edit_ab = False
                 st.experimental_rerun()
             if st.button("Edit α/β"):
-                # α/β override UI
-                st.header("Override α/β ratios")
-                new_ab = {}
-                for o in selected:
-                    val = st.number_input(
-                        f"{o} α/β (Gy)",
-                        min_value=0.1, step=0.1,
-                        value=float(report[o]["alpha_beta"]),
-                        key=f"ab_{o}"
-                    )
-                    new_ab[o] = val
-                if st.button("Recalculate with custom α/β"):
-                    st.session_state.custom_ab.update(new_ab)
-                    st.experimental_rerun()
+                st.session_state.edit_ab = True
+                st.experimental_rerun()
+
+        # 4) α/β override form
+        if st.session_state.edit_ab:
+            st.header("Override α/β ratios")
+            new_ab = {}
+            for o in selected:
+                default_ab = st.session_state.custom_ab.get(o, OAR_ALPHA_BETA[o])
+                val = st.number_input(
+                    f"{o} α/β (Gy)",
+                    min_value=0.1, step=0.1,
+                    value=float(default_ab),
+                    key=f"ab_{o}"
+                )
+                new_ab[o] = val
+
+            if st.button("Apply new α/β and Recalculate"):
+                st.session_state.custom_ab.update(new_ab)
+                st.session_state.edit_ab = False
+                st.experimental_rerun()
