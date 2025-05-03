@@ -19,7 +19,6 @@ OAR_CONSTRAINTS = {
     }.items()
 }
 
-# Exact default α/β map
 OAR_ALPHA_BETA = {
     o: (2 if o in [
         "Spinal Cord", "Optic Chiasm", "Brain Stem",
@@ -57,7 +56,6 @@ def max_d_per_fraction(n, target_eqd2, αβ):
 if "stage" not in st.session_state:
     st.session_state.stage = "input"
 if "custom_ab" not in st.session_state:
-    # will hold the user’s α/β overrides keyed by OAR
     st.session_state.custom_ab = {}
 
 st.title("Re‑irradiation EQD₂ Calculator")
@@ -65,17 +63,13 @@ st.title("Re‑irradiation EQD₂ Calculator")
 # ─── INPUT STAGE ─────────────────────────────────────────────────────────────
 if st.session_state.stage == "input":
     selected = st.multiselect("Select OAR(s) to re‑irradiate", OARS)
-    global_interval = st.selectbox(
-        "Time since last RT to now",
-        list(RECOVERY_FACTORS.keys())
-    )
 
     prior_data = {}
     for o in selected:
         st.subheader(o)
         ctype = OAR_CONSTRAINTS[o][0]["type"]
         n_courses = st.selectbox(
-            f"# of prior courses for {o}", [1, 2, 3],
+            f"# prior courses for {o}", [1, 2, 3],
             key=f"{o}_nc"
         )
         courses = []
@@ -95,15 +89,17 @@ if st.session_state.stage == "input":
                 list(RECOVERY_FACTORS.keys()),
                 key=f"{o}_int{i}"
             )
+
             if dose > 0 and fx > 0:
                 courses.append({
                     "dose": dose,
                     "fractions": int(fx),
                     "interval": interval
                 })
+
         prior_data[o] = courses
 
-    # α/β overrides stored directly into session_state.custom_ab
+    # Optional α/β override
     override_ab = {}
     if selected:
         st.subheader("Optional: override α/β values")
@@ -117,39 +113,38 @@ if st.session_state.stage == "input":
             )
 
     if st.button("Calculate"):
-        # Save everything into session_state
-        st.session_state.selected       = selected
-        st.session_state.global_interval= global_interval
-        st.session_state.prior_data     = prior_data
-        st.session_state.custom_ab      = override_ab.copy()
-        st.session_state.stage          = "results"
+        st.session_state.selected   = selected
+        st.session_state.prior_data = prior_data
+        st.session_state.custom_ab  = override_ab.copy()
+        st.session_state.stage      = "results"
         st.rerun()
 
 # ─── RESULTS STAGE ────────────────────────────────────────────────────────────
 elif st.session_state.stage == "results":
-    selected        = st.session_state.selected
-    global_interval = st.session_state.global_interval
-    prior_data      = st.session_state.prior_data
+    selected   = st.session_state.selected
+    prior_data = st.session_state.prior_data
 
     report = {}
     for o, courses in prior_data.items():
         ab = st.session_state.custom_ab.get(o, OAR_ALPHA_BETA[o])
         raw_sum = 0.0
-        effective_sum = 0.0
+        eff_sum = 0.0
 
         for cr in courses:
             n, dose, interval = cr["fractions"], cr["dose"], cr["interval"]
             eq_val = eqd2(n, dose/n, ab)
             raw_sum += eq_val
+            # recover once per course
             f = RECOVERY_FACTORS[interval]
-            effective_sum += eq_val * (1 - f)
+            eff_sum += eq_val * (1 - f)
 
-        limit    = OAR_CONSTRAINTS[o][0]["value"]
-        remaining= max(limit - effective_sum, 0.0)
+        limit     = OAR_CONSTRAINTS[o][0]["value"]
+        remaining = max(limit - eff_sum, 0.0)
+
         report[o] = {
             "raw_sum":   raw_sum,
-            "effective": effective_sum,
-            "recovered": raw_sum - effective_sum,
+            "recovered": raw_sum - eff_sum,
+            "effective": eff_sum,
             "limit":     limit,
             "remaining": remaining,
             "ab":        ab
@@ -204,5 +199,5 @@ elif st.session_state.stage == "edit_ab":
     with c2:
         if st.button("Apply and Recalculate"):
             st.session_state.custom_ab = new_ab.copy()
-            st.session_state.stage = "results"
+            st.session_state.stage     = "results"
             st.rerun()
