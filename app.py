@@ -80,7 +80,7 @@ THREED_CONSTRAINTS = {
         {"OAR": "Spinal Cord",    "Preferred": None,
                                   "Acceptable": "As low as possible; ≤ 105 % Rx"},
         {"OAR": "Skin",           "Preferred": None,
-                                  "Acceptable": "No slices 100 % circumf.; Hot‑spot < 107 %"},
+                                  "Acceptable": "Hot‑spot < 107 %"},
         {"OAR": "Max Point Dose", "Preferred": "< 105 %",
                                   "Acceptable": "< 108 %"},
     ],
@@ -103,7 +103,7 @@ THREED_CONSTRAINTS = {
         {"OAR": "Spinal Cord",    "Preferred": None,
                                   "Acceptable": "As low as possible; ≤ 45 Gy"},
         {"OAR": "Skin",           "Preferred": None,
-                                  "Acceptable": "No slices 100 % circumf.; Hot‑spot < 107 %"},
+                                  "Acceptable": "Hot‑spot < 107 %"},
         {"OAR": "Max Point Dose", "Preferred": "< 105 %",
                                   "Acceptable": "< 108 %"},
     ],
@@ -124,7 +124,7 @@ THREED_CONSTRAINTS = {
         {"OAR": "Spinal Cord",   "Preferred": None,
                                  "Acceptable": "As low as possible; ≤ 45 Gy"},
         {"OAR": "Skin",          "Preferred": None,
-                                 "Acceptable": "No slices 100 % circumf.; Hot‑spot < 107 %"},
+                                 "Acceptable": "Hot‑spot < 107 %"},
         {"OAR": "Max Point Dose","Preferred": "< 105 %",
                                  "Acceptable": "< 108 %"},
     ],
@@ -143,7 +143,7 @@ THREED_CONSTRAINTS = {
         {"OAR": "Ureter",              "Preferred": None,
                                        "Acceptable": "Dmax < 45 Gy (Stricture)"},
         {"OAR": "Skin",                "Preferred": None,
-                                       "Acceptable": "No slices 100 % circumf.; Hot‑spot < 107 %"},
+                                       "Acceptable": "Hot‑spot < 107 %"},
         {"OAR": "Max Point Dose",      "Preferred": "< 105 %",
                                        "Acceptable": "< 108 %"},
     ],
@@ -162,7 +162,7 @@ THREED_CONSTRAINTS = {
         {"OAR": "Ureter",              "Preferred": None,
                                        "Acceptable": "Dmax < 45 Gy (Stricture)"},
         {"OAR": "Skin",                "Preferred": None,
-                                       "Acceptable": "No slices 100 % circumf.; Hot‑spot < 107 %"},
+                                       "Acceptable": "Hot‑spot < 107 %"},
         {"OAR": "Max Point Dose",      "Preferred": "< 105 %",
                                        "Acceptable": "< 108 %"},
     ],
@@ -528,7 +528,9 @@ with tab2:
             df3d = pd.DataFrame(agg.values()).set_index("OAR")
             st.subheader("3D‑CRT constraints")
             df_display = df3d.reset_index().rename_axis(None, axis=1)
-            st.dataframe(df_display, use_container_width=True)
+            df_display3d = df3d.reset_index(drop=True)   # remove numeric index
+            st.dataframe(df_display3d, use_container_width=True)
+
 
 
             # Copy‑to‑clipboard button
@@ -572,7 +574,9 @@ with tab2:
 
             dfsbrt = pd.DataFrame(agg.values())
             st.subheader(f"Combined {fx}‑fraction SBRT constraints")
-            st.dataframe(dfsbrt, use_container_width=True)
+            dfsbrt_display = dfsbrt.reset_index(drop=True)   # remove numeric index
+            st.dataframe(dfsbrt_display, use_container_width=True)
+
 
                         # ── Build copy text, skipping NaNs ──────────────────────────────
             lines = []
@@ -588,7 +592,6 @@ with tab2:
                     parts.append(f"Endpoint: {r.Endpoint}")
                 lines.append(" — ".join(parts))
 
-            st.text_area("Resulting constraints", "\n".join(lines), height=220)
 
             # ── One‑click copy button ───────────────────────────────────────
             clip = "\\n".join(lines).replace("`", "\\`")  # escape backticks
