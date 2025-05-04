@@ -344,33 +344,47 @@ with tab2:
             def adjust(txt, ab):
                 if not txt:
                     return None
+
                 out = txt
-                # < X Gy
+
+                # 1) < X Gy
                 def cap(m):
                     eq = float(m.group(1))
                     d_phys = max_d_per_fraction(n_fx, eq, ab)
                     return f"< {d_phys*n_fx:.2f} Gy"
-                # V X Gy
-                def vol(m):
+                out = re.sub(r"<\s*([\d\.]+)\s*Gy", cap, out)
+
+                # 2) ≤ X Gy  (unicode “≤” U+2264)
+                def le(m):
                     eq = float(m.group(1))
                     d_phys = max_d_per_fraction(n_fx, eq, ab)
-                    return f"V{d_phys*n_fx:.2f} Gy"
-                # ≥ X Gy
+                    return f"≤ {d_phys*n_fx:.2f} Gy"
+                out = re.sub(r"≤\s*([\d\.]+)\s*Gy", le, out)
+
+                # 3) ≥ X Gy
                 def ge(m):
                     eq = float(m.group(1))
                     d_phys = max_d_per_fraction(n_fx, eq, ab)
                     return f"≥ {d_phys*n_fx:.2f} Gy"
-                # Max X Gy
-                def mx(m):
+                out = re.sub(r"≥\s*([\d\.]+)\s*Gy", ge, out)
+
+                # 4) V X Gy
+                def vol(m):
                     eq = float(m.group(1))
                     d_phys = max_d_per_fraction(n_fx, eq, ab)
-                    return f"Max {d_phys*n_fx:.2f} Gy"
+                    return f"V{d_phys*n_fx:.2f} Gy"
+                out = re.sub(r"\bV\s*([\d\.]+)\s*Gy", vol, out)
 
-                out = re.sub(r"<\s*([\d\.]+)\s*Gy",       cap, out)
-                out = re.sub(r"\bV\s*([\d\.]+)\s*Gy",      vol, out)
-                out = re.sub(r"≥\s*([\d\.]+)\s*Gy",        ge,  out)
-                out = re.sub(r"Max\s*([\d\.]+)\s*Gy",      mx,  out)
+                # 5) Max … X Gy  — grab “Max” plus any non‑digit text up to the number
+                def mx(m):
+                    prefix = m.group(1).strip()
+                    eq     = float(m.group(2))
+                    d_phys = max_d_per_fraction(n_fx, eq, ab)
+                    return f"{prefix} {d_phys*n_fx:.2f} Gy"
+                out = re.sub(r"(Max(?: [^0-9<≥]+)*)\s*([\d\.]+)\s*Gy", mx, out)
+
                 return out
+
 
             agg = {}
             for site in selected_sites:
