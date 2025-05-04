@@ -308,7 +308,17 @@ SBRT_CONSTRAINTS = {
             "Stomach", "Duodenum", "Small Bowel", "Large Bowel",
             "Kidneys", "Ureter", "Cauda Equina", "Lumbosacral Plexus")]
     ),
-    "Pelvis": SBRT_BODY,
+    "Pelvis": [
+        r for r in SBRT_BODY if r["OAR"] in (
+            "Skin",
+            "Ureter",
+            "Lumbosacral Plexus",
+            "Cauda Equina",
+            "Rectum",
+            "Large Bowel",
+            "Small Bowel"
+    ),
+
     "Proximal Upper Extremity": (
         [r for r in SBRT_BODY if r["OAR"] == "Brachial Plexus"] +
         [skin_entry] +
@@ -563,16 +573,31 @@ with tab2:
             st.subheader(f"Combined {fx}‑fraction SBRT constraints")
             st.dataframe(dfsbrt, use_container_width=True)
 
+                        # ── Build copy text, skipping NaNs ──────────────────────────────
             lines = []
             for r in dfsbrt.itertuples():
                 parts = [r.OAR]
                 if r.Metric:
                     parts.append(f"({r.Metric})")
-                if r.Optimal is not None:
+                if pd.notna(r.Optimal):
                     parts.append(f"Optimal: {r.Optimal}")
-                if r.Mandatory is not None:
+                if pd.notna(r.Mandatory):
                     parts.append(f"Mandatory: {r.Mandatory}")
                 if r.Endpoint:
                     parts.append(f"Endpoint: {r.Endpoint}")
                 lines.append(" — ".join(parts))
-            st.text_area("Copyable constraints", "\n".join(lines), height=220)
+
+            # Simple preview
+            st.text_area("Resulting constraints", "\n".join(lines), height=220)
+
+            # ── One‑click copy button ───────────────────────────────────────
+            clip = "\\n".join(lines).replace("`", "\\`")  # escape backticks
+            components.html(
+                f\"\"\"
+                <button style='margin-top:10px'
+                        onclick=\"navigator.clipboard.writeText(`{clip}`)\">
+                    Copy to clipboard
+                </button>
+                \"\"\", height=40
+            )
+
