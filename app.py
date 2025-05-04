@@ -578,8 +578,8 @@ with tab2:
             dfsbrt = pd.DataFrame(agg.values())
             st.subheader(f"Combined {fx}‑fraction SBRT constraints")
             dfsbrt_display = dfsbrt.reset_index(drop=True)   # remove numeric index
+                        dfsbrt_display = dfsbrt.reset_index(drop=True)   # remove numeric index
             st.dataframe(dfsbrt_display, use_container_width=True)
-
 
             # ── Build copy text, skipping NaNs ──────────────────────────────
             lines = []
@@ -595,8 +595,7 @@ with tab2:
                     parts.append(f"Endpoint: {r.Endpoint}")
                 lines.append(" — ".join(parts))
 
-
-            # ── One‑click copy button ───────────────────────────────────────
+            # ── One‑click copy button (no preview text) ─────────────────────
             clip = "\\n".join(lines).replace("`", "\\`")  # escape backticks
             components.html(
                 f"""
@@ -607,5 +606,6 @@ with tab2:
                 """,
                 height=40
             )
+
 
 
