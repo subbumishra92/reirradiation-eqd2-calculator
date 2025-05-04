@@ -317,7 +317,8 @@ SBRT_CONSTRAINTS = {
             "Rectum",
             "Large Bowel",
             "Small Bowel"
-    ),
+        )
+    ],
 
     "Proximal Upper Extremity": (
         [r for r in SBRT_BODY if r["OAR"] == "Brachial Plexus"] +
