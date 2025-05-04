@@ -515,14 +515,28 @@ with tab2:
 
             df3_display = pd.DataFrame(agg.values()).reset_index(drop=True)
             st.subheader("3D‑CRT constraints")
+
+            # ✏️ NEW — coverage blurb
+            td_blurb = (
+                "≥ 95 % of the PTV receives ≥ 95 % of the prescribed dose\n"
+                "At least 90 % of the prescribed dose to 100 % of the PTV\n"
+                "PTV Dmax ≤ 110 %"
+            )
+            st.markdown(td_blurb)
+
             st.dataframe(df3_display, use_container_width=True)
 
-            clip3d = "\n".join(f"{r.OAR}: {r['Plan Specific Constraints']}"
-                               for _, r in df3_display.iterrows())
+            # 3 – prepend the blurb to the clipboard text
+            clip_text = td_blurb + "\n\n" + "\n".join(
+                f"{row.OAR}: {row['Plan Specific Constraints']}"
+                for _, row in df_display3d.iterrows()
+            )
+
+            # 4 – copy‑to‑clipboard button (unchanged except variable name)
             components.html(
                 f"""
                 <button style='margin-top:10px'
-                        onclick="navigator.clipboard.writeText(`{clip3d}`)">
+                        onclick="navigator.clipboard.writeText(`{clip_text}`)">
                     Copy to clipboard
                 </button>
                 """,
@@ -533,6 +547,13 @@ with tab2:
     else:
         sites = st.multiselect("Body site(s)", SBRT_CONSTRAINTS.keys())
         fx = st.selectbox("Fractionation", [3, 5])
+
+        coverage_choice = st.radio(
+            "Target‑coverage style",
+            ["Standard target coverage", "Accept reduced target coverage"],
+            horizontal=True
+        )
+        
         if sites:
             agg = {}
             for site in sites:
@@ -555,6 +576,7 @@ with tab2:
             st.subheader(f"Combined {fx}-fraction SBRT constraints")
             st.dataframe(df_sbrt, use_container_width=True)
 
+            # ── Build copy text, skipping NaNs ──────────────────────────────
             lines = []
             for r in df_sbrt.itertuples():
                 parts = [r.OAR]
@@ -568,7 +590,37 @@ with tab2:
                     parts.append(f"Endpoint: {r.Endpoint}")
                 lines.append(" — ".join(parts))
 
-            clip_sbrt = "\n".join(lines).replace("`", "\\`")
+            # ── Target‑coverage blurbs ─────────────────────────────────────
+            coverage_blurbs = {
+                "Standard target coverage": (
+                    "SBRT Prescriptions — Standard target coverage\n"
+                    "• 95 % of the PTV receives 100 % of the prescription dose\n"
+                    "• Minimum PTV dose ≥ 90 % Rx\n"
+                    "• 100 % of the CTV receives 100 % Rx\n"
+                    "• PTV Dmax ≤ 160 % Rx\n"
+                    "• Volume receiving ≥ Rx dose is ≤ 20 % larger than the PTV\n"
+                    "• D₂ cm ≤ 50 % Rx\n"
+                ),
+                "Accept reduced target coverage": (
+                    "SBRT Prescriptions — Accept reduced target coverage\n"
+                    "• 95 % of the PTV receives 95 % of the prescription dose\n"
+                    "• Minimum PTV dose ≥ 85 % Rx\n"
+                    "• 100 % of the CTV receives 99 % Rx\n"
+                    "• PTV Dmax ≤ 160 % Rx\n"
+                    "• Volume receiving ≥ Rx dose is ≤ 20 % larger than the PTV\n"
+                    "• D₂ cm ≤ 50 % Rx\n"
+                )
+            }
+            chosen_blurb = coverage_blurbs[coverage_choice]
+
+            # show the blurb above the table
+            st.markdown(chosen_blurb)
+
+            # prepend blurb to clipboard string
+            clip_sbrt = chosen_blurb + "\n" + "\n".join(lines)
+            clip_sbrt = clip_sbrt.replace("`", "\\`")  # escape back‑ticks
+
+            # one‑click copy button
             components.html(
                 f"""
                 <button style='margin-top:10px'
@@ -578,3 +630,4 @@ with tab2:
                 """,
                 height=40
             )
+
