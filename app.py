@@ -394,7 +394,7 @@ with tab1:
             st.session_state.prior_data = prior_data
             st.session_state.custom_ab  = ab_override
             st.session_state.stage      = "results"
-            st.experimental_rerun()
+            st.rerun()
 
     # ------------------ RESULTS stage ------------------------------------
     elif st.session_state.stage == "results":
@@ -430,11 +430,11 @@ with tab1:
         with c1:
             if st.button("← Back"):
                 st.session_state.stage = "input"
-                st.experimental_rerun()
+                st.rerun()
         with c2:
             if st.button("Edit α/β"):
                 st.session_state.stage = "edit_ab"
-                st.experimental_rerun()
+                st.rerun()
 
     # ------------------ EDIT stage ---------------------------------------
     elif st.session_state.stage == "edit_ab":
@@ -450,12 +450,12 @@ with tab1:
         with c1:
             if st.button("← Cancel"):
                 st.session_state.stage = "results"
-                st.experimental_rerun()
+                st.rerun()
         with c2:
             if st.button("Apply"):
                 st.session_state.custom_ab = new_ab
                 st.session_state.stage = "results"
-                st.experimental_rerun()
+                st.rerun()
 
 # ───────────────────────── Tab 2: Palliative constraints ──────────────────
 with tab2:
