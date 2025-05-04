@@ -435,14 +435,10 @@ with tab1:
                             fx_labels.append(str(nfx))
                             total_dose.append(d_per_fx * nfx)
 
-                    import matplotlib.pyplot as plt
-                    fig, ax = plt.subplots()
-                    ax.bar(fx_labels, total_dose)
-                    ax.set_xlabel("Fractions")
-                    ax.set_ylabel("Max total physical dose (Gy)")
-                    ax.set_title(f"Permissible regimens for {oar}")
-                    st.pyplot(fig)
-
+                    chart_df = pd.DataFrame(
+                        {"Max total dose (Gy)": total_dose}, index=fx_labels
+                    )
+                    st.bar_chart(chart_df)
 
         c1, c2 = st.columns(2)
         with c1:
