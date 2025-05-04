@@ -5,7 +5,7 @@ import re
 import streamlit.components.v1 as components
 
 # ——— Page config ———
-st.set_page_config(page_title="Re‑irradiation & Palliative OARs", layout="wide")
+st.set_page_config(page_title="Palliative Radiotherapy Planning", layout="wide")
 
 # ——— Common Data Definitions ———
 OARS = [
@@ -347,7 +347,7 @@ if "custom_ab" not in st.session_state:
 
 # ——— Main UI ———
 st.title("Re‑irradiation EQD₂ & Palliative OAR Constraints")
-tab1, tab2 = st.tabs(["Re‑irradiation EQD₂", "Palliative OAR Constraints"])
+tab1, tab2 = st.tabs(["Re‑irradiation Dose Limit Calculator", "Palliative Radiotherapy Planning Protocols"])
 
 # ───────────────────────────── Tab 1: EQD₂ calculator ────────────────────
 with tab1:
