@@ -221,7 +221,43 @@ with tab2:
             st.dataframe(df3d, use_container_width=True)
             lines = [f"{r.OAR}: {r._2}" for r in df3d.itertuples()]
             st.text_area("Copyable constraints", "\n".join(lines), height=250)
-
     else:
-        # SBRT tab unchanged (unified Pelvis, full labels)  
-        # … [omitted for brevity; same as before] …
+        selected_sites = st.multiselect("Select body site(s)", list(SBRT_CONSTRAINTS.keys()))
+        fx = st.selectbox("Select fractionation", [3, 5])
+        if not selected_sites:
+            st.info("Select at least one body site.")
+        else:
+            agg = {}
+            for site in selected_sites:
+                for r in SBRT_CONSTRAINTS.get(site, []):
+                    if fx == 3 and r["OAR"] in EXCLUDE_3FX:
+                        continue
+                    key = (r["OAR"], r.get("Metric"))
+                    if key not in agg:
+                        agg[key] = {
+                            "OAR":       r["OAR"],
+                            "Metric":    r.get("Metric"),
+                            "Optimal":   None,
+                            "Mandatory": None,
+                            "Endpoint":  r.get("Endpoint")
+                        }
+                    opt = r.get(f"{fx}fx_opt")
+                    man = r.get(f"{fx}fx_man")
+                    if opt is not None:
+                        agg[key]["Optimal"] = opt
+                    if man is not None:
+                        agg[key]["Mandatory"] = man
+
+            dfsbrt = pd.DataFrame(agg.values())
+            st.subheader(f"Combined {fx}‑fraction SBRT constraints")
+            st.dataframe(dfsbrt, use_container_width=True)
+
+            lines = []
+            for r in dfsbrt.itertuples():
+                parts = [r.OAR]
+                if r.Metric:                   parts.append(f"({r.Metric})")
+                if r.Optimal is not None:      parts.append(f"Optimal: {r.Optimal}")
+                if r.Mandatory is not None:    parts.append(f"Mandatory: {r.Mandatory}")
+                if r.Endpoint:                 parts.append(f"Endpoint: {r.Endpoint}")
+                lines.append(" — ".join(parts))
+            st.text_area("Copyable constraints", "\n".join(lines), height=200)
