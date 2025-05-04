@@ -529,7 +529,7 @@ with tab2:
             # 3 – prepend the blurb to the clipboard text
             clip_text = td_blurb + "\n\n" + "\n".join(
                 f"{row.OAR}: {row['Plan Specific Constraints']}"
-                for _, row in df_display3d.iterrows()
+                for _, row in df3_display.iterrows()
             )
 
             # 4 – copy‑to‑clipboard button (unchanged except variable name)
