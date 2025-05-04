@@ -525,10 +525,14 @@ with tab2:
                         parts.append(f"Acceptable: {a_txt}")
                     agg[oar]["Plan Specific Constraints"] = " -- ".join(parts)
 
-            df3d = pd.DataFrame(agg.values()).set_index("OAR")
-            st.subheader("3D‑CRT constraints")
-            df_display3d = df3d.reset_index(drop=True)   # remove numeric index
+            # keep OAR as a normal column
+            df3d = pd.DataFrame(agg.values())
+
+            # drop the numeric (0‑based) index that Streamlit would otherwise show
+            df_display3d = df3d.reset_index(drop=True)
+
             st.dataframe(df_display3d, use_container_width=True)
+
 
 
 
