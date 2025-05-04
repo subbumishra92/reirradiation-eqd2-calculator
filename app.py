@@ -426,6 +426,24 @@ with tab1:
                     lines.append(f"- {nfx} fx: {d*nfx:.1f} Gy (*{d:.2f} Gy/fx*)")
                 st.markdown("\n".join(lines))
 
+                # OPTIONAL visual: max total dose vs. fractionation ───────────
+                if st.checkbox("Show regimen plot", key=f"plot_{oar}"):
+                    fx_labels, total_dose = [], []
+                    for nfx in FRACTION_OPTIONS:
+                        d_per_fx = max_d_per_fraction(nfx, r["left"], r["ab"])
+                        if d_per_fx > 0:
+                            fx_labels.append(str(nfx))
+                            total_dose.append(d_per_fx * nfx)
+
+                    import matplotlib.pyplot as plt
+                    fig, ax = plt.subplots()
+                    ax.bar(fx_labels, total_dose)
+                    ax.set_xlabel("Fractions")
+                    ax.set_ylabel("Max total physical dose (Gy)")
+                    ax.set_title(f"Permissible regimens for {oar}")
+                    st.pyplot(fig)
+
+
         c1, c2 = st.columns(2)
         with c1:
             if st.button("← Back"):
