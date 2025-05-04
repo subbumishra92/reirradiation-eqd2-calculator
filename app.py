@@ -588,17 +588,18 @@ with tab2:
                     parts.append(f"Endpoint: {r.Endpoint}")
                 lines.append(" — ".join(parts))
 
-            # Simple preview
             st.text_area("Resulting constraints", "\n".join(lines), height=220)
 
             # ── One‑click copy button ───────────────────────────────────────
             clip = "\\n".join(lines).replace("`", "\\`")  # escape backticks
             components.html(
-                f\"\"\"
+                f"""
                 <button style='margin-top:10px'
-                        onclick=\"navigator.clipboard.writeText(`{clip}`)\">
+                        onclick="navigator.clipboard.writeText(`{clip}`)">
                     Copy to clipboard
                 </button>
-                \"\"\", height=40
+                """,
+                height=40
             )
+
 
