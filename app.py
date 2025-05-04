@@ -427,18 +427,18 @@ with tab1:
                 st.markdown("\n".join(lines))
 
                 # OPTIONAL visual: max total dose vs. fractionation ───────────
-                if st.checkbox("Show regimen plot", key=f"plot_{oar}"):
-                    fx_labels, total_dose = [], []
-                    for nfx in FRACTION_OPTIONS:
-                        d_per_fx = max_d_per_fraction(nfx, r["left"], r["ab"])
-                        if d_per_fx > 0:
-                            fx_labels.append(str(nfx))
-                            total_dose.append(d_per_fx * nfx)
+                #if st.checkbox("Show regimen plot", key=f"plot_{oar}"):
+                #    fx_labels, total_dose = [], []
+                #    for nfx in FRACTION_OPTIONS:
+                #        d_per_fx = max_d_per_fraction(nfx, r["left"], r["ab"])
+                #        if d_per_fx > 0:
+                #            fx_labels.append(str(nfx))
+                #            total_dose.append(d_per_fx * nfx)
 
-                    chart_df = pd.DataFrame(
-                        {"Max total dose (Gy)": total_dose}, index=fx_labels
-                    )
-                    st.bar_chart(chart_df)
+                #   chart_df = pd.DataFrame(
+                #        {"Max total dose (Gy)": total_dose}, index=fx_labels
+                #    )
+                #    st.bar_chart(chart_df)
 
         c1, c2 = st.columns(2)
         with c1:
