@@ -346,7 +346,7 @@ if "custom_ab" not in st.session_state:
     st.session_state.custom_ab = {}
 
 # ——— Main UI ———
-st.title("Re‑irradiation EQD₂ & Palliative OAR Constraints")
+st.title("Palliative Radiotherapy Planning")
 tab1, tab2 = st.tabs(["Re‑irradiation Dose Limit Calculator", "Palliative Radiotherapy Planning Protocols"])
 
 # ───────────────────────────── Tab 1: EQD₂ calculator ────────────────────
@@ -473,7 +473,7 @@ with tab1:
 
 # ───────────────────────── Tab 2: Palliative constraints ──────────────────
 with tab2:
-    st.header("Palliative OAR Constraints")
+    st.header("Protocol Selection")
     modality = st.radio("Select modality", ["3D", "SBRT"])
 
     # ------------------ 3D branch ----------------------------------------
