@@ -35,16 +35,15 @@ FRACTION_OPTIONS = [1, 3, 5, 10]
 EXCLUDE_3FX = {"Skin", "Cortical Bone", "Articular Cartilage"}
 
 # ——— Radiobiology Utils ———
-def bed(n, d, αβ):  # Biologically effective dose
-    return n * d * (1 + d / αβ)
+def bed(n: int, d: float, ab: float) -> float:
+    return n * d * (1 + d / ab)
 
-def eqd2(n, d, αβ):  # EQD2
-    return bed(n, d, αβ) / (1 + 2 / αβ)
+def eqd2(n: int, d: float, ab: float) -> float:
+    return bed(n, d, ab) / (1 + 2 / ab)
 
-def max_d_per_fraction(n, target_eqd2, αβ):
-    """Solve quadratic for physical d that gives target_eqd2 over n fractions."""
-    tb = target_eqd2 * (1 + 2 / αβ)
-    a, b, c = n / αβ, n, -tb
+def max_d_per_fraction(n: int, target_eqd2: float, ab: float) -> float:
+    tb = target_eqd2 * (1 + 2 / ab)
+    a, b, c = n / ab, n, -tb
     disc = b * b - 4 * a * c
     if disc < 0:
         return 0.0
@@ -350,86 +349,89 @@ if "custom_ab" not in st.session_state:
 st.title("Re‑irradiation EQD₂ & Palliative OAR Constraints")
 tab1, tab2 = st.tabs(["Re‑irradiation EQD₂", "Palliative OAR Constraints"])
 
-# ─── Tab 1: EQD₂ Calculator ────────────────────────────────────────────────
+# ───────────────────────────── Tab 1: EQD₂ calculator ────────────────────
 with tab1:
+    # ------------------ INPUT stage --------------------------------------
     if st.session_state.stage == "input":
         selected = st.multiselect("Select OAR(s)", OARS)
         prior_data = {}
-        for o in selected:
-            st.subheader(o)
-            ctype = OAR_CONSTRAINTS[o][0]["type"]
-            n_courses = st.selectbox(
-                f"How many prior courses for {o}?", [1, 2, 3], key=f"{o}_nc")
+        for oar in selected:
+            st.subheader(oar)
+            ctype = OAR_CONSTRAINTS[oar][0]["type"]
+            n_courses = st.selectbox(f"How many prior courses for {oar}?",
+                                     [1, 2, 3], key=f"{oar}_nc")
             courses = []
             for i in range(1, n_courses + 1):
-                dose = st.number_input(
-                    f"Course {i} {ctype} dose (Gy)",
-                    min_value=0.0, step=0.1, key=f"{o}_d{i}")
-                fx = st.number_input(
-                    f"Course {i} fractions",
-                    min_value=1, step=1, key=f"{o}_f{i}")
-                interval = st.selectbox(
-                    f"Time since course {i} to now",
-                    list(RECOVERY_FACTORS.keys()), key=f"{o}_int{i}")
-                if dose > 0 and fx > 0:
-                    courses.append(
-                        {"dose": dose, "fractions": int(fx), "interval": interval})
-            prior_data[o] = courses
+                dose = st.number_input(f"Course {i} {ctype} dose (Gy)",
+                                       min_value=0.0, step=0.1,
+                                       key=f"{oar}_dose{i}")
+                fx   = st.number_input(f"Course {i} fractions",
+                                       min_value=1, step=1,
+                                       key=f"{oar}_fx{i}")
+                interval = st.selectbox(f"Time since course {i}",
+                                        RECOVERY_FACTORS.keys(),
+                                        key=f"{oar}_int{i}")
+                if dose and fx:
+                    courses.append({"dose": dose,
+                                    "fractions": int(fx),
+                                    "interval": interval})
+            prior_data[oar] = courses
 
+        # optional α/β overrides
         override_ab = {}
         if selected:
-            st.subheader("Optional: override α/β values")
-            for o in selected:
-                default_ab = OAR_ALPHA_BETA[o]
-                override_ab[o] = st.number_input(
-                    f"{o} α/β (Gy)", min_value=0.1, step=0.1,
-                    value=float(default_ab), key=f"{o}_ab")
+            st.subheader("Optional α/β overrides")
+            for oar in selected:
+                default = OAR_ALPHA_BETA[oar]
+                override_ab[oar] = st.number_input(
+                    f"{oar} α/β (Gy)", value=float(default),
+                    min_value=0.1, step=0.1, key=f"{oar}_ab")
 
         if st.button("Calculate"):
-            st.session_state.selected = selected
+            st.session_state.selected   = selected
             st.session_state.prior_data = prior_data
-            st.session_state.custom_ab = override_ab.copy()
-            st.session_state.stage = "results"
+            st.session_state.custom_ab  = override_ab
+            st.session_state.stage      = "results"
             st.experimental_rerun()
 
+    # ------------------ RESULTS stage ------------------------------------
     elif st.session_state.stage == "results":
-        selected = st.session_state.selected
+        selected   = st.session_state.selected
         prior_data = st.session_state.prior_data
 
         report = {}
-        for o, courses in prior_data.items():
-            ab = st.session_state.custom_ab.get(o, OAR_ALPHA_BETA[o])
+        for oar, courses in prior_data.items():
+            ab = st.session_state.custom_ab.get(oar, OAR_ALPHA_BETA[oar])
             raw_sum = eff_sum = 0.0
-            for cr in courses:
-                n, dose, interval = cr["fractions"], cr["dose"], cr["interval"]
-                eqv = eqd2(n, dose / n, ab)
-                raw_sum += eqv
-                eff_sum += eqv * (1 - RECOVERY_FACTORS[interval])
-            limit = OAR_CONSTRAINTS[o][0]["value"]
+            for crs in courses:
+                n, d = crs["fractions"], crs["dose"]
+                eqd   = eqd2(n, d / n, ab)
+                raw_sum += eqd
+                eff_sum += eqd * (1 - RECOVERY_FACTORS[crs["interval"]])
+            limit     = OAR_CONSTRAINTS[oar][0]["value"]
             remaining = max(limit - eff_sum, 0.0)
-            report[o] = dict(raw_sum=raw_sum, effective=eff_sum,
-                             recovered=raw_sum - eff_sum, limit=limit,
-                             remaining=remaining, ab=ab)
+            report[oar] = dict(limit=limit, raw=raw_sum, eff=eff_sum,
+                               recov=raw_sum - eff_sum, left=remaining, ab=ab)
 
         st.header("Results")
-        for o, stt in report.items():
-            with st.expander(o, expanded=True):
-                st.write(f"- Hard EQD₂ max: **{stt['limit']:.1f} Gy**")
-                st.write(f"- Sum raw EQD₂: **{stt['raw_sum']:.1f} Gy**")
-                st.write(f"- Total recovered: **{stt['recovered']:.1f} Gy**")
-                st.write(f"- Effective prior EQD₂: **{stt['effective']:.1f} Gy**")
-                st.write(f"- Remaining room: **{stt['remaining']:.1f} Gy**")
-                st.info(f"α/β used for {o}: **{stt['ab']} Gy**")
-                st.success(f"→ New EQD₂ max: {stt['remaining']:.1f} Gy")
+        for oar, r in report.items():
+            with st.expander(oar, expanded=True):
+                st.write(f"- Hard EQD₂ max: **{r['limit']:.1f} Gy**")
+                st.write(f"- Sum raw EQD₂: **{r['raw']:.1f} Gy**")
+                st.write(f"- Total recovered: **{r['recov']:.1f} Gy**")
+                st.write(f"- Effective prior EQD₂: **{r['eff']:.1f} Gy**")
+                st.write(f"- Remaining room: **{r['left']:.1f} Gy**")
+                st.info(f"α/β used: **{r['ab']} Gy**")
+                st.success(f"→ New EQD₂ max: {r['left']:.1f} Gy")
                 lines = ["**Permissible regimens:**"]
-                for n in FRACTION_OPTIONS:
-                    d = max_d_per_fraction(n, stt["remaining"], stt["ab"])
-                    lines.append(f"- {n} fx: {d*n:.1f} Gy (*{d:.2f} Gy/fx*)")
+                for nfx in FRACTION_OPTIONS:
+                    d = max_d_per_fraction(nfx, r["left"], r["ab"])
+                    lines.append(f"- {nfx} fx: {d*nfx:.1f} Gy (*{d:.2f} Gy/fx*)")
                 st.markdown("\n".join(lines))
 
         c1, c2 = st.columns(2)
         with c1:
-            if st.button("← Back to inputs"):
+            if st.button("← Back"):
                 st.session_state.stage = "input"
                 st.experimental_rerun()
         with c2:
@@ -437,76 +439,71 @@ with tab1:
                 st.session_state.stage = "edit_ab"
                 st.experimental_rerun()
 
+    # ------------------ EDIT stage ---------------------------------------
     elif st.session_state.stage == "edit_ab":
         st.header("Override α/β ratios")
         new_ab = {}
-        for o in st.session_state.selected:
-            cur = st.session_state.custom_ab.get(o, OAR_ALPHA_BETA[o])
-            val = st.number_input(
-                f"{o} α/β (Gy)", min_value=0.1, step=0.1,
-                value=float(cur), key=f"edit_ab_{o}")
-            new_ab[o] = val
+        for oar in st.session_state.selected:
+            cur = st.session_state.custom_ab.get(oar, OAR_ALPHA_BETA[oar])
+            new_ab[oar] = st.number_input(f"{oar} α/β (Gy)",
+                                          value=float(cur),
+                                          min_value=0.1, step=0.1,
+                                          key=f"newab_{oar}")
         c1, c2 = st.columns(2)
         with c1:
-            if st.button("← Cancel"):
+            if st.button("← Cancel"):
                 st.session_state.stage = "results"
                 st.experimental_rerun()
         with c2:
-            if st.button("Apply and Recalculate"):
-                st.session_state.custom_ab = new_ab.copy()
+            if st.button("Apply"):
+                st.session_state.custom_ab = new_ab
                 st.session_state.stage = "results"
                 st.experimental_rerun()
 
-# ─── Tab 2: Palliative OAR Constraints ─────────────────────────────────────
+# ───────────────────────── Tab 2: Palliative constraints ──────────────────
 with tab2:
     st.header("Palliative OAR Constraints")
     modality = st.radio("Select modality", ["3D", "SBRT"])
 
-    # ——— 3D branch ———
+    # ------------------ 3D branch ----------------------------------------
     if modality == "3D":
         regimen_map = {
-            "8 Gy × 1 fx":   (1,  8.0),
-            "20 Gy × 5 fx":  (5, 20.0),
-            "24 Gy × 6 fx":  (6, 24.0),
-            "30 Gy × 10 fx": (10, 30.0),
-            "35 Gy × 10 fx": (10, 35.0),
+            "8 Gy × 1":   (1,  8.0),
+            "20 Gy × 5":  (5, 20.0),
+            "24 Gy × 6":  (6, 24.0),
+            "30 Gy × 10": (10, 30.0),
+            "35 Gy × 10": (10, 35.0),
         }
-        regimen = st.selectbox("Select regimen", list(regimen_map.keys()))
-        n_fx, rx_dose = regimen_map[regimen]
-        cap_val = rx_dose * 1.05  # 105 %
+        choice = st.selectbox("Regimen", regimen_map.keys())
+        n_fx, rx_dose = regimen_map[choice]
+        cap_val = rx_dose * 1.05
 
-        sites = st.multiselect("Select body site(s)", list(THREED_CONSTRAINTS.keys()))
+        sites = st.multiselect("Body site(s)", THREED_CONSTRAINTS.keys())
         if not sites:
             st.info("Select at least one body site.")
         else:
-            def adjust(txt, ab):
+            def adjust(txt: str, ab: float) -> str | None:
                 if not txt:
                     return None
                 out = txt
 
-                # generic helpers
-                def repl(m, kind):
+                def repl(m, sym):
                     eq = float(m.group(1))
-                    d_phys = max_d_per_fraction(n_fx, eq, ab) * n_fx
-                    return f"{kind} {d_phys:.2f} Gy"
+                    phys = max_d_per_fraction(n_fx, eq, ab) * n_fx
+                    return f"{sym} {phys:.2f} Gy"
 
-                out = re.sub(r"<\s*([\d\.]+)\s*Gy", lambda m: repl(m, "<"), out)
-                out = re.sub(r"≤\s*([\d\.]+)\s*Gy", lambda m: repl(m, "≤"), out)
-                out = re.sub(r"≥\s*([\d\.]+)\s*Gy", lambda m: repl(m, "≥"), out)
-                out = re.sub(r"\bV\s*([\d\.]+)\s*Gy",
-                             lambda m: repl(m, f"V{''}"), out)
-                out = re.sub(r"0\.03 cc ([\d\.]+) Gy",
-                             lambda m: f"0.03 cc {max_d_per_fraction(n_fx, float(m.group(1)), ab)*n_fx:.2f} Gy", out)
-                out = re.sub(r"(Max(?: [^0-9<≥]+)*)\s*([\d\.]+)\s*Gy",
-                             lambda m: f"{m.group(1).strip()} {max_d_per_fraction(n_fx, float(m.group(2)), ab)*n_fx:.2f} Gy",
+                out = re.sub(r"<\s*([\d.]+)\s*Gy", lambda m: repl(m, "<"), out)
+                out = re.sub(r"≤\s*([\d.]+)\s*Gy", lambda m: repl(m, "≤"), out)
+                out = re.sub(r"≥\s*([\d.]+)\s*Gy", lambda m: repl(m, "≥"), out)
+                out = re.sub(r"\\bV\\s*([\\d.]+)\\s*Gy",
+                             lambda m: repl(m, f\"V\"), out)
+                out = re.sub(r"0\\.03 cc ([\\d.]+) Gy",
+                             lambda m: f\"0.03 cc {max_d_per_fraction(n_fx, float(m.group(1)), ab)*n_fx:.2f} Gy\", out)
+                out = re.sub(r\"(Max(?: [^0-9<≥]+)*)\\s*([\\d.]+)\\s*Gy\",
+                             lambda m: f\"{m.group(1).strip()} {max_d_per_fraction(n_fx, float(m.group(2)), ab)*n_fx:.2f} Gy\", out)
+                out = re.sub(r\"([\\d.]+) Gy\",
+                             lambda m: f\"{cap_val:.2f} Gy or 105 % Rx\" if float(m.group(1)) > cap_val else m.group(0),
                              out)
-
-                # cap anything >105 % prescription
-                out = re.sub(r"([\d\.]+) Gy",
-                             lambda m: f"{cap_val:.2f} Gy or 105 % Rx"
-                             if float(m.group(1)) > cap_val else m.group(0),
-                             out)
-
                 return out
 
             agg = {}
@@ -516,96 +513,60 @@ with tab2:
                     if oar not in agg:
                         agg[oar] = {"OAR": oar, "Plan Specific Constraints": ""}
                     ab = OAR_ALPHA_BETA.get(oar, 3)
-                    p_txt = adjust(row["Preferred"], ab)
-                    a_txt = adjust(row["Acceptable"], ab)
+                    p = adjust(row["Preferred"],  ab)
+                    a = adjust(row["Acceptable"], ab)
                     parts = []
-                    if p_txt:
-                        parts.append(f"Preferred: {p_txt}")
-                    if a_txt:
-                        parts.append(f"Acceptable: {a_txt}")
+                    if p: parts.append(f"Preferred: {p}")
+                    if a: parts.append(f"Acceptable: {a}")
                     agg[oar]["Plan Specific Constraints"] = " -- ".join(parts)
 
-            # keep OAR as a normal column
-            df3d = pd.DataFrame(agg.values())
+            df3d_disp = pd.DataFrame(agg.values()).reset_index(drop=True)
+            st.subheader("3D‑CRT constraints")
+            st.dataframe(df3d_disp, use_container_width=True)
 
-            # drop the numeric (0‑based) index that Streamlit would otherwise show
-            df_display3d = df3d.reset_index(drop=True)
-
-            st.dataframe(df_display3d, use_container_width=True)
-
-
-
-
-            # Copy‑to‑clipboard button
-            clip_text = "\n".join(
-                f"{o}: {c['Plan Specific Constraints']}" for o, c in agg.items())
+            clip3d = "\\n".join(f"{r.OAR}: {r['Plan Specific Constraints']}"
+                                for _, r in df3d_disp.iterrows())
             components.html(
-                f"""<button style="margin-top:10px"
-                           onclick="navigator.clipboard.writeText(`{clip_text}`)">
-                       Copy to clipboard
-                   </button>""",
-                height=40
-            )
+                f\"\"\"\n                <button style='margin-top:10px'\n                        onclick=\"navigator.clipboard.writeText(`{clip3d}`)\">\n                    Copy to clipboard\n                </button>\n                \"\"\", height=40)
 
-    # ——— SBRT branch ———
+    # ------------------ SBRT branch --------------------------------------
     else:
-        sites = st.multiselect("Select body site(s)", list(SBRT_CONSTRAINTS.keys()))
-        fx = st.selectbox("Select fractionation", [3, 5])
+        sites = st.multiselect("Body site(s)", SBRT_CONSTRAINTS.keys())
+        fx = st.selectbox("Fractionation", [3, 5])
         if not sites:
             st.info("Select at least one body site.")
         else:
             agg = {}
             for site in sites:
-                for r in SBRT_CONSTRAINTS.get(site, []):
+                for r in SBRT_CONSTRAINTS[site]:
                     if fx == 3 and r["OAR"] in EXCLUDE_3FX:
                         continue
                     key = (r["OAR"], r.get("Metric"))
                     if key not in agg:
-                        agg[key] = {
-                            "OAR": r["OAR"],
-                            "Metric": r.get("Metric"),
-                            "Optimal": None,
-                            "Mandatory": None,
-                            "Endpoint": r.get("Endpoint")
-                        }
-                    opt = r.get(f"{fx}fx_opt")
-                    man = r.get(f"{fx}fx_man")
-                    if opt is not None:
+                        agg[key] = {"OAR": r["OAR"],
+                                    "Metric": r.get("Metric"),
+                                    "Optimal": None,
+                                    "Mandatory": None,
+                                    "Endpoint": r.get("Endpoint")}
+                    if (opt := r.get(f"{fx}fx_opt")) is not None:
                         agg[key]["Optimal"] = opt
-                    if man is not None:
+                    if (man := r.get(f"{fx}fx_man")) is not None:
                         agg[key]["Mandatory"] = man
 
-            dfsbrt = pd.DataFrame(agg.values())
-            st.subheader(f"Combined {fx}‑fraction SBRT constraints")
-            dfsbrt_display = dfsbrt.reset_index(drop=True)   # remove numeric index
-                        dfsbrt_display = dfsbrt.reset_index(drop=True)   # remove numeric index
-            st.dataframe(dfsbrt_display, use_container_width=True)
+            dfsbrt_disp = pd.DataFrame(agg.values()).reset_index(drop=True)
+            st.subheader(f"Combined {fx}-fraction SBRT constraints")
+            st.dataframe(dfsbrt_disp, use_container_width=True)
 
-            # ── Build copy text, skipping NaNs ──────────────────────────────
+            # clipboard string (skip NaNs)
             lines = []
-            for r in dfsbrt.itertuples():
+            for r in dfsbrt_disp.itertuples():
                 parts = [r.OAR]
-                if r.Metric:
-                    parts.append(f"({r.Metric})")
-                if pd.notna(r.Optimal):
-                    parts.append(f"Optimal: {r.Optimal}")
-                if pd.notna(r.Mandatory):
-                    parts.append(f"Mandatory: {r.Mandatory}")
-                if r.Endpoint:
-                    parts.append(f"Endpoint: {r.Endpoint}")
+                if r.Metric: parts.append(f"({r.Metric})")
+                if pd.notna(r.Optimal):   parts.append(f"Optimal: {r.Optimal}")
+                if pd.notna(r.Mandatory): parts.append(f"Mandatory: {r.Mandatory}")
+                if r.Endpoint:            parts.append(f"Endpoint: {r.Endpoint}")
                 lines.append(" — ".join(parts))
 
-            # ── One‑click copy button (no preview text) ─────────────────────
-            clip = "\\n".join(lines).replace("`", "\\`")  # escape backticks
+            clip_sbrt = "\\n".join(lines).replace("`", "\\`")
             components.html(
-                f"""
-                <button style='margin-top:10px'
-                        onclick="navigator.clipboard.writeText(`{clip}`)">
-                    Copy to clipboard
-                </button>
-                """,
-                height=40
-            )
-
-
-
+                f\"\"\"\n                <button style='margin-top:10px'\n                        onclick=\"navigator.clipboard.writeText(`{clip_sbrt}`)\">\n                    Copy to clipboard\n                </button>\n                \"\"\", height=40)
