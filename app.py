@@ -527,7 +527,6 @@ with tab2:
 
             df3d = pd.DataFrame(agg.values()).set_index("OAR")
             st.subheader("3D‑CRT constraints")
-            df_display = df3d.reset_index().rename_axis(None, axis=1)
             df_display3d = df3d.reset_index(drop=True)   # remove numeric index
             st.dataframe(df_display3d, use_container_width=True)
 
@@ -578,7 +577,7 @@ with tab2:
             st.dataframe(dfsbrt_display, use_container_width=True)
 
 
-                        # ── Build copy text, skipping NaNs ──────────────────────────────
+            # ── Build copy text, skipping NaNs ──────────────────────────────
             lines = []
             for r in dfsbrt.itertuples():
                 parts = [r.OAR]
