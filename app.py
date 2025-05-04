@@ -516,7 +516,9 @@ with tab2:
 
             df3d = pd.DataFrame(agg.values()).set_index("OAR")
             st.subheader("3D‑CRT constraints")
-            st.dataframe(df3d.style.hide_index(), use_container_width=True)
+            df_display = df3d.reset_index().rename_axis(None, axis=1)
+            st.dataframe(df_display, use_container_width=True)
+
 
             # Copy‑to‑clipboard button
             clip_text = "\n".join(
