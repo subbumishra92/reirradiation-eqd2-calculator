@@ -1,1 +1,1055 @@
-x
+HeadAndNeck:
+  chemoradiation_7000cGy_35fx:
+    description: "Definitive chemoradiation for nasopharynx, oropharynx, oral cavity, supraglottic, glottic, subglottic"
+    total_dose_cgy: 7000
+    dose_per_fraction_cgy: 200
+    fractions: 35
+    days_per_week: 5
+    ptv_labels:
+      - "PTV 5600"
+      - "PTV 6300"
+      - "PTV 7000"
+    dose_specification:
+      PTV:
+        v95: "≥95% of volume covered by ≥95% of prescribed dose"
+        hotspot: "No more than 2 cm3 receives ≥105% of prescribed dose"
+    oar_constraints:
+      - OAR: "Left Parotid Gland"
+        metric: "V26"
+        limit: "≤50%"
+        note: "Mean ≤24 Gy"
+      - OAR: "Right Parotid Gland"
+        metric: "V26"
+        limit: "≤50%"
+        note: "Mean ≤24 Gy"
+      - OAR: "Spinal Cord"
+        metric: "Dmax"
+        limit: "≤45–50 Gy"
+      - OAR: "Oral Cavity"
+        metric: "V30"
+        limit: "≤50%"
+      - OAR: "Larynx"
+        metric: "V30"
+        limit: "≤50%"
+      - OAR: "Brainstem"
+        metric: "V50"
+        limit: "≤33%"
+        note: "Dmax ≤54 Gy"
+      - OAR: "Optic Nerves"
+        metric: "Dmax"
+        limit: "≤50 Gy"
+      - OAR: "Optic Chiasm"
+        metric: "Dmax"
+        limit: "≤50 Gy"
+      - OAR: "Cochleae"
+        metric: "Mean"
+        limit: "≤45 Gy"
+        note: "Prefer Dmax ≤50 Gy; cisplatin cases: mean ≤35 Gy"
+      - OAR: "Posterior Avoidance"
+        metric: "V10"
+        limit: "≤50%"
+      - OAR: "Mandible"
+        metric: "Dmax"
+        limit: "<70 Gy"
+        note: "No hotspots"
+      - OAR: "Pharyngeal Constrictors"
+        metric: "Mean"
+        limit: "<20 Gy (lower), <50 Gy (upper)"
+      - OAR: "Thyroid"
+        metric: "Mean"
+        limit: "<37 Gy"
+      - OAR: "Plexus"
+        metric: "Dmax"
+        limit: "<63 Gy"
+
+  melanoma_cutaneous_3000cGy_5fx:
+    description: "Hypofractionated cutaneous melanoma (H&N)"
+    total_dose_cgy: 3000
+    dose_per_fraction_cgy: 600
+    fractions: 5
+    ptv_label: "PTV"
+    dose_specification:
+      PTV:
+        v95: "≥95%"
+        hotspot: "No more than V5% ≥108%, ideally <105%"
+    oar_constraints:
+      - OAR: "Parotid Gland"
+        metric: "V50"
+        limit: "<10 Gy"
+      - OAR: "Spinal Cord"
+        metric: "Dmax"
+        limit: "<15 Gy"
+      - OAR: "Spinal Cord Expanded"
+        metric: "Dmax"
+        limit: "<30 Gy"
+      - OAR: "Oral Cavity"
+        metric: "V50"
+        limit: "<15 Gy"
+      - OAR: "Larynx"
+        metric: "V50"
+        limit: "<15 Gy"
+      - OAR: "Brainstem"
+        metric: "Dmax"
+        limit: "<20 Gy"
+      - OAR: "Cochlea"
+        metric: "Dmax"
+        limit: "<20 Gy"
+        note: "V5% ≤20 Gy"
+      - OAR: "Normal Tissue"
+        metric: "V50"
+        limit: "<10 Gy"
+      - OAR: "Mandible"
+        metric: "V30"
+        limit: "<1 cc"
+
+  postoperative_6000cGy_30fx:
+    description: "Post‑operative H&N (conventional)"
+    total_dose_cgy: 6000
+    dose_per_fraction_cgy: 200
+    fractions: 30
+    ctv_labels:
+      - "CTV 54 Gy"
+      - "CTV 60 Gy"
+    ptv_labels:
+      - "PTV 54 Gy"
+      - "PTV 60 Gy"
+    ptv_margin: "CTV +5 mm; contract 3 mm from skin"
+    dose_specification:
+      PTV:
+        v100: ">95%"
+        v95: ">99%"
+        v105: "<5%"
+        dmax: "<110%"
+      CTV:
+        v100: ">100%"
+    oar_constraints:
+      - OAR: "Parotid Glands"
+        metric: "Mean"
+        limit: "<26 Gy"
+        note: "V20 <50%"
+      - OAR: "Lacrimal Glands"
+        metric: "Mean"
+        limit: "<26 Gy"
+        note: "V20 <50%"
+      - OAR: "Larynx"
+        metric: "Mean"
+        limit: "<35 Gy"
+      - OAR: "Brainstem"
+        metric: "Dmax"
+        limit: "<54 Gy"
+      - OAR: "Optic Nerves/Chiasm"
+        metric: "Dmax"
+        limit: "<54 Gy"
+      - OAR: "Eyes"
+        metric: "Dmax"
+        limit: "<50 Gy"
+      - OAR: "Lens"
+        metric: "Dmax"
+        limit: "<5 Gy"
+      - OAR: "Spinal Cord"
+        metric: "Dmax"
+        limit: "<45 Gy"
+      - OAR: "Spinal Cord Expanded"
+        metric: "Dmax"
+        limit: "<50 Gy"
+      - OAR: "Oral Cavity"
+        metric: "Mean"
+        limit: "≤30 Gy"
+      - OAR: "Mandible"
+        metric: "Dmax"
+        limit: "<70 Gy"
+      - OAR: "Cochlea"
+        metric: "Dmax"
+        limit: "<35 Gy"
+      - OAR: "Brachial Plexus"
+        metric: "Dmax"
+        limit: "<63 Gy"
+      - OAR: "Esophagus"
+        metric: "Mean"
+        limit: "<34 Gy"
+        note: "Dmax <60 Gy"
+CNS:
+  Conventional Partial Brain 60 Gy:
+    description: "High‑grade glioma definitive"
+    total_dose_cgy: 6000
+    dose_per_fraction_cgy: 200
+    fractions: 30
+    technique:
+      - "Tomotherapy"
+      - "VMAT"
+    targets:
+      - name: "CTV_60"
+        dose_cgy: 6000
+      - name: "CTV_46"
+        dose_cgy: 4600
+    ptv_expansion: "CTV + 3 mm"
+    skin_contraction: "5 mm"
+    dose_specification:
+      PTV:
+        V100: ">95%"
+        V95: ">99%"
+        V105: "<5%"
+        Dmax: "<110%"
+      CTV:
+        V100: ">100%"
+    constraints:
+      - OAR: "Brainstem"
+        metric: "Dmax"
+        limit: "<54 Gy"
+      - OAR: "Brain"
+        metric: "V50"
+        limit: "<30%"
+      - OAR: "Pituitary"
+        metric: "Dmax"
+        limit: "<40 Gy"
+      - OAR: "Lacrimal Glands"
+        metric: "Mean"
+        limit: "<26 Gy"
+        note: "V20 <50%"
+      - OAR: "Optic Nerves"
+        metric: "Dmax"
+        limit: "<54 Gy"
+      - OAR: "Optic Chiasm"
+        metric: "Dmax"
+        limit: "<54 Gy"
+      - OAR: "Eyes"
+        metric: "Dmax"
+        limit: "<50 Gy"
+      - OAR: "Lens"
+        metric: "Dmax"
+        limit: "<5 Gy"
+      - OAR: "Spinal Cord"
+        metric: "Dmax"
+        limit: "<45 Gy"
+      - OAR: "Spinal Cord Expanded"
+        metric: "Dmax"
+        limit: "≤50 Gy"
+      - OAR: "Cochlea"
+        metric: "Dmax"
+        limit: "<35 Gy"
+      - OAR: "Hippocampus"
+        metric: "D100%"
+        limit: "≤9 Gy"
+      - OAR: "Hippocampus"
+        metric: "Dmax"
+        limit: "≤16 Gy"
+      - OAR: "Skin"
+        metric: "Dmax"
+        limit: "<35 Gy"
+
+  Conventional Meningioma 60 Gy:
+    description: "High‑risk meningioma"
+    total_dose_cgy: 6000
+    dose_per_fraction_cgy: 200
+    fractions: 30
+    technique:
+      - "Tomotherapy"
+      - "VMAT"
+    targets:
+      - name: "CTV_60"
+        dose_cgy: 6000
+    ptv_expansion: "CTV + 3 mm"
+    skin_contraction: "5 mm"
+    dose_specification:
+      PTV:
+        V100: ">95%"
+        V95: ">99%"
+        V105: "<5%"
+        Dmax: "<110%"
+      CTV:
+        V100: ">100%"
+    constraints:
+      - OAR: "Brainstem"
+        metric: "Dmax"
+        limit: "<54 Gy"
+      - OAR: "Brain"
+        metric: "V50"
+        limit: "<30%"
+      - OAR: "Pituitary"
+        metric: "Dmax"
+        limit: "<40 Gy"
+      - OAR: "Lacrimal Glands"
+        metric: "Mean"
+        limit: "<26 Gy"
+        note: "V20 <50%"
+      - OAR: "Optic Nerves"
+        metric: "Dmax"
+        limit: "<54 Gy"
+      - OAR: "Optic Chiasm"
+        metric: "Dmax"
+        limit: "<54 Gy"
+      - OAR: "Eyes"
+        metric: "Dmax"
+        limit: "<50 Gy"
+      - OAR: "Lens"
+        metric: "Dmax"
+        limit: "<5 Gy"
+      - OAR: "Spinal Cord"
+        metric: "Dmax"
+        limit: "<45 Gy"
+      - OAR: "Spinal Cord Expanded"
+        metric: "Dmax"
+        limit: "≤50 Gy"
+      - OAR: "Cochlea"
+        metric: "Dmax"
+        limit: "<35 Gy"
+      - OAR: "Hippocampus"
+        metric: "D100%"
+        limit: "≤9 Gy"
+      - OAR: "Hippocampus"
+        metric: "Dmax"
+        limit: "≤16 Gy"
+      - OAR: "Skin"
+        metric: "Dmax"
+        limit: "<35 Gy"
+
+  Hypofractionated Partial Brain 40.05 Gy:
+    description: "Elderly High-grade glioma hypofractionated"
+    total_dose_cgy: 4005
+    dose_per_fraction_cgy: 267
+    fractions: 15
+    technique:
+      - "IMRT"
+      - "VMAT"
+    targets:
+      - name: "CTV_40"
+        dose_cgy: 4005
+    ptv_expansion: "CTV + 5 mm"
+    skin_contraction: "3 mm"
+    dose_specification:
+      PTV:
+        V100: ">95%"
+        V95: ">99%"
+        V105: "<5%"
+        Dmax: "<110%"
+      CTV:
+        V100: ">100%"
+    constraints:
+      - OAR: "Brainstem"
+        metric: "Dmax"
+        limit: "<43 Gy"
+      - OAR: "Brain"
+        metric: "V50"
+        limit: "<30%"
+      - OAR: "Pituitary"
+        metric: "Dmax"
+        limit: "<40 Gy"
+      - OAR: "Lacrimal Glands"
+        metric: "Mean"
+        limit: "<26 Gy"
+        note: "V20 <50%"
+      - OAR: "Optic Nerves"
+        metric: "Dmax"
+        limit: "<43 Gy"
+      - OAR: "Optic Chiasm"
+        metric: "Dmax"
+        limit: "<43 Gy"
+      - OAR: "Eyes"
+        metric: "Dmax"
+        limit: "<50 Gy"
+      - OAR: "Lens"
+        metric: "Dmax"
+        limit: "<5 Gy"
+      - OAR: "Spinal Cord"
+        metric: "Dmax"
+        limit: "As low as possible"
+      - OAR: "Spinal Cord Expanded"
+        metric: "Dmax"
+        limit: "As low as possible"
+      - OAR: "Cochlea"
+        metric: "Dmax"
+        limit: "<30 Gy"
+      - OAR: "Hippocampus"
+        metric: "D100%"
+        limit: "≤9 Gy"
+      - OAR: "Hippocampus"
+        metric: "Dmax"
+        limit: "≤16 Gy"
+      - OAR: "Skin"
+        metric: "Dmax"
+        limit: "<35 Gy"
+        
+  Conventional Partial Brain 50.4 Gy:
+    description: "Conventional 50.4 Gy Brain"
+    total_dose_cgy: 5040
+    dose_per_fraction_cgy: 180
+    fractions: 28
+    technique:
+      - "VMAT"
+    targets:
+      - name: "CTV_50.4"
+        dose_cgy: 5040
+    ptv_expansion: "CTV + 5 mm"
+    skin_contraction: "5 mm"
+    dose_specification:
+      PTV:
+        V100: ">95%"
+        V95: ">99%"
+        V105: "<5%"
+        Dmax: "<110%"
+      CTV:
+        V100: ">100%"
+    constraints:
+      - OAR: "Brainstem"
+        metric: "Dmax"
+        limit: "<54 Gy"
+      - OAR: "Brainstem PRV"
+        metric: "Dmax"
+        limit: "<54 Gy"
+      - OAR: "Brain"
+        metric: "V50"
+        limit: "<30%"
+      - OAR: "Pituitary"
+        metric: "Dmax"
+        limit: "<40 Gy"
+      - OAR: "Lacrimal Glands"
+        metric: "Mean"
+        limit: "<26 Gy"
+        note: "V20 <50%"
+      - OAR: "Optic Nerves"
+        metric: "Dmax"
+        limit: "<54 Gy"
+      - OAR: "Optic Chiasm"
+        metric: "Dmax"
+        limit: "<54 Gy"
+      - OAR: "Eyes"
+        metric: "Dmax"
+        limit: "<50 Gy"
+      - OAR: "Lens"
+        metric: "Dmax"
+        limit: "<5 Gy"
+      - OAR: "Spinal Cord"
+        metric: "Dmax"
+        limit: "<45 Gy"
+      - OAR: "Spinal Cord PRV"
+        metric: "Dmax"
+        limit: "≤50 Gy"
+      - OAR: "Cochlea"
+        metric: "Dmax"
+        limit: "<35 Gy"
+      - OAR: "Hippocampus"
+        metric: "D100%"
+        limit: "≤9 Gy"
+      - OAR: "Hippocampus"
+        metric: "Dmax"
+        limit: "≤16 Gy"
+      - OAR: "Skin"
+        metric: "Dmax"
+        limit: "<35 Gy"
+        
+  Conventional Partial Brain 54 Gy:
+    description: "Conventional 54 Gy Brain"
+    total_dose_cgy: 5400
+    dose_per_fraction_cgy: 180
+    fractions: 30
+    technique:
+      - "VMAT"
+    targets:
+      - name: "CTV_54"
+        dose_cgy: 5400
+    ptv_expansion: "CTV + 3 mm"
+    skin_contraction: "5 mm"
+    dose_specification:
+      PTV:
+        V100: ">95%"
+        V95: ">99%"
+        V105: "<5%"
+        Dmax: "<110%"
+      CTV:
+        V100: ">100%"
+    constraints:
+      - OAR: "Brainstem"
+        metric: "Dmax"
+        limit: "<54 Gy"
+      - OAR: "Brainstem PRV"
+        metric: "Dmax"
+        limit: "<54 Gy"
+      - OAR: "Brain"
+        metric: "V50"
+        limit: "<30%"
+      - OAR: "Pituitary"
+        metric: "Dmax"
+        limit: "<40 Gy"
+      - OAR: "Lacrimal Glands"
+        metric: "Mean"
+        limit: "<26 Gy"
+        note: "V20 <50%"
+      - OAR: "Optic Nerves"
+        metric: "Dmax"
+        limit: "<54 Gy"
+      - OAR: "Optic Chiasm"
+        metric: "Dmax"
+        limit: "<54 Gy"
+      - OAR: "Eyes"
+        metric: "Dmax"
+        limit: "<50 Gy"
+      - OAR: "Lens"
+        metric: "Dmax"
+        limit: "<5 Gy"
+      - OAR: "Spinal Cord"
+        metric: "Dmax"
+        limit: "<45 Gy"
+      - OAR: "Spinal Cord PRV"
+        metric: "Dmax"
+        limit: "≤50 Gy"
+      - OAR: "Cochlea"
+        metric: "Dmax"
+        limit: "<35 Gy"
+      - OAR: "Hippocampus"
+        metric: "D100%"
+        limit: "≤9 Gy"
+      - OAR: "Hippocampus"
+        metric: "Dmax"
+        limit: "≤16 Gy"
+      - OAR: "Skin"
+        metric: "Dmax"
+        limit: "<35 Gy"
+
+  Hypofractionated Partial Brain Re‑Irradiation 35 Gy:
+    description: "Definitive re‑irradiation for recurrent high-grade glioma"
+    total_dose_cgy: 3500
+    dose_per_fraction_cgy: 350
+    fractions: 10
+    technique:
+      - "Tomotherapy"
+      - "VMAT"
+    targets:
+      - name: "CTV_35"
+        dose_cgy: 3500  
+    ptv_expansion: "CTV + 3 mm"
+    skin_contraction: "5 mm"
+    dose_specification:
+      PTV:
+        V100: ">95%"
+        Dmin: ">85%"
+        V105: "<5%"
+        Dmax: "<110%"
+      CTV:
+        V100: ">100%"
+    constraints:
+      - OAR: "Brainstem"
+        metric: "Dmax"
+        limit: "<24 Gy"
+      - OAR: "Brainstem PRV"
+        metric: "Dmax"
+        limit: "<28 Gy"
+      - OAR: "Brain"
+        metric: "Dose"
+        limit: "Minimize volume ≥25 Gy"
+      - OAR: "Lacrimal Glands"
+        metric: "Mean"
+        limit: "<12 Gy"
+      - OAR: "Optic Nerves"
+        metric: "Dmax"
+        limit: "<16 Gy"
+      - OAR: "Optic Nerves PRV"
+        metric: "Dmax"
+        limit: "<20 Gy"
+      - OAR: "Optic Chiasm"
+        metric: "Dmax"
+        limit: "<16 Gy"
+      - OAR: "Optic Chiasm PRV"
+        metric: "Dmax"
+        limit: "<20 Gy"
+      - OAR: "Eyes"
+        metric: "Dmax"
+        limit: "<30 Gy"
+      - OAR: "Lens"
+        metric: "Dmax"
+        limit: "<5 Gy"
+      - OAR: "Spinal Cord"
+        metric: "Dmax"
+        limit: "<20 Gy"
+      - OAR: "Spinal Cord PRV"
+        metric: "Dmax"
+        limit: "≤24 Gy"
+      - OAR: "Cochlea"
+        metric: "Dmax"
+        limit: "<25 Gy"
+      - OAR: "Hippocampus"
+        metric: "Dose"
+        limit: "ALARA"
+      - OAR: "Skin"
+        metric: "Dmax"
+        limit: "<25 Gy"
+
+  Conventional Partial Brain Re‑Irradiation 45 Gy:
+    description: "Re‑irradiation for recurrent high-grade glioma (good performance)"
+    total_dose_cgy: 4500
+    dose_per_fraction_cgy: 180
+    fractions: 25
+    technique:
+      - "VMAT"
+    targets:
+      - name: "CTV_45"
+        dose_cgy: 4500
+    ptv_expansion: "GTV + 5 mm"
+    skin_contraction: "3 mm"
+    dose_specification:
+      PTV:
+        V100: ">95%"
+        V95: ">99%"
+        V105: "<5%"
+        Dmax: "<110%"
+      CTV:
+        V100: ">100%"
+    constraints:
+      - OAR: "Brainstem"
+        metric: "Dmax"
+        limit: "<30 Gy"
+      - OAR: "Brain"
+        metric: "V50"
+        limit: "<30%"
+      - OAR: "Lacrimal Glands"
+        metric: "Mean"
+        limit: "<16 Gy"
+      - OAR: "Optic Nerves"
+        metric: "Dmax"
+        limit: "<20 Gy"
+      - OAR: "Optic Chiasm"
+        metric: "Dmax"
+        limit: "<20 Gy"
+      - OAR: "Eyes"
+        metric: "Dmax"
+        limit: "<20 Gy"
+      - OAR: "Lens"
+        metric: "Dmax"
+        limit: "<4 Gy"
+      - OAR: "Spinal Cord"
+        metric: "Dmax"
+        limit: "<30 Gy"
+      - OAR: "Cochlea Lt"
+        metric: "Dmax"
+        limit: "<10 Gy"
+      - OAR: "Cochlea Rt"
+        metric: "Dose"
+        limit: "ALARA"
+      - OAR: "Hippocampus Lt"
+        metric: "D100%"
+        limit: "≤9 Gy"
+      - OAR: "Hippocampus Lt"
+        metric: "Dmax"
+        limit: "≤16 Gy"
+      - OAR: "Hippocampus Rt"
+        metric: "Dose"
+        limit: "ALARA"
+      - OAR: "Skin"
+        metric: "Dmax"
+        limit: "<35 Gy"
+
+CNS:
+  Brain SRS 1 Fraction:
+    description: "Single‑fraction stereotactic radiosurgery"
+    targets:
+      Rx_Met_<2cm_cavity: 20
+      Rx_Met_2‑3cm: 18
+      Rx_Met_>3cm: 15
+      Rx_BrainMet_Cavity: "12–20"
+      Rx_Schwannoma: 12
+      Rx_Functioning_Pituitary: 20
+      Rx_NonFunctioning_Pituitary: 14
+      Rx_Small_Meningioma: 14
+    dose_specification:
+      PTV:
+        V95: ">95%"
+        V105: "<5%"
+        Dmax: "<107%"
+      CTV:
+        V100: ">99%"
+    constraints:
+      - OAR: "Optics"
+        metric: "Max"
+        limit: "8 Gy"
+      - OAR: "Brainstem"
+        metric: "Max"
+        limit: "15 Gy"
+      - OAR: "Spinal Cord"
+        metric: "Max"
+        limit: "14 Gy"
+      - OAR: "Cochlea"
+        metric: "Max"
+        limit: "<4 Gy"
+      - metric: "Conformality_Index"
+        definition: "Rx isodose volume / target volume"
+        goal: "~1 (<2 acceptable)"
+      - metric: "Homogeneity_Index"
+        definition: "Max dose / Rx dose"
+        goal: "<2"
+
+  Brain SRS 3 Fraction:
+    description: "Three‑fraction stereotactic radiosurgery"
+    targets:
+      Rx_BrainMet_or_Cavity: 27
+    dose_specification:
+      PTV:
+        V95: ">95%"
+        V105: "<5%"
+        Dmax: "<107%"
+      CTV:
+        V100: ">99%"
+    constraints:
+      - OAR: "Optics"
+        metric: "Max"
+        limit: "17 Gy"
+      - OAR: "Brainstem"
+        metric: "Max"
+        limit: "23 Gy"
+      - OAR: "Spinal Cord"
+        metric: "Max"
+        limit: "18 Gy"
+      - OAR: "Cochlea"
+        metric: "—"
+        limit: "—"
+
+  Brain SRS 5 Fraction:
+    description: "Five‑fraction stereotactic radiosurgery"
+    targets:
+      Rx_Cavity: 30
+      Rx_Large_Met: "30–35"
+      Rx_Schwannoma: 25
+      Rx_Functioning_Pituitary: 30
+      Rx_NonFunctioning_Pituitary: 25
+    dose_specification:
+      PTV:
+        V95: ">95%"
+        V105: "<5%"
+        Dmax: "<107%"
+      CTV:
+        V100: ">99%"
+    constraints:
+      - OAR: "Optics"
+        metric: "Max"
+        limit: "25 Gy"
+      - OAR: "Brainstem"
+        metric: "Max"
+        limit: "30 Gy"
+      - OAR: "Spinal Cord"
+        metric: "Max"
+        limit: "25 Gy"
+      - OAR: "Cochlea"
+        metric: "Max"
+        limit: "25 Gy"
+  Hippocampal Avoidance WBRT:
+    description: "Whole‑brain radiotherapy with hippocampal sparing (or PCI)"
+    dose: "3000 cGy in 10 fractions (PCI: 2500 cGy in 10 fractions)"
+    technique:
+      - IMRT
+    PTV: "PTV 30 Gy (or 25 Gy for PCI)"
+    dose_specification:
+      PTV:
+        V95: ">95%"
+        V105: "<5%"
+        Dmax: "<110%"
+        D2%: "≤37.5 Gy"
+        D98%: "≥25 Gy"
+      CTV:
+        V100: ">99%"
+    constraints:
+      - OAR: "Optic Nerves"
+        metric: "Dmax"
+        limit: "<35 Gy"
+      - OAR: "Optic Chiasm"
+        metric: "Dmax"
+        limit: "<35 Gy"
+      - OAR: "Lens"
+        metric: "Dmax"
+        limit: "<5 Gy"
+      - OAR: "Cochlea"
+        metric: "Dmax"
+        limit: "<35 Gy"
+      - OAR: "Hippocampus"
+        metric: "D100%"
+        limit: "≤9 Gy"
+      - OAR: "Hippocampus"
+        metric: "Dmax"
+        limit: "≤16 Gy"
+      - OAR: "Skin"
+        metric: "Dmax"
+        limit: "<35 Gy"
+
+  Craniospinal Irradiation:
+    description: "Craniospinal axis irradiation with posterior‑fossa boost"
+    targets:
+      - PTV1: "3600 cGy in 20 fractions (craniospinal axis)"
+      - PTV2: "1800 cGy in 10 fractions (posterior fossa / primary tumor)"
+    dose_per_fraction: "180 cGy, 5 days/week"
+    technique:
+      - IMRT
+      - VMAT
+    dose_specification:
+      PTV1:
+        V95: ">95%"
+        Dmax: "<110%"
+      PTV2:
+        V95: ">95%"
+        Dmax: "<110%"
+    constraints:
+      - OAR: "Cochleae (bilateral)"
+        metric: "Mean"
+        limit: "<40 Gy"
+      - OAR: "Parotids"
+        metric: "Dmax"
+        limit: "As low as possible"
+      - OAR: "Eyes"
+        metric: "Dmax"
+        limit: "<30 Gy"
+      - OAR: "Optic Nerves"
+        metric: "Dmax"
+        limit: "<45 Gy"
+      - OAR: "Optic Chiasm"
+        metric: "Dmax"
+        limit: "<45 Gy"
+      - OAR: "Lungs"
+        metric: "V20"
+        limit: "<20%"
+      - OAR: "Lungs"
+        metric: "Mean"
+        limit: "<14 Gy"
+      - OAR: "Heart"
+        metric: "V20"
+        limit: "<20%"
+      - OAR: "Kidneys"
+        metric: "V20"
+        limit: "<25%"
+      - OAR: "Liver"
+        metric: "V30"
+        limit: "<30%"
+      - OAR: "Bowel"
+        metric: "Dose"
+        limit: "As low as possible"
+      - OAR: "Anterior Avoidance Structure"
+        metric: "Dose"
+        limit: "As low as possible"
+      - OAR: "Posterior Avoidance Structure"
+        metric: "Dose"
+        limit: "As low as possible"
+Lung_SBRT:
+  # General rules for all SBRT lung protocols in 3, 4, and 5 fractions
+  general:
+    conformality_index: "<1.2"              # Rx isodose / PTV volume
+    PTV:
+      V95: ">95%"                          # >95% of PTV receives 100% Rx dose
+      V93: ">99%"                          # 99% of PTV receives >93% Rx dose
+    max_outside_ptv: "<105%"               # max dose outside PTV
+    dose_falloff: "50% Rx dose limited to PTV + 2 cm"
+    central_hotspot: "Up to 160% (typical 115–140%)"
+
+  SBRT_54Gy_3Fx:
+    total_dose_cgy: 5400
+    fractions: 3
+    constraints:
+      - OAR: "Trachea/Proximal Bronchus"
+        metric: "Dmax"
+        limit: "<30 Gy"
+      - OAR: "Spinal Cord"
+        metric: "Dmax"
+        limit: "<18 Gy"
+      - OAR: "Esophagus"
+        metric: "Dmax"
+        limit: "<27 Gy"
+      - OAR: "Brachial Plexus"
+        metric: "Dmax"
+        limit: "<24 Gy"
+      - OAR: "Heart"
+        metric: "Dmax"
+        limit: "<30 Gy"
+      - OAR: "Lung"
+        metric: "Mean"
+        limit: "<10 Gy"
+
+  SBRT_48Gy_4Fx:
+    total_dose_cgy: 4800
+    fractions: 4
+    constraints:
+      - OAR: "Trachea/Proximal Bronchus"
+        metric: "Dmax"
+        limit: "<34 Gy"
+      - OAR: "Spinal Cord"
+        metric: "Dmax"
+        limit: "<26 Gy"
+      - OAR: "Esophagus"
+        metric: "Dmax"
+        limit: "<30 Gy"
+      - OAR: "Brachial Plexus"
+        metric: "Dmax"
+        limit: "<27 Gy"
+      - OAR: "Heart"
+        metric: "Dmax"
+        limit: "<34 Gy"
+      - OAR: "Lung"
+        metric: "Mean"
+        limit: "<12 Gy"
+
+  SBRT_50Gy_5Fx:
+    total_dose_cgy: 5000
+    fractions: 5
+    constraints:
+      - OAR: "Trachea/Proximal Bronchus"
+        metric: "Dmax"
+        limit: "<50 Gy (<10 cc)"
+      - OAR: "Spinal Cord"
+        metric: "Dmax"
+        limit: "<30 Gy"
+      - OAR: "Esophagus"
+        metric: "Dmax"
+        limit: "<35 Gy"
+      - OAR: "Brachial Plexus"
+        metric: "Dmax"
+        limit: "<32 Gy"
+      - OAR: "Heart"
+        metric: "Dmax"
+        limit: "<50 Gy (<10 cc)"
+      - OAR: "Great Vessels"
+        metric: "Dmax"
+        limit: "<55 Gy"
+      - OAR: "Rib"
+        metric: "Dmax"
+        limit: "<55 Gy"
+      - OAR: "Lung"
+        metric: "Mean"
+        limit: "<12 Gy"
+
+  SBRT_60_70Gy_10Fx:
+    total_dose_cgy: "6000–7000"
+    fractions: 10
+    constraints:
+      - OAR: "Trachea/Proximal Bronchus"
+        metric: "Dmax"
+        limit: "<60 Gy (<10 cc)"
+      - OAR: "Spinal Cord"
+        metric: "Dmax"
+        limit: "<32 Gy"
+      - OAR: "Esophagus"
+        metric: "Dmax"
+        limit: "<40 Gy"
+      - OAR: "Brachial Plexus"
+        metric: "Dmax"
+        limit: "<40 Gy"
+      - OAR: "Heart"
+        metric: "Dmax"
+        limit: "<60 Gy (<10 cc)"
+      - OAR: "Great Vessels"
+        metric: "Dmax"
+        limit: "<60 Gy"
+      - OAR: "Rib"
+        metric: "Dmax"
+        limit: "<55 Gy"
+      - OAR: "Lung"
+        metric: "Mean"
+        limit: "<12 Gy"
+
+  Moderate_Hypofractionation_15Fx:
+    description: "Moderately hypofractionated lung protocol"
+    total_dose_cgy: "6000–7000"
+    fractions: 15
+    constraints:
+      - OAR: "Trachea/Proximal Bronchus"
+        metric: "V62Gy"
+        limit: "<10 cc"
+      - OAR: "Trachea/Proximal Bronchus"
+        metric: "Dmax"
+        limit: "<66 Gy"
+      - OAR: "Spinal Cord"
+        metric: "Dmax"
+        limit: "<39 Gy"
+      - OAR: "Esophagus"
+        metric: "Dmax"
+        limit: "<50 Gy"
+      - OAR: "Brachial Plexus"
+        metric: "Dmax"
+        limit: "<50 Gy"
+      - OAR: "Heart"
+        metric: "Dmax"
+        limit: "<62 Gy (<10 cc)"
+      - OAR: "Great Vessels"
+        metric: "Dmax"
+        limit: "<62 Gy"
+      - OAR: "Rib"
+        metric: "Dmax"
+        limit: "<60 Gy"
+      - OAR: "Lung"
+        metric: "Mean"
+        limit: "<14 Gy"
+Lung_Conventional:
+  NSCLC_60Gy_30Fx:
+    description: "Non–small cell lung cancer standard chemoradiation"
+    total_dose_cgy: 6000
+    fractions: 30
+    dose_per_fraction_cgy: 200
+    dose_specification:
+      PTV:
+        V95: ">95%"
+        V105: "<5%"
+        Dmax: "<107%"
+      CTV:
+        V100: ">99%"
+    constraints:
+      - OAR: "Spinal Cord"
+        metric: "Dmax"
+        limit: "<45 Gy"
+      - OAR: "Lung"
+        metric: "V20"
+        limit: "<35%"
+      - OAR: "Lung"
+        metric: "V5"
+        limit: "<60%"
+      - OAR: "Lung"
+        metric: "Mean"
+        limit: "<20 Gy"
+      - OAR: "Heart"
+        metric: "V50"
+        limit: "<25%"
+      - OAR: "Heart"
+        metric: "V30"
+        limit: "<30%"
+      - OAR: "Heart"
+        metric: "V5"
+        limit: "<60%"
+      - OAR: "Heart"
+        metric: "Mean"
+        limit: "<20 Gy (ALARA)"
+      - OAR: "Esophagus"
+        metric: "Mean"
+        limit: "<34 Gy"
+      - OAR: "Esophagus"
+        metric: "V60"
+        limit: "<17%"
+      - OAR: "Esophagus"
+        metric: "evaluation"
+        limit: "Avoid circumferential dose"
+      - OAR: "Brachial Plexus"
+        metric: "Dmax"
+        limit: "<63 Gy"
+
+  SCLC_45Gy_30Fx_BID:
+    description: "Small cell lung cancer concurrent BID chemoradiation"
+    total_dose_cgy: 4500
+    fractions: 30
+    frequency: "BID"
+    dose_per_fraction_cgy: 150
+    dose_specification:
+      PTV:
+        V95: ">95%"
+        V105: "<5%"
+        Dmax: "<107%"
+      CTV:
+        V100: ">99%"
+    constraints:
+      - OAR: "Spinal Cord"
+        metric: "Dmax"
+        limit: "<36 Gy"
+      - OAR: "Lung"
+        metric: "V20"
+        limit: "<35%"
+      - OAR: "Lung"
+        metric: "Mean"
+        limit: "<18–20 Gy"
+      - OAR: "Heart"
+        metric: "V30"
+        limit: "<50% (ideally <30%)"
+      - OAR: "Heart"
+        metric: "V45"
+        limit: "<30%"
+      - OAR: "Esophagus"
+        metric: "Mean"
+        limit: "<34 Gy"
