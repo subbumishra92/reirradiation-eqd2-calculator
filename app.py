@@ -3,7 +3,13 @@ import pandas as pd
 import math
 import re
 import streamlit.components.v1 as components
+import yaml
+from pathlib import Path
 
+yaml_path = Path(__file__).parent / "COSAIR_TG101.yaml"
+with open(yaml_path, "r") as f:
+    oar_constraints = yaml.safe_load(f)
+    
 # ——— Page config ———
 st.set_page_config(page_title="Palliative Radiotherapy Planning", layout="wide")
 
@@ -347,7 +353,12 @@ if "custom_ab" not in st.session_state:
 
 # ——— Main UI ———
 st.title("Palliative Radiotherapy Planning")
-tab1, tab2 = st.tabs(["Re‑irradiation Dose Limit Calculator", "Palliative Radiotherapy Planning Protocols"])
+tab1, tab2, tab3 = st.tabs([
+    "Re‑irradiation Dose Limit Calculator",
+    "Palliative Radiotherapy Planning Protocols",
+    "OAR Dose Constraints Lookup"
+])
+
 
 # ───────────────────────────── Tab 1: EQD₂ calculator ────────────────────
 with tab1:
@@ -645,3 +656,46 @@ with tab2:
                 height=40
             )
 
+# ────────────────────────── Tab 3: OAR Dose Constraints Lookup ──────────────────────────
+with tab3:
+    st.header("OAR Dose Constraints Lookup")
+
+    # 1) fractionation selector
+    fractionation_options = {
+        "Conventional": "conventional",
+        "1 Fraction": "1_fraction",
+        "3 Fractions": "3_fraction",
+        "5 Fractions": "5_fraction",
+        "8 Fractions": "8_fraction",
+    }
+    scheme_label = st.selectbox(
+        "Select a fractionation scheme:",
+        list(fractionation_options.keys())
+    )
+    scheme_key = fractionation_options[scheme_label]
+
+    # 2) organ multiselect
+    organ_list = sorted(oar_constraints.keys())
+    selected_organs = st.multiselect(
+        "Select organs at risk:",
+        organ_list
+    )
+
+    # 3) display constraints
+    if selected_organs:
+        st.subheader(f"Constraints for {scheme_label}")
+        for organ in selected_organs:
+            st.markdown(f"#### {organ.replace('_', ' ')}")
+            entries = oar_constraints.get(organ, {}).get(scheme_key, [])
+            if entries:
+                for e in entries:
+                    line = e["constraint"]
+                    if e.get("category"):
+                        line += f"  ({e['category']})"
+                    if e.get("source"):
+                        line += f" — {e['source']}"
+                    st.write(f"- {line}")
+            else:
+                st.write("No constraints available for this scheme.")
+    else:
+        st.info("Please select one or more organs to see constraints.")
