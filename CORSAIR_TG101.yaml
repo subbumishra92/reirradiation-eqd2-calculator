@@ -101,24 +101,20 @@ Bowel_Large:
     - constraint: "V30 Gy < 50% or < 200 cm3"
       source: "CORSAIR [28]"
   1_fraction:
-    - constraint: "Dmax 0.1 cc < 18.4 Gy"
-      source: "CORSAIR [6]"
-      category: "mandatory"
-    - constraint: "V14.3 Gy < 20 cm3"
+    - constraint: "Volume < 20 cc receives ≤ 14.3 Gy"
       source: "TG101"
-      category: "optimal"
+    - constraint: "Dmax < 18.4 Gy"
+      source: "TG101"
   3_fraction:
-    - constraint: "Dmax 0.1 cc < 28.2 Gy"
-      source: "CORSAIR [6]"
-    - constraint: "D20 cm3 < 24 Gy"
+    - constraint: "Volume < 20 cc receives ≤ 24 Gy"
       source: "TG101"
-      category: "optimal"
+    - constraint: "Dmax < 28.2 Gy"
+      source: "TG101"
   5_fraction:
-    - constraint: "Dmax 0.1 cc < 38 Gy"
-      source: "CORSAIR [6]"
-    - constraint: "D20 cm3 < 25 Gy"
+    - constraint: "Volume < 20 cc receives ≤ 25 Gy"
       source: "TG101"
-      category: "optimal"
+    - constraint: "Dmax < 38 Gy"
+      source: "TG101"
   8_fraction: []
 
 Bowel_Small:
@@ -184,14 +180,14 @@ Brachial_Plexus:
       source: "CORSAIR [6]"
       category: "mandatory"
     - constraint: "Dmax 0.1 cc < 17.5 Gy"
-      source: "CORSAIR [25]"
+      source: "TG101"
       category: "mandatory"
     - constraint: "V14 Gy < 3 cm3"
       source: "TG101"
-      category: "optimal"
+      category: "mandatory"
   3_fraction:
     - constraint: "Dmax 0.1 cc < 24 Gy"
-      source: "CORSAIR [6,25]"
+      source: "TG101"
       category: "mandatory"
     - constraint: "V20.4 Gy < 3 cm3"
       source: "TG101"
@@ -906,11 +902,10 @@ Kidneys:
 Kidney_Cortex:
   conventional: []
   1_fraction:
-    - constraint: "D200 cm3 < 8.4 Gy"
+    - constraint: "Volume < 2/3 receives ≤ 10.6 Gy"
       source: "TG101"
-    - constraint: "D200 cm3 < 8.4 Gy"
-      category: "mandatory"
-      source: "CORSAIR [6,8]"
+    - constraint: "Dmax < 18.6 Gy"
+      source: "TG101"
     - constraint: "V10 Gy < 33%"
       category: "mandatory"
       source: "CORSAIR [6]"
@@ -924,11 +919,12 @@ Kidney_Cortex:
       category: "mandatory"
       source: "CORSAIR [6]"
   5_fraction:
-    - constraint: "D200 cm3 < 17.5 Gy"
+    - constraint: "Volume < 2/3 receives ≤ 23 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 23 Gy"
       source: "TG101"
     - constraint: "D200 cm3 < 17.5 Gy"
-      category: "mandatory"
-      source: "CORSAIR [6,8]"
+      source: "TG101"
     - constraint: "V10 Gy < 45%"
       category: "mandatory"
       source: "CORSAIR [6]"
@@ -938,8 +934,6 @@ Kidney_Cortex:
     - constraint: "Dmean < 10 Gy"
       category: "optimal"
       source: "CORSAIR [7]"
-    - constraint: "V17.5 Gy < 200 cm3"
-      source: "CORSAIR [10]"
   8_fraction: []
 
 Lacrimal_Gland:
@@ -1348,6 +1342,25 @@ Pituitary_Gland:
   1_fraction: []
   3_fraction: []
   5_fraction: []
+  8_fraction: []
+
+Bronchi_Small_Airways:
+  Conventional: []
+  1_fraction:
+    - constraint: "Volume < 0.5 cc receives ≤ 12.4 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 13.3 Gy"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Volume < 0.5 cc receives ≤ 18.9 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 23.1 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Volume < 0.5 cc receives ≤ 21 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 33 Gy"
+      source: "TG101"
   8_fraction: []
 
 Proximal_Bronchus:
