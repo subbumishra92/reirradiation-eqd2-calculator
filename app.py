@@ -6,7 +6,7 @@ import streamlit.components.v1 as components
 import yaml
 from pathlib import Path
 
-yaml_path = Path(__file__).parent / "COSAIR_TG101.yaml"
+yaml_path = Path(__file__).parent / "CORSAIR_TG101.yaml"
 with open(yaml_path, "r") as f:
     oar_constraints = yaml.safe_load(f)
     
