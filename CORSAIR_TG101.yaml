@@ -1,409 +1,1821 @@
-organs:
-  Aorta:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  AnteriorDescendingArtery:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  AorticValve:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  AnalCanal:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  BoneMarrow:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Bowel:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  BowelLarge:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  BowelSmall:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  BowelSpace:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Breast:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  CaudaEquina:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  ChestWall:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Cochlea:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  CommonBileDuct:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  CricoPharyngealInlet:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  CricoPharyngealMuscle:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Duodenum:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  EsophagealInlet:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Esophagus:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Femur:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  FemoralHeadNeck:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Glottis:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  GreatVessels:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Heart:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Hippocampus:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Hypothalamus:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  JejunumIleum:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Kidney:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  KidneyCortex:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  LacrimalGland:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Lens:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  LeftAnteriorDescendingArtery:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  LeftCircumflexCoronaryArtery:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  LeftMainCoronaryArtery:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Lips:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Liver:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  LumbosacralPlexus:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Mandible:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  MitralValve:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  OralCavity:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Ovaries:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Pancreas:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  ParotidGland:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  PenileBulb:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  PharyngealConstrictorMuscles:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  PituitaryGland:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  ProximalBronchus:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  PulmonaryValve:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Rectum:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Retina:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  RightCoronaryArtery:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  SigmoidColon:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Skin:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  SmallBowel:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Spleen:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  SpinalCanal:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  SpinalCord:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Stomach:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  SubmandibularGland:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  SupraglotticLarynx:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  TemporalLobe:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Testis:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  ThyroidGland:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Trachea:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  TricuspidValve:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Ureters:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Urethra:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
-  Vagina:
-    conventional: {}
-    one_fraction: {}
-    three_fractions: {}
-    five_fractions: {}
-    eight_fractions: {}
+Anal_Canal:
+  conventional:
+    - constraint: "Dmean < 40 Gy"
+      source: "CORSAIR [30], [31]"
+    - constraint: "V20 Gy < 75%"
+      source: "CORSAIR [32]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Anterior_Descending_Artery:
+  conventional:
+    - constraint: "V15 Gy ≤ 10%"
+      source: "CORSAIR [33]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Bladder:
+  conventional:
+    - constraint: "Dmax < 65 Gy for bladder cancer"
+      source: "CORSAIR [5]"
+    - constraint: "V80 Gy < 15 % for prostate cancer"
+      source: "CORSAIR [5]"
+    - constraint: "V75 Gy < 25% for prostate cancer"
+      source: "CORSAIR [5]"
+    - constraint: "V70 Gy < 35% for prostate cancer"
+      source: "CORSAIR [5]"
+    - constraint: "V65 Gy < 50% for prostate cancer"
+      source: "CORSAIR [5]"
+    - constraint: "V50 Gy < 5% for anal cancer"
+      source: "CORSAIR [28]"
+    - constraint: "V40 Gy < 35% for anal cancer"
+      source: "CORSAIR [28]"
+    - constraint: "V35 Gy < 50% for anal cancer"
+      source: "CORSAIR [28]"
+  1_fraction:
+    - constraint: "Dmax 0.1 cc < 18.4 Gy"
+      source: "TG101"
+    - constraint: "V11.4 Gy < 15 cm3"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Dmax 0.1 cc < 28.2 Gy"
+      source: "TG101"
+    - constraint: "D15 cm3 < 16.8 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Dmax 0.1 cc < 38 Gy"
+      source: "TG101"
+    - constraint: "D15 cm3 < 18.3 Gy"
+      source: "TG101"
+    - constraint: "V18.1 Gy < 40% for primary prostate SBRT"
+      source: "CORSAIR [7]"
+    - constraint: "V37 Gy < 10 cm3 for primary prostate SBRT"
+      source: "CORSAIR [7]"
+      category: "mandatory"
+    - constraint: "V37 Gy < 5 cm3 for primary prostate SBRT"
+      source: "CORSAIR [7]"
+      category: "optimal"
+  8_fraction: []
+
+Bone_Mandible:
+  conventional:
+    - constraint: "V50 Gy < 31–32% or < 31 cm3"
+      source: "CORSAIR [34]"
+    - constraint: "Dmax < 70–73.5 Gy"
+      source: "CORSAIR [35]"
+      category: "mandatory"
+    - constraint: "V55 Gy < 20%"
+      source: "CORSAIR [35]"
+      category: "optimal"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Bowel:
+  conventional:
+    - constraint: "V15 Gy < 120 cm3"
+      source: "CORSAIR [5]"
+    - constraint: "V45 Gy < 195 cm3"
+      source: "CORSAIR [5]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction:
+    - constraint: "V18.1 Gy < 5 cm3 for primary prostate SBRT"
+      source: "CORSAIR [7]"
+    - constraint: "V30 Gy < 1 cm3 for primary prostate SBRT"
+      source: "CORSAIR [7]"
+      category: "mandatory"
+  8_fraction: []
+
+Bowel_Large:
+  conventional:
+    - constraint: "V45 Gy < 5% or < 20 cm3"
+      source: "CORSAIR [28]"
+    - constraint: "V35 Gy < 35% or < 150 cm3"
+      source: "CORSAIR [28]"
+    - constraint: "V30 Gy < 50% or < 200 cm3"
+      source: "CORSAIR [28]"
+  1_fraction:
+    - constraint: "Dmax 0.1 cc < 18.4 Gy"
+      source: "CORSAIR [6]"
+      category: "mandatory"
+    - constraint: "V14.3 Gy < 20 cm3"
+      source: "TG101"
+      category: "optimal"
+  3_fraction:
+    - constraint: "Dmax 0.1 cc < 28.2 Gy"
+      source: "CORSAIR [6]"
+    - constraint: "D20 cm3 < 24 Gy"
+      source: "TG101"
+      category: "optimal"
+  5_fraction:
+    - constraint: "Dmax 0.1 cc < 38 Gy"
+      source: "CORSAIR [6]"
+    - constraint: "D20 cm3 < 25 Gy"
+      source: "TG101"
+      category: "optimal"
+  8_fraction: []
+
+Bowel_Small:
+  conventional:
+    - constraint: "Dmax ≤ 55 Gy"
+      source: "CORSAIR [36]"
+    - constraint: "V50 Gy ≤ 10 cm3"
+      source: "CORSAIR [36]"
+      category: "optimal"
+    - constraint: "V15 Gy ≤ 120 cm3"
+      source: "CORSAIR [36]"
+      category: "optimal"
+    - constraint: "V50 Gy ≤ 10%"
+      source: "CORSAIR [36]"
+    - constraint: "V45 Gy ≤ 15%"
+      source: "CORSAIR [36]"
+      category: "optimal"
+  1_fraction:
+    - constraint: "Dmax 0.1 cc < 15.4 Gy"
+      source: "CORSAIR [6]"
+      category: "mandatory"
+    - constraint: "V11.9 Gy < 5 cm3"
+      source: "CORSAIR [6]"
+      category: "mandatory"
+  3_fraction:
+    - constraint: "Dmax 0.5 cc < 25.2 Gy"
+      source: "CORSAIR [6]"
+      category: "mandatory"
+    - constraint: "D5 cm3 < 17.7 Gy"
+      source: "CORSAIR [6]"
+      category: "mandatory"
+  5_fraction:
+    - constraint: "Dmax 0.5 cc < 35 Gy"
+      source: "CORSAIR [6]"
+      category: "mandatory"
+    - constraint: "Dmax 0.5 cc < 30 Gy"
+      source: "CORSAIR [6]"
+      category: "optimal"
+    - constraint: "D10 cm3 < 25 Gy"
+      source: "CORSAIR [6]"
+      category: "optimal"
+  8_fraction: []
+
+Bowel_Space:
+  conventional:
+    - constraint: "V45 Gy < 195 cm3"
+      source: "CORSAIR [5]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Brachial_Plexus:
+  conventional:
+    - constraint: "Dmax 0.1 cc < 66 Gy"
+      source: "CORSAIR [35]"
+      category: "mandatory"
+    - constraint: "Dmax 0.1 cc < 60 Gy"
+      source: "CORSAIR [35]"
+      category: "optimal"
+  1_fraction:
+    - constraint: "Dmax 0.1 cc < 15 Gy"
+      source: "CORSAIR [6]"
+      category: "mandatory"
+    - constraint: "Dmax 0.1 cc < 17.5 Gy"
+      source: "CORSAIR [25]"
+      category: "mandatory"
+    - constraint: "V14 Gy < 3 cm3"
+      source: "TG101"
+      category: "optimal"
+  3_fraction:
+    - constraint: "Dmax 0.1 cc < 24 Gy"
+      source: "CORSAIR [6,25]"
+      category: "mandatory"
+    - constraint: "V20.4 Gy < 3 cm3"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Dmax 0.1 cc < 32 Gy"
+      source: "CORSAIR [6]"
+      category: "mandatory"
+    - constraint: "Dmax 0.1 cc < 30.5 Gy"
+      source: "CORSAIR [6]"
+      category: "optimal"
+  8_fraction:
+    - constraint: "Dmax 0.1 cc < 39 Gy"
+      source: "CORSAIR [6]"
+      category: "mandatory"
+    - constraint: "Dmax 0.1 cc < 35 Gy"
+      source: "CORSAIR [25]"
+      category: "optimal"
+
+Brain:
+  conventional:
+    - constraint: "V60 Gy ≤ 3 cm3"
+      source: "CORSAIR [37]"
+    - constraint: "Dmax < 72 Gy"
+      source: "CORSAIR [5]"
+  1_fraction:
+    - constraint: "Whole brain minus GTV: D50% < 5 Gy"
+      source: "CORSAIR [7]"
+    - constraint: "Whole brain minus GTV: D10 cm3 < 12 Gy"
+      source: "CORSAIR [7]"
+    - constraint: "Whole brain V12 Gy < 10–15 cm3"
+      source: "CORSAIR [6]"
+  3_fraction:
+    - constraint: "D20 cm3 < 20 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "V14 Gy < 7 cm3"
+      source: "CORSAIR [38]"
+  5_fraction:
+    - constraint: "D20 cm3 < 24 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+  8_fraction: []
+  
+Brainstem:
+  conventional:
+    - constraint: "Dmax < 54 Gy"
+      source: "CORSAIR [5,34,39]"
+    - constraint: "D1–10 cm3 < 59 Gy"
+      source: "CORSAIR [5,34,39]"
+  1_fraction:
+    - constraint: "Volume < 0.5 cc receives ≤ 10 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 15 Gy"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Volume < 0.5 cc receives ≤ 18 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 23.1 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Volume < 0.5 cc receives ≤ 23 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 31 Gy"
+      source: "TG101"
+  8_fraction: []
+
+Cauda_Equina:
+  conventional: []
+  1_fraction:
+    - constraint: "Dmax 0.035 cc < 16 Gy"
+      source: "CORSAIR [6]"
+      category: "mandatory"
+    - constraint: "V14 Gy < 5 cm3"
+      source: "TG101"
+      category: "optimal"
+    - constraint: "Volume < 5 cc receives ≤ 14 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 16 Gy"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Dmax 0.035 cc < 24 Gy"
+      source: "CORSAIR [6]"
+      category: "mandatory"
+    - constraint: "D5 cm3 < 21.9 Gy"
+      source: "TG101"
+      category: "optimal"
+    - constraint: "Volume < 5 cc receives ≤ 21.9 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 24 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Dmax 0.035 cc < 32 Gy"
+      source: "CORSAIR [6]"
+      category: "mandatory"
+    - constraint: "D5 cm3 < 30 Gy"
+      source: "TG101"
+      category: "optimal"
+    - constraint: "Volume < 5 cc receives ≤ 30 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 32 Gy"
+      source: "TG101"
+  8_fraction: []
+
+Chestwall:
+  conventional: []
+  1_fraction:
+    - constraint: "Dmax 0.01 cc < 30 Gy"
+      source: "CORSAIR [6,25]"
+      category: "optimal"
+    - constraint: "V22 Gy < 1 cm3"
+      source: "TG101"
+      category: "optimal"
+    - constraint: "Volume < 1 cc receives ≤ 22 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 30 Gy"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Dmax 0.1 cc < 36.9 Gy"
+      source: "CORSAIR [6]"
+      category: "optimal"
+    - constraint: "Dmax 0.1 cc < 30 Gy"
+      source: "CORSAIR [25]"
+    - constraint: "D30 cm3 < 30 Gy"
+      source: "CORSAIR [7]"
+    - constraint: "Volume < 1 cc receives ≤ 28.8 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 36.9 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Dmax 0.1 cc < 43 Gy"
+      source: "CORSAIR [6]"
+      category: "optimal"
+    - constraint: "D30 cm3 < 32 Gy"
+      source: "CORSAIR [7]"
+    - constraint: "Volume < 1 cc receives ≤ 35 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 43 Gy"
+      source: "TG101"
+  8_fraction:
+    - constraint: "Dmax 0.5 cc < 39 Gy"
+      source: "CORSAIR [7]"
+    - constraint: "D30 cm3 < 35 Gy"
+      source: "CORSAIR [7]"
+
+Cochlea:
+  conventional:
+    - constraint: "Dmean < 45 Gy"
+      source: "CORSAIR [5,39]"
+  1_fraction:
+    - constraint: "Dmean < 9 Gy"
+      source: "CORSAIR [7]"
+      category: "mandatory"
+    - constraint: "Dmean < 4 Gy"
+      source: "CORSAIR [6]"
+      category: "optimal"
+    - constraint: "Dmax < 12 Gy"
+      source: "CORSAIR [10]"
+    - constraint: "Dmax < 9 Gy"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Dmean < 17.1 Gy"
+      source: "CORSAIR [6]"
+      category: "optimal"
+    - constraint: "Dmax < 20 Gy"
+      source: "CORSAIR [10]"
+    - constraint: "Dmax < 17.1 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Dmean < 25 Gy"
+      source: "CORSAIR [6]"
+      category: "optimal"
+    - constraint: "Dmax < 27.5 Gy"
+      source: "CORSAIR [10]"
+    - constraint: "Dmax < 25 Gy"
+      source: "TG101"
+  8_fraction: []
+
+Common_Bile_Duct:
+  conventional: []
+  1_fraction:
+    - constraint: "Dmax .1 cc < 30 Gy"
+      source: "CORSAIR [6]"
+      category: "mandatory"  
+  3_fraction:
+    - constraint: "Dmax .1 cc < 50 Gy"
+      source: "CORSAIR [6]"
+      category: "optimal"  
+  5_fraction:
+    - constraint: "Dmax .1 cc < 50 Gy"
+      source: "CORSAIR [6]"
+      category: "optimal"  
+  8_fraction: []
+  
+Cricopharyngeal_Inlet:
+  conventional:
+    - constraint: "Dmax < 62 Gy"
+      source: "CORSAIR [41]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Cricopharyngeal_Muscle:
+  conventional:
+    - constraint: "Dmax < 62 Gy"
+      source: "CORSAIR [41]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Duodenum:
+  conventional:
+    - constraint: "Dmax ≤ 55 Gy"
+      source: "CORSAIR [36]"
+    - constraint: "V50 Gy ≤ 10 cm3"
+      category: "optimal"
+      source: "CORSAIR [36]"
+    - constraint: "V50 Gy ≤ 10%"
+      source: "CORSAIR [36]"
+    - constraint: "V45 Gy ≤ 15%"
+      source: "CORSAIR [36]"
+  1_fraction:
+    - constraint: "Dmax 0.1 cc < 12.4 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "D10 cm3 < 9 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "D5 cm3 < 11.2 Gy"
+      category: "optimal"
+      source: "TG101"
+    - constraint: "Volume < 5 cc receives ≤ 11.2 Gy"
+      source: "TG101"
+    - constraint: "Volume < 10 cc receives ≤ 9 Gy"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Dmax 0.1 cc < 22.2 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "D10 cm3 < 11.4 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "D5 cm3 < 16.5 Gy"
+      category: "mandatory"
+      source: "CORSAIR [7]"
+    - constraint: "Volume < 5 cc receives ≤ 16.5 Gy"
+      source: "TG101"
+    - constraint: "Volume < 10 cc receives ≤ 11.4 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Dmax 0.1 cc < 35 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmax 0.1 cc < 33 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "D10 cm3 < 25 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "Volume < 5 cc receives ≤ 19.5 Gy"
+      source: "TG101"
+    - constraint: "Volume < 10 cc receives ≤ 12.5 Gy"
+      source: "TG101"
+  8_fraction: []
+
+Esophageal_Inlet:
+  conventional:
+    - constraint: "Dmax < 45 Gy"
+      category: "optimal"
+      source: "CORSAIR [35]"
+    - constraint: "Dmax < 55 Gy"
+      category: "mandatory"
+      source: "CORSAIR [35]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Esophagus:
+  conventional:
+    - constraint: "Dmean < 34 Gy"
+      source: "CORSAIR [5]"
+    - constraint: "V35 Gy < 50%"
+      source: "CORSAIR [5]"
+    - constraint: "V50 Gy < 40%"
+      source: "CORSAIR [5]"
+    - constraint: "V70 Gy < 20%"
+      source: "CORSAIR [5]"
+  1_fraction:
+    - constraint: "Dmax 0.1 cc < 15.4 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6,25]"
+    - constraint: "Volume < 5 cc receives ≤ 11.9 Gy"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Dmax 0.1 cc < 25.2 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmax 0.1 cc < 27 Gy"
+      category: "optimal"
+      source: "CORSAIR [25]"
+    - constraint: "Volume < 5 cc receives ≤ 17.7 Gy"
+      source: "TG101"
+    - constraint: "V21 Gy < 5 cm3"
+      source: "CORSAIR [10]"
+  5_fraction:
+    - constraint: "Dmax 0.1 cc < 35 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmax 0.5 cc < 32 Gy"
+      category: "optimal"
+      source: "CORSAIR [7,8]"
+    - constraint: "V27.5 Gy < 5 cm3"
+      source: "CORSAIR [10]"
+    - constraint: "V19.5 Gy < 10 cm3"
+      source: "CORSAIR [10]"
+    - constraint: "Dmax 5 cc < 19.5 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 35 Gy"
+      source: "TG101"
+  8_fraction:
+    - constraint: "Dmax .1 cc < 40 Gy"
+      source: "CORSAIR [6]"
+
+Esophagus_Superior:
+  conventional:
+    - constraint: "Dmax < 55 Gy"
+      category: "mandatory"
+      source: "CORSAIR [35]"
+    - constraint: "Dmax < 45 Gy"
+      category: "optimal"
+      source: "CORSAIR [35]"
+  1_fraction:
+    - constraint: "Dmax 0.01 cc < 15.4 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "D5 cm3 < 11.9 Gy"
+      category: "optimal"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Dmax 0.1 cc < 25.2 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "D0.5 cc < 17.7 Gy"
+      category: "optimal"
+      source: "CORSAIR [7,8]"
+  5_fraction:
+    - constraint: "Dmax 0.5 cc < 35 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmax 0.5 cc < 32 Gy"
+      category: "optimal"
+      source: "CORSAIR [7,8]"
+  8_fraction:
+    - constraint: "Dmax 0.5 cc < 40 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+
+Eye_Anterior:
+  conventional:
+    - constraint: "Lens Dmax < 4 Gy"
+      source: "CORSAIR [35]"
+    - constraint: "Cornea Dmax < 40 Gy"
+      source: "CORSAIR [42]"
+  1_fraction:
+    - constraint: "Dmax 0.035 cc < 1.5 Gy"
+      source: "CORSAIR [6,7]"
+  3_fraction:
+    - constraint: "Dmax < 7 Gy"
+      category: "mandatory"
+      source: "CORSAIR [10]"
+    - constraint: "Dmax < 3 Gy"
+      category: "optimal"
+      source: "CORSAIR [10]"
+  5_fraction:
+    - constraint: "Dmax < 7 Gy"
+      category: "mandatory"
+      source: "CORSAIR [10]"
+    - constraint: "Dmax < 3 Gy"
+      category: "optimal"
+      source: "CORSAIR [10]"
+  8_fraction: []
+
+Eye:
+  conventional:
+    - constraint: "Macula Dmax < 45 Gy"
+      source: "CORSAIR [39]"
+    - constraint: "Retina Dmax < 45–50 Gy"
+      source: "CORSAIR [43],[40]"
+  1_fraction:
+    - constraint: "Dmax 0.1 cc < 8 Gy"
+      source: "CORSAIR [6,7]"
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Eye_Posterior:
+  conventional:
+    - constraint: "Retina Dmax < 45 Gy"
+      source: "CORSAIR [43]"
+  1_fraction:
+    - constraint: "Dmax < 5 Gy"
+      source: "CORSAIR [10]"
+  3_fraction:
+    - constraint: "Dmax < 15 Gy"
+      category: "mandatory"
+      source: "CORSAIR [10]"
+    - constraint: "Dmax < 5 Gy"
+      category: "optimal"
+      source: "CORSAIR [10]"
+  5_fraction:
+    - constraint: "Dmax < 15 Gy"
+      category: "mandatory"
+      source: "CORSAIR [10]"
+    - constraint: "Dmax < 5 Gy"
+      category: "optimal"
+      source: "CORSAIR [10]"
+  8_fraction: []
+
+Femoral_Head_Neck:
+  conventional:
+    - constraint: "V44 Gy < 5%"
+      source: "CORSAIR [28]"
+    - constraint: "V40 Gy < 35%"
+      source: "CORSAIR [28]"
+    - constraint: "V30 Gy < 50%"
+      source: "CORSAIR [28]"
+  1_fraction:
+    - constraint: "D10 cm3 < 14 Gy"
+      category: "optimal"
+      source: "CORSAIR [6,8]"
+    - constraint: "Volume < 10 cc receives ≤ 14 Gy"
+      source: "TG101"
+  3_fraction:
+    - constraint: "D10 cm3 < 21.9 Gy"
+      category: "optimal"
+      source: "CORSAIR [6,7]"
+    - constraint: "Volume < 10 cc receives ≤ 21.9 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "D10 cm3 < 30 Gy"
+      category: "optimal"
+      source: "CORSAIR [6,7]"
+    - constraint: "Volume < 10 cc receives ≤ 30 Gy"
+      source: "TG101"
+    - constraint: "V14.5 Gy < 5% for primary prostate SBRT"
+      category: "mandatory"
+      source: "CORSAIR [7]"
+  8_fraction: []
+
+Genitals:
+  conventional:
+    - constraint: "V40 Gy < 5%"
+      source: "CORSAIR [28]"
+    - constraint: "V30 Gy < 35%"
+      source: "CORSAIR [28]"
+    - constraint: "V20 Gy < 50%"
+      source: "CORSAIR [28]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Glottis:
+  conventional:
+    - constraint: "Dmean < 50 Gy"
+      category: "mandatory"
+      source: "CORSAIR [5]"
+    - constraint: "V50 Gy < 27%"
+      category: "mandatory"
+      source: "CORSAIR [5]"
+    - constraint: "Dmean < 44 Gy"
+      category: "optimal"
+      source: "CORSAIR [5],[34]"
+    - constraint: "Dmax < 73.5 Gy"
+      source: "CORSAIR [35]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Great_Vessels:
+  conventional: []
+  1_fraction:
+    - constraint: "Dmax 0.1 cc < 30 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "D10 cm3 < 31 Gy"
+      category: "optimal"
+      source: "TG101"
+    - constraint: "Dmax < 37 Gy"
+      source: "CORSAIR [25]"
+  3_fraction:
+    - constraint: "Dmax 0.1 cc < 45 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6,7]"
+    - constraint: "D10 cm3 < 39 Gy"
+      category: "optimal"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Dmax 0.1 cc < 53 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6,7]"
+    - constraint: "D10 cm3 < 47 Gy"
+      category: "optimal"
+      source: "TG101"
+  8_fraction:
+    - constraint: "Dmax 0.1 cc < 65 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmax 0.1 cc < 60 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+
+Heart:
+  conventional:
+    - constraint: "Dmean < 26–30 Gy"
+      source: "CORSAIR [5,26]"
+    - constraint: "V25 Gy < 10%"
+      source: "CORSAIR [5,26]"
+    - constraint: "V30 Gy ≤ 30%"
+      source: "CORSAIR [5,26]"
+  1_fraction:
+    - constraint: "Dmax 0.03 cc < 22 Gy"
+      category: "mandatory"
+      source: "CORSAIR [8,25]"
+    - constraint: "D15 cm3 < 16 Gy"
+      category: "optimal"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Dmax 0.5 cc < 26 Gy"
+      category: "mandatory"
+      source: "CORSAIR [7]"
+    - constraint: "Dmax 0.5 cc < 24 Gy"
+      category: "optimal"
+      source: "CORSAIR [7]"
+    - constraint: "Dmax < 30 Gy"
+      category: "mandatory"
+      source: "CORSAIR [25]"
+    - constraint: "D15 cm3 < 24 Gy"
+      source: "TG101"
+    - constraint: "V21 Gy < 5 cm3"
+      source: "CORSAIR [10]"
+  5_fraction:
+    - constraint: "Dmax 0.5 cc < 29 Gy"
+      category: "mandatory"
+      source: "CORSAIR [7]"
+    - constraint: "Dmax 0.5 cc < 27 Gy"
+      category: "optimal"
+      source: "CORSAIR [7]"
+    - constraint: "D15 cm3 < 32 Gy"
+      source: "TG101"
+  8_fraction:
+    - constraint: "Dmax 0.5 cc < 60 Gy"
+      category: "mandatory"
+      source: "CORSAIR [7]"
+    - constraint: "Dmax 0.5 cc < 50 Gy"
+      category: "optimal"
+      source: "CORSAIR [7]"
+
+Heart_and_Pulmonary_Artery:
+  conventional:
+    - constraint: "Dmean < 26–30 Gy"
+      source: "CORSAIR [5,26]"
+    - constraint: "V25 Gy < 10%"
+      source: "CORSAIR [5,26]"
+    - constraint: "V30 Gy ≤ 30%"
+      source: "CORSAIR [5,26]"
+  1_fraction:
+    - constraint: "Dmax 0.1 cc < 22 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "D15 cm3 < 16 Gy"
+      category: "optimal"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Dmax 0.1 cc < 30 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmax 0.1 cc < 26 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "D15 cm3 < 24 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Dmax 0.1 cc < 38 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmax 0.1 cc < 29 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "D15 cm3 < 32 Gy"
+      source: "TG101"
+  8_fraction:
+    - constraint: "Dmax 0.1 cc < 46 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmax 0.1 cc < 40 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+      
+Hippocampus:
+  conventional:
+    - constraint: "If HA-WBRT: Dmax 16 Gy"
+      source: "CORSAIR [44,45]"
+    - constraint: "If HA-WBRT: D100% < 9 Gy"
+      source: "CORSAIR [44,45]"
+    - constraint: "If HA-WBRT or PCI: Dmax < 12 Gy"
+      source: "CORSAIR [40]"
+    - constraint: "If HA-WBRT or PCI: V3 Gy ≤ 20%"
+      source: "CORSAIR [40]"
+    - constraint: "For primary CNS tumors: V7.2 Gy ≤ 40%"
+      source: "CORSAIR [40,44,46]"
+    - constraint: "For primary CNS tumors: Dmean < 30 Gy"
+      source: "CORSAIR [40,44,46]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Jejunum_Ileum:
+  conventional:
+    - constraint: "Dmax ≤ 55 Gy"
+      source: "CORSAIR [36]"
+    - constraint: "V50 Gy ≤ 10 cm3"
+      category: "optimal"
+      source: "CORSAIR [36]"
+    - constraint: "V15 Gy ≤ 120 cm3"
+      category: "optimal"
+      source: "CORSAIR [36]"
+    - constraint: "V50 Gy ≤ 10%"
+      source: "CORSAIR [36]"
+    - constraint: "V45 Gy ≤ 15%"
+      category: "optimal"
+      source: "CORSAIR [36]"
+  1_fraction:
+    - constraint: "Dmax 0.1 cm3 < 15.4 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "V11.9 Gy < 5 cm3"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Volume < 5 cc receives ≤ 11.9 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 15.4 Gy"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Dmax 0.5 cm3 < 25.2 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "D5 cm3 < 17.7 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Volume < 5 cc receives ≤ 17.7 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 25.2 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Dmax 0.5 cm3 < 35 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmax 0.5 cm3 < 30 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "D10 cm3 < 25 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "Volume < 5 cc receives ≤ 19.5 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 35 Gy"
+      source: "TG101"
+  8_fraction: []
+
+Kidneys:
+  conventional:
+    - constraint: "Dmean < 18 Gy"
+      source: "CORSAIR [26,36]"
+    - constraint: "V20 Gy ≤ 33%"
+      source: "CORSAIR [26]"
+    - constraint: "V18 Gy < 15% for solitary kidney"
+      source: "CORSAIR [47]"
+    - constraint: "V14 Gy < 30% for solitary kidney"
+      source: "CORSAIR [47]"
+  1_fraction:
+    - constraint: "V10 Gy < 33%"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "V8.4 Gy < 200 cm3"
+      source: "CORSAIR [10]"
+  3_fraction:
+    - constraint: "D200 cm3 < 16 Gy"
+      category: "mandatory"
+      source: "CORSAIR [7]"
+    - constraint: "V10 Gy < 33%"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+  5_fraction:
+    - constraint: "V10 Gy < 45%"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "V10 Gy < 10%"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "Dmean < 10 Gy"
+      category: "optimal"
+      source: "CORSAIR [7]"
+    - constraint: "V17.5 Gy < 200 cm3"
+      source: "CORSAIR [10]"
+  8_fraction: []
+
+Kidney_Cortex:
+  conventional: []
+  1_fraction:
+    - constraint: "D200 cm3 < 8.4 Gy"
+      source: "TG101"
+    - constraint: "D200 cm3 < 8.4 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6,8]"
+    - constraint: "V10 Gy < 33%"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+  3_fraction:
+    - constraint: "D200 cm3 < 14.4 Gy"
+      source: "TG101"
+    - constraint: "D200 cm3 < 16 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6,8]"
+    - constraint: "V10 Gy < 33%"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+  5_fraction:
+    - constraint: "D200 cm3 < 17.5 Gy"
+      source: "TG101"
+    - constraint: "D200 cm3 < 17.5 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6,8]"
+    - constraint: "V10 Gy < 45%"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "V10 Gy < 10%"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "Dmean < 10 Gy"
+      category: "optimal"
+      source: "CORSAIR [7]"
+    - constraint: "V17.5 Gy < 200 cm3"
+      source: "CORSAIR [10]"
+  8_fraction: []
+
+Lacrimal_Gland:
+  conventional:
+    - constraint: "Dmax < 40 Gy"
+      source: "CORSAIR [40]"
+    - constraint: "Dmean ≤ 26 Gy"
+      source: "CORSAIR [35]"
+  1_fraction:
+    - constraint: "Dmax < 5 Gy"
+      source: "CORSAIR [10]"
+  3_fraction:
+    - constraint: "Dmax < 15 Gy"
+      category: "mandatory"
+      source: "CORSAIR [10]"
+    - constraint: "Dmax < 5 Gy"
+      category: "optimal"
+      source: "CORSAIR [10]"
+  5_fraction:
+    - constraint: "Dmax < 15 Gy"
+      category: "mandatory"
+      source: "CORSAIR [10]"
+    - constraint: "Dmax < 5 Gy"
+      category: "optimal"
+      source: "CORSAIR [10]"
+  8_fraction: []
+
+Larynx:
+  conventional:
+    - constraint: "Dmax < 50 Gy"
+      category: "mandatory"
+      source: "CORSAIR [35]"
+    - constraint: "Dmax < 66 Gy"
+      source: "CORSAIR [5]"
+    - constraint: "Dmean < 50 Gy"
+      source: "CORSAIR [5]"
+    - constraint: "V50 Gy < 27%"
+      source: "CORSAIR [5]"
+  1_fraction:
+    - constraint: "V10.5 Gy < 4 cm3"
+      source: "CORSAIR [10]"
+    - constraint: "V20.2 Gy < 0.035 cm3"
+      source: "CORSAIR [10]"
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Lens:
+  conventional:
+    - constraint: "Dmax < 4 Gy"
+      source: "CORSAIR [35]"
+  1_fraction:
+    - constraint: "Dmax 0.035 cm3 < 1.5 Gy"
+      source: "CORSAIR [6]"
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Lips:
+  conventional:
+    - constraint: "Dmean < 30 Gy"
+      category: "optimal"
+      source: "CORSAIR [42]"
+    - constraint: "Dmean < 50 Gy"
+      category: "mandatory"
+      source: "CORSAIR [42]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Liver:
+  conventional:
+    - constraint: "Dmean < 25 Gy"
+      source: "CORSAIR [26,36]"
+    - constraint: "V30 Gy ≤ 33%"
+      source: "CORSAIR [26]"
+  1_fraction:
+    - constraint: "D700 cm3 < 9.1 Gy"
+      source: "TG101"
+    - constraint: "D700 cm3 < 9.1 Gy"
+      source: "CORSAIR [6,8]"
+    - constraint: "V12 Gy < 30%"
+      source: "CORSAIR [10]"
+    - constraint: "V5 Gy < 50%"
+      source: "CORSAIR [10]"
+    - constraint: "V2.5 Gy < 70%"
+      source: "CORSAIR [10]"
+  3_fraction:
+    - constraint: "D700 cm3 < 17.4 Gy"
+      source: "TG101"
+    - constraint: "Dmean < 15 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmean < 13 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "D700 cm3 < 17 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "D700 cm3 < 15 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "D50% < 15 Gy"
+      category: "optimal"
+      source: "CORSAIR [7]"
+  5_fraction:
+    - constraint: "D700 cm3 < 21 Gy"
+      source: "TG101"
+    - constraint: "Dmean < 15.2 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmean < 13 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "V10 Gy < 70%"
+      category: "optimal"
+      source: "CORSAIR [6,7]"
+    - constraint: "D700 cm3 < 15 Gy"
+      source: "CORSAIR [6]"
+  8_fraction: []
+
+Lumbo-sacral_Plexus:
+  conventional:
+    - constraint: "Dmax < 60 Gy"
+      source: "CORSAIR [48]"
+  1_fraction:
+    - constraint: "Dmax 0.1 cm3 < 16 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6,7]"
+    - constraint: "D5 cm3 < 14.4 Gy"
+      category: "optimal"
+      source: "CORSAIR [6,7]"
+    - constraint: "Volume < 5 cc receives ≤ 14.4 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 16 Gy"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Dmax 0.1 cm3 < 24 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6,7]"
+    - constraint: "D5 cm3 < 22 Gy"
+      category: "optimal"
+      source: "CORSAIR [6,7]"
+    - constraint: "Volume < 5 cc receives ≤ 22.5 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 24 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Dmax 0.1 cm3 < 32 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6,8]"
+    - constraint: "D5 cm3 < 30 Gy"
+      category: "optimal"
+      source: "CORSAIR [6,8]"
+    - constraint: "Volume < 5 cc receives ≤ 30 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 30 Gy"
+      source: "TG101"
+  8_fraction: []
+
+Lung:
+  conventional:
+    - constraint: "V40 Gy ≤ 10%"
+      source: "CORSAIR [26]"
+    - constraint: "V30 Gy ≤ 15%"
+      source: "CORSAIR [26]"
+    - constraint: "V20 Gy ≤ 20%"
+      source: "CORSAIR [26]"
+    - constraint: "V10 Gy ≤ 40%"
+      source: "CORSAIR [26]"
+    - constraint: "V5 Gy ≤ 50%"
+      source: "CORSAIR [26]"
+    - constraint: "Dmean < 20 Gy"
+      source: "CORSAIR [26]"
+  1_fraction:
+    - constraint: "V20 Gy < 15%"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmean < 8 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "V20 Gy < 10%"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "D1500 cm3 < 7 Gy"
+      source: "TG101"
+    - constraint: "D1000 cm3 < 7.4 Gy"
+      source: "TG101"
+  3_fraction:
+    - constraint: "V20 Gy < 15%"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmean < 8 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "V20 Gy < 10%"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "D1500 cm3 < 10.5 Gy"
+      source: "TG101"
+    - constraint: "D1000 cm3 < 11.4 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "V20 Gy < 15%"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmean < 8 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "V20 Gy < 10%"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "D1500 cm3 < 12.5 Gy"
+      source: "TG101"
+    - constraint: "D1000 cm3 < 13.5 Gy"
+      source: "TG101"
+  8_fraction:
+    - constraint: "V20 Gy < 15%"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmean < 8 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "V20 Gy < 10%"
+      category: "optimal"
+      source: "CORSAIR [6]"
+
+Optic_Chiasm:
+  conventional:
+    - constraint: "Dmax < 55 Gy"
+      source: "CORSAIR [39]"
+  1_fraction:
+    - constraint: "Volume < 0.2 cc receives ≤ 8 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 10 Gy"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Volume < 0.2 cc receives ≤ 15.3 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 17.4 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Volume < 0.2 cc receives ≤ 23 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 25 Gy"
+      source: "TG101"
+  8_fraction: []
+
+Optic_Nerve:
+  conventional:
+    - constraint: "Dmax < 55 Gy"
+      source: "CORSAIR [39]"
+  1_fraction:
+    - constraint: "Volume < 0.2 cc receives ≤ 8 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 10 Gy"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Volume < 0.2 cc receives ≤ 15.3 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 17.4 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Volume < 0.2 cc receives ≤ 23 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 25 Gy"
+      source: "TG101"
+  8_fraction: []
+
+Oral_Cavity:
+  conventional:
+    - constraint: "V30 Gy < 73%; limit Dmean to uninvolved oral cavity"
+      source: "CORSAIR [34]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Ovaries:
+  conventional:
+    - constraint: "Dmean < 8.8 Gy"
+      source: "CORSAIR [49]"
+    - constraint: "Dmean < 15 Gy"
+      source: "CORSAIR [50]"
+    - constraint: "V7.5 Gy < 26%"
+      source: "CORSAIR [51]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Pancreas:
+  conventional:
+    - constraint: "V45 Gy limit per CORSAIR"
+      source: "CORSAIR [52]"
+    - constraint: "Dmean < 25 Gy"
+      source: "CORSAIR [53]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Parotid_Gland:
+  conventional:
+    - constraint: "Dmean < 25 Gy (both glands)"
+      source: "CORSAIR [5,42]"
+    - constraint: "Dmean < 20 Gy (single gland)"
+      source: "CORSAIR [5,42]"
+    - constraint: "V30 Gy < 50%"
+      source: "CORSAIR [35]"
+    - constraint: "V40 Gy < 33% (contralateral)"
+      source: "CORSAIR [35]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Penile_Bulb:
+  conventional:
+    - constraint: "V90 Gy < 50%"
+      source: "CORSAIR [5]"
+    - constraint: "V60–70 Gy < 70%"
+      source: "CORSAIR [5]"
+  1_fraction:
+    - constraint: "Dmax 0.03 cc < 34 Gy"
+      category: "mandatory"
+      source: "TG101"
+    - constraint: "Dmax 3 cc < 14 Gy"
+      category: "optimal"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Dmax 3 cc < 42 Gy"
+      category: "mandatory"
+      source: "CORSAIR [7,8]"
+    - constraint: "Dmax 3 cc < 21.9 Gy"
+      category: "optimal"
+      source: "CORSAIR [7,8]"
+  5_fraction:
+    - constraint: "Dmax 3 cc < 50 Gy"
+      category: "mandatory"
+      source: "CORSAIR [7,8]"
+    - constraint: "Dmax 3 cc < 30 Gy"
+      category: "optimal"
+      source: "CORSAIR [7,8]"
+    - constraint: "V29.5 Gy < 50% for primary prostate SBRT only"
+      category: "mandatory"
+      source: "CORSAIR [7]"
+  8_fraction: []
+
+Pharyngeal_Constrictor_Muscles:
+  conventional:
+    - constraint: "Dmean < 50 Gy"
+      source: "CORSAIR [35,42]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Pharyngeal_Constrictor_Muscles_Inferior:
+  conventional:
+    - constraint: "Dmean < 50 Gy"
+      source: "CORSAIR [35,42]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Pharyngeal_Constrictor_Muscles_Middle:
+  conventional:
+    - constraint: "Dmean < 50 Gy"
+      source: "CORSAIR [35,42]"
+    - constraint: "V50–60 Gy < 70%"
+      source: "CORSAIR [34]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Pharyngeal_Constrictor_Muscles_Superior:
+  conventional:
+    - constraint: "Dmean < 50 Gy"
+      source: "CORSAIR [35,42]"
+    - constraint: "V50–60 Gy < 70%"
+      source: "CORSAIR [34]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Pituitary_Fossa:
+  conventional:
+    - constraint: "Dmax < 50 Gy"
+      source: "CORSAIR [39,40]"
+  1_fraction:
+    - constraint: "Dmean < 9 Gy"
+      source: "CORSAIR [54]"
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Pituitary_Gland:
+  conventional:
+    - constraint: "Dmax < 50 Gy"
+      source: "CORSAIR [39,40]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Proximal_Bronchus:
+  conventional: []
+  1_fraction:
+    - constraint: "Volume < 4 cc receives ≤ 10.5 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 20.2 Gy"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Dmax 0.5 cc < 30 Gy"
+      source: "CORSAIR [7,25]"
+    - constraint: "Avoid 105% of PTV"
+      source: "CORSAIR [25]"
+    - constraint: "Volume < 4 cc receives ≤ 15 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 30 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Dmax 0.1 cc < 38 Gy"
+      source: "CORSAIR [6]"
+    - constraint: "Dmax 0.1 cc < 35 Gy"
+      source: "CORSAIR [6]"
+    - constraint: "Avoid 105% of PTV"
+      source: "CORSAIR [25]"
+    - constraint: "Volume < 4 cc receives ≤ 16.5 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 40 Gy"
+      source: "TG101"
+  8_fraction:
+    - constraint: "Dmax 0.1 cc < 40 Gy"
+      source: "CORSAIR [6]"
+    - constraint: "Dmax 0.5 cc < 32 Gy"
+      source: "CORSAIR [7]"
+
+Rectum:
+  conventional:
+    - constraint: "V50 Gy < 50%"
+      source: "CORSAIR [5]"
+    - constraint: "V60 Gy < 35%"
+      source: "CORSAIR [5]"
+    - constraint: "V65 Gy < 25%"
+      source: "CORSAIR [5]"
+    - constraint: "V70 Gy < 20%"
+      source: "CORSAIR [5]"
+    - constraint: "V75 Gy < 15%"
+      source: "CORSAIR [5]"
+  1_fraction:
+    - constraint: "Dmax 0.01 cc < 18.4 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "D20 cc < 14.3 Gy"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Dmax 0.1 cc < 28.2 Gy"
+      source: "CORSAIR [6]"
+    - constraint: "D20 cc < 24 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Dmax 0.1 cc < 38 Gy"
+      source: "CORSAIR [6]"
+    - constraint: "D20 cc < 25 Gy"
+      source: "TG101"
+    - constraint: "V18.1 Gy < 50% Prostate SBRT only"
+      source: "CORSAIR [7]"
+    - constraint: "V29 Gy < 20% Prostate SBRT only"
+      source: "CORSAIR [7]"
+    - constraint: "V36 Gy < 1 cc Prostate SBRT only"
+      category: "mandatory"
+      source: "CORSAIR [7]"
+  8_fraction: []
+
+Retina:
+  conventional:
+    - constraint: "Dmax < 45–50 Gy"
+      source: "CORSAIR [37]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Sigmoid_Colon:
+  conventional: []
+  1_fraction:
+    - constraint: "D20 cc < 18.4 Gy"
+      category: "mandatory"
+      source: "TG101"
+    - constraint: "D20 cc < 14.3 Gy"
+      category: "optimal"
+      source: "TG101"
+  3_fraction:
+    - constraint: "D20 cc < 28.2 Gy"
+      category: "mandatory"
+      source: "TG101"
+    - constraint: "D20 cc < 24 Gy"
+      category: "optimal"
+      source: "TG101"
+  5_fraction:
+    - constraint: "D20 cc < 38 Gy"
+      category: "mandatory"
+      source: "TG101"
+    - constraint: "D20 cc < 25 Gy"
+      category: "optimal"
+      source: "TG101"
+  8_fraction: []
+
+Skin:
+  conventional:
+    - constraint: "D0.03 cc ≤ 25 Gy"
+      source: "CORSAIR [43]"
+  1_fraction:
+    - constraint: "Dmax 0.01 cc < 26 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6,25]"
+    - constraint: "D10 cc < 23 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Volume < 10 cc receives ≤ 23 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 26 Gy"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Dmax 0.1 cc < 33 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "D10 cc < 30 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "Volume < 10 cc receives ≤ 30 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 33 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Dmax < 24 Gy"
+      source: "CORSAIR [25]"
+    - constraint: "Dmax 0.1 cc < 39.5 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "D10 cc < 36.5 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Volume < 10 cc receives ≤ 36.5 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 39.5 Gy"
+      source: "TG101"
+  8_fraction:
+    - constraint: "Dmax < 32 Gy"
+      source: "CORSAIR [25]"
+    - constraint: "Dmax 0.1 cc < 48 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "D10 cc < 44 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+
+Spinal_Canal:
+  conventional:
+    - constraint: "Dmax < 45–50 Gy"
+      source: "CORSAIR [5,26]"
+  1_fraction:
+    - constraint: "Dmax 0.035 cc < 14 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6,25]"
+    - constraint: "Dmax 0.035 cc < 12.4 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "Volume < 0.35 cc receives ≤ 10 Gy"
+      source: "TG101"
+    - constraint: "Volume < 1.2 cc receives ≤ 7 Gy"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Dmax 0.035 cc < 20.3 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmax 0.1 cc < 18 Gy"
+      category: "optimal"
+      source: "CORSAIR [7,8,25]"
+    - constraint: "Volume < 0.35 cc receives ≤ 18 Gy"
+      source: "TG101"
+    - constraint: "Volume < 1.2 cc receives ≤ 12.3 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Dmax 0.035 cc < 25.3 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmax < 30 Gy"
+      category: "mandatory"
+      source: "CORSAIR [7,25]"
+    - constraint: "Volume < 0.35 cc receives ≤ 23 Gy"
+      source: "TG101"
+    - constraint: "Volume < 1.2 cc receives ≤ 14.5 Gy"
+      source: "TG101"
+  8_fraction:
+    - constraint: "Dmax 0.035 cc < 32 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmax 0.1 cc < 25 Gy"
+      category: "mandatory"
+      source: "CORSAIR [7]"
+Prostatic_Urethra:
+  conventional:
+    - constraint: "D0.1 cc ≤ 120 Gy EQD2"
+      source: "CORSAIR [60]"
+    - constraint: "D10 cm³ ≤ 120 Gy EQD2"
+      source: "CORSAIR [60,61]"
+    - constraint: "D30 cm³ ≤ 105 Gy EQD2"
+      source: "CORSAIR [60,61]"
+    - constraint: "V47 Gy < 20%"
+      source: "CORSAIR [10]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction:
+    - constraint: "D50% < 42 Gy"
+      category: "optimal"
+      source: "CORSAIR [7]"
+  8_fraction: []
+
+Sacral_Plexus:
+  conventional: []
+  1_fraction:
+    - constraint: "Volume < 5 cc receives ≤ 14.4 Gy"
+      source: "TG101"
+    - constraint: "Dmax ≤ 16 Gy"
+      category: "mandatory"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Volume < 5 cc receives ≤ 22.5 Gy"
+      source: "TG101"
+    - constraint: "Dmax ≤ 24 Gy"
+      category: "mandatory"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Volume < 5 cc receives ≤ 30 Gy"
+      source: "TG101"
+    - constraint: "Dmax ≤ 32 Gy"
+      category: "mandatory"
+      source: "TG101"
+  8_fraction: []
+
+Sigmoid_Colon:
+  conventional: []
+  1_fraction:
+    - constraint: "D20 cm³ < 18.4 Gy"
+      category: "mandatory"
+      source: "TG101"
+    - constraint: "D20 cm³ < 14.3 Gy"
+      category: "optimal"
+      source: "TG101"
+  3_fraction:
+    - constraint: "D20 cm³ < 28.2 Gy"
+      category: "mandatory"
+      source: "TG101"
+    - constraint: "D20 cm³ < 24 Gy"
+      category: "optimal"
+      source: "TG101"
+  5_fraction:
+    - constraint: "D20 cm³ < 38 Gy"
+      category: "mandatory"
+      source: "TG101"
+    - constraint: "D20 cm³ < 25 Gy"
+      category: "optimal"
+      source: "TG101"
+  8_fraction: []
+
+Skin:
+  conventional:
+    - constraint: "D0.03 cc ≤ 25 Gy"
+      source: "CORSAIR [43]"
+  1_fraction:
+    - constraint: "Dmax 0.01 cc < 26 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6,25]"
+    - constraint: "D10 cm³ < 23 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+  3_fraction:
+    - constraint: "Dmax 0.1 cc < 33 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "D10 cm³ < 30 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+  5_fraction:
+    - constraint: "Dmax 0.1 cc < 39.5 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "D10 cm³ < 36.5 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+  8_fraction:
+    - constraint: "Dmax < 32 Gy"
+      source: "CORSAIR [25]"
+    - constraint: "Dmax 0.1 cc < 48 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "D10 cm³ < 44 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+
+Spleen:
+  conventional:
+    - constraint: "Dmean < 8.8 Gy"
+      source: "CORSAIR [55,56,57]"
+    - constraint: "V5 Gy < 30%"
+      source: "CORSAIR [55,56,57]"
+    - constraint: "V10 Gy < 30%"
+      source: "CORSAIR [55,56,57]"
+    - constraint: "V15 Gy < 20%"
+      source: "CORSAIR [55,56,57]"
+    - constraint: "V20 Gy < 20%"
+      source: "CORSAIR [55,56,57]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Stomach:
+  conventional:
+    - constraint: "Dmax < 54 Gy"
+      source: "CORSAIR [26]"
+    - constraint: "Dmean < 45 Gy"
+      source: "CORSAIR [26]"
+    - constraint: "V45 Gy ≤ 75 cm3"
+      category: "optimal"
+      source: "CORSAIR [36]"
+    - constraint: "V50 Gy ≤ 10%"
+      source: "CORSAIR [36]"
+    - constraint: "V45 Gy ≤ 15%"
+      source: "CORSAIR [36]"
+  1_fraction:
+    - constraint: "Dmax 0.1 cc < 12.4 Gy"
+      category: "mandatory"
+      source: "TG101"
+    - constraint: "D10 cm³ < 11.2 Gy"
+      category: "optimal"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Dmax 0.1 cc < 22.2 Gy"
+      category: "mandatory"
+      source: "TG101"
+    - constraint: "D10 cm³ < 16.5 Gy"
+      category: "mandatory"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Dmax 0.1 cc < 35 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmax 0.1 cc < 33 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+    - constraint: "D10 cm³ < 18 Gy"
+      source: "TG101"
+    - constraint: "Dmax < 32 Gy"
+      source: "TG101"
+    - constraint: "D50 cm³ < 12 Gy"
+      category: "optimal"
+      source: "CORSAIR [6]"
+  8_fraction: []
+
+Submandibular_Gland:
+  conventional:
+    - constraint: "Dmean < 35 Gy"
+      source: "CORSAIR [35]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Supraglottic_Larynx:
+  conventional:
+    - constraint: "Dmax < 66 Gy"
+      source: "CORSAIR [35]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Temporal_Lobe:
+  conventional:
+    - constraint: "Dmax < 65 Gy"
+      source: "CORSAIR [35]"
+    - constraint: "Dmax (1 cc) < 60 Gy"
+      category: "mandatory"
+      source: "CORSAIR [35]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Testis:
+  conventional:
+    - constraint: "Dmax < 6 Gy (TBI)"
+      source: "CORSAIR [58,59]"
+    - constraint: "Dmean < 5 Gy (TBI)"
+      source: "CORSAIR [58,59]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction:
+    - constraint: "Avoid beam entry"
+      category: "mandatory"
+      source: "CORSAIR [7]"
+  8_fraction: []
+
+Thyroid_Gland:
+  conventional:
+    - constraint: "V45 Gy < 50%"
+      source: "CORSAIR [35]"
+    - constraint: "Dmean < 45 Gy or sparing ≥ 5 cm3 < 45 Gy"
+      source: "CORSAIR [34]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
+
+Trachea:
+  conventional: []
+  1_fraction:
+    - constraint: "Dmax 0.1 cc < 20.2 Gy"
+      source: "TG101"
+    - constraint: "D4 cm3 < 10.5 Gy"
+      source: "TG101"
+  3_fraction:
+    - constraint: "Dmax 0.1 cc < 30 Gy"
+      source: "TG101"
+    - constraint: "Dmax 4 cc < 15 Gy"
+      source: "TG101"
+  5_fraction:
+    - constraint: "Dmax 0.1 cc < 38 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmax < 40 Gy"
+      source: "TG101"
+    - constraint: "D4 cm3 < 16.5 Gy"
+      source: "TG101"
+    - constraint: "Avoid 105% of PTV prescription"
+      source: "CORSAIR [25]"
+  8_fraction:
+    - constraint: "Dmax 0.1 cc < 40 Gy"
+      category: "mandatory"
+      source: "CORSAIR [6]"
+    - constraint: "Dmax 0.5 cc < 32 Gy"
+      category: "optimal"
+      source: "CORSAIR [7]"
+
+Ureters:
+  conventional:
+    - constraint: "Dmax 0.1 cc < 35 Gy"
+      source: "CORSAIR [6]"
+  1_fraction:
+    - constraint: "Dmax 0.1 cc < 40 Gy"
+      source: "CORSAIR [6]"
+  3_fraction:
+    - constraint: "Dmax 0.5 cc < 45 Gy"
+      source: "CORSAIR [7]"
+  5_fraction: []
+  8_fraction: []
+
+Urethra:
+  conventional:
+    - constraint: "D0.1 cc ≤ 120 Gy EQD2"
+      source: "CORSAIR [60]"
+    - constraint: "D10 cm³ ≤ 120 Gy EQD2"
+      source: "CORSAIR [60,61]"
+    - constraint: "D30 cm³ ≤ 105 Gy EQD2"
+      source: "CORSAIR [60,61]"
+    - constraint: "V47 Gy < 20%"
+      source: "CORSAIR [10]"
+  1_fraction: []
+  3_fraction: []
+  5_fraction: []
+  8_fraction: []
