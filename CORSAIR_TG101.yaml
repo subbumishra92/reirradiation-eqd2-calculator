@@ -1,0 +1,409 @@
+organs:
+  Aorta:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  AnteriorDescendingArtery:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  AorticValve:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  AnalCanal:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  BoneMarrow:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Bowel:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  BowelLarge:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  BowelSmall:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  BowelSpace:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Breast:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  CaudaEquina:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  ChestWall:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Cochlea:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  CommonBileDuct:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  CricoPharyngealInlet:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  CricoPharyngealMuscle:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Duodenum:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  EsophagealInlet:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Esophagus:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Femur:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  FemoralHeadNeck:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Glottis:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  GreatVessels:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Heart:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Hippocampus:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Hypothalamus:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  JejunumIleum:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Kidney:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  KidneyCortex:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  LacrimalGland:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Lens:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  LeftAnteriorDescendingArtery:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  LeftCircumflexCoronaryArtery:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  LeftMainCoronaryArtery:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Lips:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Liver:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  LumbosacralPlexus:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Mandible:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  MitralValve:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  OralCavity:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Ovaries:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Pancreas:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  ParotidGland:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  PenileBulb:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  PharyngealConstrictorMuscles:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  PituitaryGland:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  ProximalBronchus:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  PulmonaryValve:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Rectum:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Retina:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  RightCoronaryArtery:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  SigmoidColon:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Skin:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  SmallBowel:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Spleen:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  SpinalCanal:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  SpinalCord:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Stomach:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  SubmandibularGland:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  SupraglotticLarynx:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  TemporalLobe:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Testis:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  ThyroidGland:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Trachea:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  TricuspidValve:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Ureters:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Urethra:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
+  Vagina:
+    conventional: {}
+    one_fraction: {}
+    three_fractions: {}
+    five_fractions: {}
+    eight_fractions: {}
