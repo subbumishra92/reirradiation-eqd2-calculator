@@ -1,0 +1,279 @@
+Experimental_Dose_Constraints:  # CORSAIR Table S1 – Emerging OARs
+  Aorta:
+    - constraint: "Dmax(1 cc) < 74 Gy"
+      source: "CORSAIR S1 [99]"
+  Bichat_Fat_Pad:
+    - constraint: "No organ volume reduction with Dmax 70 Gy"
+      source: "CORSAIR S1 [100]"
+  Bone_Marrow:
+    - constraint: "Bone marrow‑V10Gy < 90%"
+      source: "CORSAIR S1 [68]"
+    - constraint: "Bone marrow‑V20Gy < 84%"
+      source: "CORSAIR S1 [101]"
+    - constraint: "Bone marrow‑Dmean < 25 Gy"
+      source: "CORSAIR S1 [102]"
+      category: "optimal"
+    - constraint: "Bone marrow‑Dmean < 30 Gy"
+      source: "CORSAIR S1 [102]"
+      category: "mandatory"
+    - constraint: "Lumbosacral spine‑V10Gy < 85%"
+      source: "CORSAIR S1 [102]"
+    - constraint: "Lumbosacral spine‑Dmean < 28 Gy"
+      source: "CORSAIR S1 [102]"
+    - constraint: "Lumbosacral spine‑V15Gy < 85%"
+      source: "CORSAIR S1 [101]"
+  Femur:
+    - constraint: "Dmax < 60 Gy"
+      source: "CORSAIR S1 [103]"
+      category: "mandatory"
+    - constraint: "Dmax < 50 Gy"
+      source: "CORSAIR S1 [104]"
+      category: "optimal"
+  Hypothalamus:
+    - constraint: "Dmax < 50 Gy (T1‑weighted MRI)"
+      source: "CORSAIR S1 [105]"
+  Temporomandibular_Joint:
+    - constraint: "Dmax(0.1 cc) < 70 Gy"
+      source: "CORSAIR S1 [35]"
+  Vagina:
+    - constraint: "D2 cc ≤ 145 Gy EQD2 (EBRT + BRT)"
+      source: "CORSAIR S1 [106]"
+    - constraint: "Drectovaginal_point ≤ 65 Gy EQD2 (EBRT + BRT)"
+      source: "CORSAIR S1 [107]"
+
+Hodgkin_Lymphoma_Dose_Constraints:  # CORSAIR Table S2
+  Aortic_Valve:
+    - constraint: "Dmax < 25 Gy"
+      source: "CORSAIR S2 [11]"
+  Mitral_Valve:
+    - constraint: "Dmax < 25 Gy"
+      source: "CORSAIR S2 [11]"
+  Tricuspid_Valve:
+    - constraint: "Dmax < 30 Gy"
+      source: "CORSAIR S2 [11]"
+  Coronary_Vessels:
+    - constraint: "Avoid hotspots"
+      source: "CORSAIR S2 [11]"
+  Left_Ventricle:
+    - constraint: "Dmean < 8 Gy (recommended)"
+      source: "CORSAIR S2 [11]"
+    - constraint: "Dmean < 15 Gy (acceptable)"
+      source: "CORSAIR S2 [11]"
+  Bone_Marrow:
+    - constraint: "V5 Gy: ALARA"
+      source: "CORSAIR S2 [11]"
+    - constraint: "V10 Gy < 50%"
+      source: "CORSAIR S2 [11]"
+    - constraint: "V25 Gy < 25%"
+      source: "CORSAIR S2 [11]"
+  Bowel_Small:
+    - constraint: "Dmax < 45 Gy"
+      source: "CORSAIR S2 [11]"
+    - constraint: "V15 Gy < 120 cc"
+      source: "CORSAIR S2 [11]"
+  Breast:
+    - constraint: "Dmean < 4 Gy (optimal)"
+      source: "CORSAIR S2 [108]"
+      category: "optimal"
+    - constraint: "Dmean 4–15 Gy (acceptable)"
+      source: "CORSAIR S2 [108]"
+    - constraint: "V4 Gy < 10% (optimal)"
+      source: "CORSAIR S2 [108]"
+      category: "optimal"
+    - constraint: "V4 Gy 10–20% (acceptable)"
+      source: "CORSAIR S2 [108]"
+    - constraint: "V10 Gy < 10% (acceptable)"
+      source: "CORSAIR S2 [108]"
+  Heart:
+    - constraint: "Dmean < 8 Gy (recommended)"
+      source: "CORSAIR S2 [11]"
+    - constraint: "Dmean < 15 Gy (acceptable)"
+      source: "CORSAIR S2 [11]"
+  Kidneys:
+    - constraint: "Dmean < 8 Gy"
+      source: "CORSAIR S2 [11]"
+    - constraint: "V10 Gy < 30%"
+      source: "CORSAIR S2 [11]"
+    - constraint: "V20 Gy < 15% (recommended)"
+      source: "CORSAIR S2 [11]"
+    - constraint: "V20 Gy < 25% (acceptable)"
+      source: "CORSAIR S2 [11]"
+  Lacrimal_Gland:
+    - constraint: "V20 Gy < 80%"
+      source: "CORSAIR S2 [11]"
+  Liver:
+    - constraint: "Dmean < 15 Gy"
+      source: "CORSAIR S2 [11]"
+    - constraint: "V20 Gy < 30%"
+      source: "CORSAIR S2 [11]"
+    - constraint: "V30 Gy < 20%"
+      source: "CORSAIR S2 [11]"
+  Lung:
+    - constraint: "V5 Gy < 35% (optimal)"
+      source: "CORSAIR S2 [108]"
+      category: "optimal"
+    - constraint: "V5 Gy 35–45% (acceptable)"
+      source: "CORSAIR S2 [108]"
+    - constraint: "V20 Gy < 20% (optimal)"
+      source: "CORSAIR S2 [108]"
+      category: "optimal"
+    - constraint: "V20 Gy 20–28% (acceptable)"
+      source: "CORSAIR S2 [108]"
+    - constraint: "Dmean < 8 Gy (optimal)"
+      source: "CORSAIR S2 [108]"
+      category: "optimal"
+    - constraint: "Dmean 8–12 Gy (acceptable)"
+      source: "CORSAIR S2 [108]"
+
+Hypofractionated_Breast_Constraints:  # CORSAIR Table S3
+  Anterior_Descending_Artery:
+    moderate_hypofractionation:
+      - constraint: "Dmax ≤ 20 Gy"
+        source: "CORSAIR S3 [109,110]"
+    ultra_hypofractionation: []
+  Breast:
+    moderate_hypofractionation:
+      - constraint: "Dmean: ALARA"
+        source: "CORSAIR S3 [111]"
+      - constraint: "Dmax < 3% of prescribed dose"
+        source: "CORSAIR S3 [111]"
+      - constraint: "V5 Gy < 15%"
+        source: "CORSAIR S3 [112,113]"
+    ultra_hypofractionation:
+      - constraint: "Dmax < 1 Gy (contralateral breast)"
+        source: "CORSAIR S3 [13]"
+
+  Heart:
+    moderate_hypofractionation:
+      - constraint: "V40 Gy < 3%"
+        source: "CORSAIR S3 [114]"
+      - constraint: "V18 Gy < 5%"
+        source: "CORSAIR S3 [114]"
+      - constraint: "V10 Gy < 5%"
+        source: "CORSAIR S3 [14]"
+      - constraint: "V2 Gy < 30%"
+        source: "CORSAIR S3 [14]"
+      - constraint: "If DIBH: V13 Gy < 10%"
+        source: "CORSAIR S3 [115]"
+      - constraint: "If DIBH: V13 Gy < 2% (optimal)"
+        source: "CORSAIR S3 [115]"
+      - constraint: "If DIBH: Dmean < 3 Gy"
+        source: "CORSAIR S3 [115]"
+    ultra_hypofractionation:
+      - constraint: "V3 Gy < 10%"
+        source: "CORSAIR S3 [13]"
+      - constraint: "V1.5 Gy < 30%"
+        source: "CORSAIR S3 [14]"
+      - constraint: "V7 Gy < 5%"
+        source: "CORSAIR S3 [14]"
+  Lung:
+    moderate_hypofractionation:
+      - constraint: "Dmean < 10 Gy"
+        source: "CORSAIR S3 [114]"
+      - constraint: "V20 Gy < 10%"
+        source: "CORSAIR S3 [114]"
+      - constraint: "V12 Gy < 15%"
+        source: "CORSAIR S3 [14]"
+      - constraint: "V25 Gy < 5%"
+        source: "CORSAIR S3 [114]"
+      - constraint: "V17 Gy < 8%"
+        source: "CORSAIR S3 [114]"
+      - constraint: "V8 Gy < 10%"
+        source: "CORSAIR S3 [114]"
+      - constraint: "Contralateral lung V2.5 Gy < 15%"
+        source: "CORSAIR S3 [111]"
+    ultra_hypofractionation:
+      - constraint: "Dmean < 6.36 Gy"
+        source: "CORSAIR S3 [111]"
+  Contralateral_Lung:
+    moderate_hypofractionation:
+      - constraint: "V2.5 Gy < 15%"
+        source: "CORSAIR S3 [111]"
+      - constraint: "If DIBH: V2.5 Gy < 3% (optimal)"
+        source: "CORSAIR S3 [115]"
+      - constraint: "If DIBH: Dmean < 1 Gy (optimal)"
+        source: "CORSAIR S3 [115]"
+    ultra_hypofractionation:
+      - constraint: "V5 Gy < 10%"
+        source: "CORSAIR S3 [13]"
+  Ipsilateral_Lung:
+    moderate_hypofractionation:
+      - constraint: "If DIBH: V18 Gy < 10% (optimal)"
+        source: "CORSAIR S3 [115]"
+      - constraint: "If DIBH: Dmean < 6 Gy (optimal)"
+        source: "CORSAIR S3 [115]"
+    ultra_hypofractionation:
+      - constraint: "V10 Gy < 20%"
+        source: "CORSAIR S3 [13]"
+      - constraint: "V8 Gy < 15%"
+        source: "CORSAIR S3 [14]"
+
+Pediatric_Dose_Constraints:  # CORSAIR Table S4
+  Brain:
+    - constraint: "Dmax 58–59 Gy"
+      source: "CORSAIR S4 [17]"
+    - constraint: "5% risk of necrosis for doses > 58–59 Gy"
+      source: "CORSAIR S4 [17]"
+    - constraint: "5% risk of cognitive decline for doses > 35.7 Gy (10% vol), 29.1 Gy (20% vol), 22.2 Gy (50% vol), 18.1 Gy (100% vol)"
+      source: "CORSAIR S4 [17]"
+  Brainstem:
+    - constraint: "Dmax < 55.8 Gy‑RBE"
+      source: "CORSAIR S4 [116]"
+    - constraint: "V55 Gy ≤ 6%"
+      source: "CORSAIR S4 [116]"
+  Cochlea:
+    - constraint: "Dmean < 35 Gy"
+      source: "CORSAIR S4 [40]"
+  Heart:
+    - constraint: "Dmean < 15 Gy"
+      source: "CORSAIR S4 [20]"
+    - constraint: "V20 Gy < 0.1%"
+      source: "CORSAIR S4 [117]"
+    - constraint: "V5 Gy < 50%"
+      source: "CORSAIR S4 [117]"
+  Lung:
+    - constraint: "V24 Gy < 30%"
+      source: "CORSAIR S4 [20]"
+  Optic_Pathway:
+    - constraint: "Dmax < 30 Gy"
+      source: "CORSAIR S4 [15]"
+      category: "optimal"
+    - constraint: "Dmax < 45 Gy"
+      source: "CORSAIR S4 [15,40]"
+      category: "mandatory"
+  Orbital_Bone:
+    - constraint: "Dmax(0.1 cc) < 40 Gy‑RBE"
+      source: "CORSAIR S4 [118]"
+  Pituitary_Gland:
+    - constraint: "Dmax < 60 Gy"
+      source: "CORSAIR S4 [15]"
+    - constraint: "Dmax < 42 Gy"
+      source: "CORSAIR S4 [40]"
+    - constraint: "Dmean < 25 Gy"
+      source: "CORSAIR S4 [40]"
+  Parotid_Gland:
+    - constraint: "Dmean ≤ 26 Gy"
+      source: "CORSAIR S4 [18]"
+    - constraint: "Dmean < 40 Gy"
+      source: "CORSAIR S4 [18]"
+      category: "mandatory"
+  Soft_Tissues_and_Skeletal_System:
+    - constraint: "Limit V25–30 Gy to reduce muscular hypoplasia"
+      source: "CORSAIR S4 [20]"
+    - constraint: "Avoid dose gradients > 10–15 Gy to spine"
+      source: "CORSAIR S4 [20]"
+  Spleen:
+    - constraint: "Dmean < 10 Gy"
+      source: "CORSAIR S4 [119,120]"
+  Submandibular_Gland:
+    - constraint: "Dmean ≤ 26 Gy"
+      source: "CORSAIR S4 [18]"
+  Rectum:
+    - constraint: "D5 cc < 52 Gy EQD2"
+      source: "CORSAIR S4 [121]"
+  Thyroid_Gland:
+    - constraint: "Dmean < 30 Gy"
+      source: "CORSAIR S4 [16]"
+    - constraint: "Dmean < 20 Gy"
+      source: "CORSAIR S4 [16]"
+      category: "optimal"
