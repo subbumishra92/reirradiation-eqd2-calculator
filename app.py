@@ -7,7 +7,7 @@ import yaml
 from pathlib import Path
 
 # ——— Load your CORSAIR TG‑101 constraints ———
-yaml_general = Path(__file__).parent / "CORSAIR.TG101.yaml"
+yaml_general = Path(__file__).parent / "CORSAIR_TG101.yaml"
 with open(yaml_general, "r") as f:
     oar_constraints = yaml.safe_load(f)
 
