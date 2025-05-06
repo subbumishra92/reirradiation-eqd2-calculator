@@ -5,10 +5,20 @@ import re
 import streamlit.components.v1 as components
 import yaml
 from pathlib import Path
+import yaml
 
-yaml_path = Path(__file__).parent / "CORSAIR_TG101.yaml"
-with open(yaml_path, "r") as f:
-    oar_constraints = yaml.safe_load(f)
+# … other imports …
+
+# load your two YAMLs
+yaml_general = Path(__file__).parent / "CORSAIR.TG101.yaml"
+yaml_sit     = Path(__file__).parent / "Experimental_Dose_Constraints.yaml"
+
+with open(yaml_general, "r") as f:
+    general_constraints = yaml.safe_load(f)
+
+with open(yaml_sit, "r") as f:
+    situational_constraints = yaml.safe_load(f)
+
     
 # ——— Page config ———
 st.set_page_config(page_title="Palliative Radiotherapy Planning", layout="wide")
@@ -660,42 +670,91 @@ with tab2:
 with tab3:
     st.header("OAR Dose Constraints Lookup")
 
-    # 1) fractionation selector
-    fractionation_options = {
-        "Conventional": "conventional",
-        "1 Fraction": "1_fraction",
-        "3 Fractions": "3_fraction",
-        "5 Fractions": "5_fraction",
-        "8 Fractions": "8_fraction",
-    }
-    scheme_label = st.selectbox(
-        "Select a fractionation scheme:",
-        list(fractionation_options.keys())
-    )
-    scheme_key = fractionation_options[scheme_label]
+    # 1) choose which set
+    set_labels = [
+        "General Dose Constraints (TG101 & CORSAIR)",
+        "Experimental Dose Constraints (CORSAIR S1)",
+        "Hodgkin Lymphoma Dose Constraints (CORSAIR S2)",
+        "Hypofractionated Breast Constraints (CORSAIR S3)",
+        "Pediatric Dose Constraints (CORSAIR S4)"
+    ]
+    which = st.selectbox("Select constraint set:", set_labels)
 
-    # 2) organ multiselect
-    organ_list = sorted(oar_constraints.keys())
-    selected_organs = st.multiselect(
-        "Select organs at risk:",
-        organ_list
-    )
-
-    # 3) display constraints
-    if selected_organs:
-        st.subheader(f"Constraints for {scheme_label}")
-        for organ in selected_organs:
-            st.markdown(f"#### {organ.replace('_', ' ')}")
-            entries = oar_constraints.get(organ, {}).get(scheme_key, [])
-            if entries:
-                for e in entries:
-                    line = e["constraint"]
-                    if e.get("category"):
-                        line += f"  ({e['category']})"
-                    if e.get("source"):
-                        line += f" — {e['source']}"
-                    st.write(f"- {line}")
-            else:
-                st.write("No constraints available for this scheme.")
+    # map to dict + detect general vs situational
+    if which.startswith("General"):
+        data = general_constraints
+        is_general = True
     else:
-        st.info("Please select one or more organs to see constraints.")
+        is_general = False
+        if which.startswith("Experimental"):
+            data = situational_constraints["Experimental_Dose_Constraints"]
+        elif which.startswith("Hodgkin"):
+            data = situational_constraints["Hodgkin_Lymphoma_Dose_Constraints"]
+        elif which.startswith("Hypofractionated"):
+            data = situational_constraints["Hypofractionated_Breast_Constraints"]
+        else:
+            data = situational_constraints["Pediatric_Dose_Constraints"]
+
+    if is_general:
+        # exactly your existing fractionation → lookup logic
+        fractionation_options = {
+            "Conventional": "conventional",
+            "1 Fraction":   "1_fraction",
+            "3 Fractions":  "3_fraction",
+            "5 Fractions":  "5_fraction",
+            "8 Fractions":  "8_fraction",
+        }
+        scheme_label = st.selectbox("Select a fractionation scheme:",
+                                    list(fractionation_options.keys()))
+        scheme_key = fractionation_options[scheme_label]
+
+        organ_list = sorted(data.keys())
+        selected_organs = st.multiselect("Select organs at risk:", organ_list)
+
+        if selected_organs:
+            st.subheader(f"Constraints for {scheme_label}")
+            for organ in selected_organs:
+                st.markdown(f"#### {organ.replace('_',' ')}")
+                entries = data.get(organ, {}).get(scheme_key, [])
+                if entries:
+                    for e in entries:
+                        line = e["constraint"]
+                        if e.get("category"):
+                            line += f"  ({e['category']})"
+                        if e.get("source"):
+                            line += f" — {e['source']}"
+                        st.write(f"- {line}")
+                else:
+                    st.write("No constraints available for this scheme.")
+        else:
+            st.info("Please select one or more organs to see constraints.")
+
+    else:
+        # for S3 only: choose moderate vs ultra
+        sub_key = None
+        if which.startswith("Hypofractionated"):
+            sub_key = st.selectbox(
+                "Select breast scheme:",
+                ["moderate_hypofractionation", "ultra_hypofractionation"]
+            )
+
+        organ_list = sorted(data.keys())
+        selected_organs = st.multiselect("Select organs at risk:", organ_list)
+
+        if selected_organs:
+            st.subheader(which)
+            for organ in selected_organs:
+                st.markdown(f"#### {organ.replace('_',' ')}")
+                entries = data[organ].get(sub_key, []) if sub_key else data[organ]
+                if entries:
+                    for e in entries:
+                        line = e["constraint"]
+                        if e.get("category"):
+                            line += f"  ({e['category']})"
+                        if e.get("source"):
+                            line += f" — {e['source']}"
+                        st.write(f"- {line}")
+                else:
+                    st.write("No constraints available for this selection.")
+        else:
+            st.info("Please select one or more organs to see constraints.")
