@@ -361,6 +361,91 @@ if "stage" not in st.session_state:
 if "custom_ab" not in st.session_state:
     st.session_state.custom_ab = {}
 
+# ——— REFERENCES DICTIONARY ———
+# cleaned to “LastName et al.” style, ready to paste into Python
+references = {
+    1:  'Rubin & Casarett. "Clinical radiation pathology as applied to curative radiotherapy." Front Radiat. Ther. Oncol. 1968, 22, 767–778.',
+    2:  'Emami et al. "Tolerance of Normal Tissue to Therapeutic Irradiation." Int. J. Radiat. Oncol. Biol. Phys. 1991, 21, 109–122.',
+    3:  'Marks et al. "Guest Editor’s Introduction to QUANTEC: A Users Guide." Int. J. Radiat. Oncol. Biol. Phys. 2010, 76, S1–S2.',
+    4:  'Bentzen et al. "Quantitative Analyses of Normal Tissue Effects in the Clinic (QUANTEC): An Introduction to the Scientific Issues." Int. J. Radiat. Oncol. Biol. Phys. 2010, 76, S3–S9.',
+    5:  'Marks et al. "Use of Normal Tissue Complication Probability Models in the Clinic." Int. J. Radiat. Oncol. Biol. Phys. 2010, 76, S10–S19.',
+    6:  'Diez et al. "UK 2022 Consensus on Normal Tissue Dose–Volume Constraints for Oligometastatic, Primary Lung and Hepatocellular Carcinoma SABR." Clin. Oncol. 2022, 34, 288–300.',
+    7:  'Hanna et al. "UK Consensus on Normal Tissue Dose Constraints for Stereotactic Radiotherapy." Clin. Oncol. 2018, 30, 5–14.',
+    8:  'Benedict et al. "Stereotactic Body Radiation Therapy: The Report of AAPM Task Group 101." Med. Phys. 2010, 37, 4078–4101.',
+    9:  'Milano et al. "Single‑ and Multifraction Stereotactic Radiosurgery Dose/Volume Tolerances of the Brain." Int. J. Radiat. Oncol. Biol. Phys. 2021, 110, 68–86.',
+    10: 'Grimm et al. "Dose Tolerance Limits and Dose–Volume Histogram Evaluation for Stereotactic Body Radiotherapy." J. Appl. Clin. Med. Phys. 2011, 12, 267–292.',
+    11: 'NCCN Guidelines et al. "NCCN Clinical Practice Guidelines in Oncology—Hodgkin Lymphoma. Version 1.2023."',
+    13: 'Coles et al. "Partial‑Breast Radiotherapy after Breast Conservation Surgery (UK IMPORT LOW): 5‑Year Results." Lancet 2017, 390, 1048–1060.',
+    14: 'Meattini et al. "APBI‑IMRT‑Florence Trial: Accelerated Partial‑Breast vs Whole‑Breast Irradiation: Long‑Term Results." J. Clin. Oncol. 2020, 38, 4175–4183.',
+    15: 'Murray Brunt et al. "FAST‑Forward Trial: 1 Week vs 3 Weeks Hypofractionation." Lancet 2020, 395, 1613–1626.',
+    16: 'Palmer et al. "Late Effects of Radiation Therapy in Pediatric Patients and Survivorship." Pediatr. Blood Cancer 2021, 68, e28349.',
+    17: 'Milano et al. "Primary Hypothyroidism in Childhood Cancer Survivors Treated With Radiation Therapy: A PENTEC Review." Int. J. Radiat. Oncol. Biol. Phys. 2021.',
+    18: 'Mahajan et al. "Neurocognitive Effects and Necrosis in Childhood Cancer Survivors: A PENTEC Review." Int. J. Radiat. Oncol. Biol. Phys. 2021.',
+    20: 'Milgrom et al. "Salivary and Dental Complications in Childhood Cancer Survivors: A PENTEC Review." Int. J. Radiat. Oncol. Biol. Phys. 2021.',
+    21: 'Hodgson et al. "ILROG Guidelines for Pediatric Hodgkin Lymphoma RT Planning." Pract. Radiat. Oncol. 2015, 5, 85–92.',
+    22: 'Reis et al. "SBRT of Ventricular Tachycardia Using 4π Optimized Trajectories." J. Appl. Clin. Med. Phys. 2021, 22, 72–86.',
+    23: 'Blanck et al. "RAVENTA Trial: Feasibility of Radiosurgery for Ventricular Tachycardia." Clin. Res. Cardiol. 2020, 109, 1319–1332.',
+    24: 'Chiu et al. "Review of Stereotactic Arrhythmia Radioablation Therapy for Cardiac Tachydysrhythmias." CJC Open 2021, 3, 236–247.',
+    25: 'NCCN Guidelines et al. "Non‑Small Cell Lung Cancer v5.2022."',
+    26: 'NCCN Guidelines et al. "Esophageal and Esophagogastric Junction Cancers v4.2022."',
+    28: 'NCCN Guidelines et al. "Anal Cancer v2.2022."',
+    30: 'Dapper et al. "Impact of VMAT‑IMRT vs 3D‑CRT on Anal Sphincter Dose in Rectal Cancer." Radiat. Oncol. 2018, 13, 237.',
+    31: 'Jadon et al. "Systematic Review of Dose–Volume Predictors for Late Bowel Toxicity." Radiat. Oncol. 2019, 14, 1–14.',
+    32: 'Peng et al. "Dose–Volume Analysis of Predictors for Acute Anal Toxicity in Prostate Cancer." Radiat. Oncol. 2019, 14, 1–9.',
+    33: 'Atkins et al. "Association of LAD Coronary Dose with Cardiac Events in NSCLC." JAMA Oncol. 2021, 7, 206–219.',
+    34: 'Brodin & Tomé. "Revisiting Dose Constraints for Head & Neck OARs in IMRT Era." Oral Oncol. 2018, 86, 8–18.',
+    35: 'Merlotti et al. "Technical Guidelines for H&N IMRT (AIRO‑HN WG)." Radiat. Oncol. 2014, 9, 264.',
+    36: 'Brunner et al. "ESTRO ACROP Guidelines for CTV Delineation in Pancreatic Cancer." Radiother. Oncol. 2021, 154, 60–69.',
+    37: 'Eekers et al. "EPTN Consensus Atlas for CT/MR Contouring in Neuro‑Oncology." Radiother. Oncol. 2018, 128, 37–43.',
+    38: 'Inoue et al. "Three‑Fraction CyberKnife RT for Brain Mets (V14)." J. Radiat. Res. 2013, 54, 727–735.',
+    39: 'Niyazi et al. "ESTRO‑ACROP Guideline: Target Delineation of Glioblastomas." Radiother. Oncol. 2016, 118, 35–42.',
+    40: 'Scoccianti et al. "OARs in the Brain & Their Dose Constraints in Adults & Children." Radiother. Oncol. 2015, 114, 230–238.',
+    41: 'Li et al. "Dosimetric Analysis of Dysphagia & G‑Tube Dependence in H&N IMRT+Chemo." Radiat. Oncol. 2009, 4, 52.',
+    42: 'Basu & Bhaskar. "Overview of Important OARs in H&N Cancer RT." In Cancer Survivorship, IntechOpen 2019.',
+    43: 'Lambrecht et al. "Dose Constraints for OARs in Neuro‑Oncology: EPTN Consensus." Radiother. Oncol. 2018, 128, 26–36.',
+    44: 'Gondi et al. "Hippocampal Dosimetry Predicts Neurocognitive Decline after SRS." Int. J. Radiat. Oncol. Biol. Phys. 2013, 85, 348–354.',
+    45: 'Brown et al. "Hippocampal Avoidance WBRT+Memantine for Brain Mets: NRG CC001." J. Clin. Oncol. 2020, 38, 1019–1029.',
+    46: 'Pinkham et al. "Hippocampal‑Sparing RT: New Standard for Grade II/III Gliomas?" J. Clin. Neurosci. 2014, 21, 86–90.',
+    47: 'Goodman et al. "RTOG Consensus Guidelines: CTV Delineation Postop Pancreatic Head Cancer." Int. J. Radiat. Oncol. Biol. Phys. 2012, 83, 901–908.',
+    48: 'Yeoh et al. "Pudendal Nerve Injury Impairs Anorectal Function ≥2 Years Post‑3D‑CRT for Prostate Ca." Acta Oncol. 2018, 57, 456–464.',
+    49: 'Kovtun et al. "Ovary‑Sparing RT Techniques for Buttock/Thigh Sarcoma." Sarcoma 2017, 2017, 2796925.',
+    50: 'Vyfhuis et al. "Preserving Endocrine Function in Premenopausal Women Receiving Whole‑Pelvis RT." Int. J. Part. Ther. 2019, 6, 10–17.',
+    51: 'Du & Qu. "Relationship between Ovarian Function and Dose Post‑Transposition in Young Cervical Ca." Cancer Med. 2017, 6, 508–515.',
+    52: 'Polanowski et al. "Analysis of Pancreatic Dose during Gastric Ca RT." Radiother. Oncol. 2020, 151, 20–23.',
+    53: 'Gemici et al. "Volumetric Decrease of Pancreas after Abdominal Irradiation." Radiat. Oncol. 2018, 13, 238.',
+    54: 'Palmisciano et al. "SBRT in Non‑Operable Lung Ca Patients." Clin. Transl. Oncol. 2016, 18, 1158–1159.',
+    55: 'Uehara et al. "Feasibility of VMAT with Halcyon™ for Total Body Irradiation." Radiat. Oncol. 2021, 16, 236.',
+    56: 'De Felice et al. "Radiation Effects on Male Fertility." Andrology 2019, 7, 2–7.',
+    57: 'Hoskin et al. "GEC/ESTRO Recommendations on HDR Afterloading Brachytherapy for Prostate Ca: Update." Radiother. Oncol. 2013, 107, 325–332.',
+    58: 'Henry et al. "GEC‑ESTRO ACROP Prostate Brachytherapy Guidelines." Radiother. Oncol. 2022, 167, 244–251.',
+    59: 'Susan. "Anatomy: The Anatomical Basis of Clinical Practice, 2nd ed." Elsevier 2020.',
+    60: 'Feng et al. "Development and Validation of a Heart Atlas for Breast Ca RT." Int. J. Radiat. Oncol. Biol. Phys. 2011, 79, 10–18.',
+    61: 'Duane et al. "A Cardiac Contouring Atlas for Radiotherapy." Radiother. Oncol. 2017, 122, 416–422.',
+    99: 'Bisello et al. “Supplementary Table S1: Emerging OARs.” Curr. Oncol. 2022.',
+   100: 'Bisello et al. “Supplementary Table S1: Bichat Fat Pad data.” Curr. Oncol. 2022.',
+   101: 'Bisello et al. “Supplementary Table S1: Bone‐Marrow V20Gy < 84%.” Curr. Oncol. 2022.',
+   102: 'Bisello et al. “Supplementary Table S1: Bone‐Marrow Dmean constraints.” Curr. Oncol. 2022.',
+   103: 'Bisello et al. “Supplementary Table S1: Femur Dmax constraints.” Curr. Oncol. 2022.',
+   104: 'Bisello et al. “Supplementary Table S1: Femur Dmax optimal.” Curr. Oncol. 2022.',
+   105: 'Bisello et al. “Supplementary Table S1: Hypothalamus Dmax.” Curr. Oncol. 2022.',
+   106: 'Bisello et al. “Supplementary Table S1: Vagina D2cc EQD2.” Curr. Oncol. 2022.',
+   107: 'Bisello et al. “Supplementary Table S1: Vagina Drectovaginal point.” Curr. Oncol. 2022.',
+   108: 'Bisello et al. “Supplementary Table S2: Breast Dmean/V4Gy constraints.” Curr. Oncol. 2022.',
+   109: 'Bisello et al. “Supplementary Table S3: Anterior Descending Artery Dmax.” Curr. Oncol. 2022.',
+   110: 'Bisello et al. “Supplementary Table S3: Hypofractionation breast Dmax.” Curr. Oncol. 2022.',
+   111: 'Bisello et al. “Supplementary Table S3: Lung V20Gy < 10%.” Curr. Oncol. 2022.',
+   112: 'Bisello et al. “Supplementary Table S4: Pediatric Brain V necrosis risk.” Curr. Oncol. 2022.',
+   113: 'Bisello et al. “Supplementary Table S4: Cochlea Dmean < 35Gy.” Curr. Oncol. 2022.',
+   114: 'Bisello et al. “Supplementary Table S4: Heart Dmean/V20Gy.” Curr. Oncol. 2022.',
+   115: 'Bisello et al. “Supplementary Table S4: Lung V24Gy < 30%.” Curr. Oncol. 2022.',
+   116: 'Bisello et al. “Supplementary Table S4: Brainstem Dmax/V55Gy.” Curr. Oncol. 2022.',
+   117: 'Bisello et al. “Supplementary Table S4: Optic Pathway Dmax.” Curr. Oncol. 2022.',
+   118: 'Bisello et al. “Supplementary Table S4: Orbital Bone Dmax.” Curr. Oncol. 2022.',
+   119: 'Bisello et al. “Supplementary Table S4: Spleen Dmean.” Curr. Oncol. 2022.',
+   120: 'Bisello et al. “Supplementary Table S4: Submandibular Gland Dmean.” Curr. Oncol. 2022.',
+   121: 'Bisello et al. “Supplementary Table S4: Rectum D5cc EQD2.” Curr. Oncol. 2022.',
+}
+
 # ——— Main UI ———
 st.title("Palliative Radiotherapy Planning")
 tab1, tab2, tab3 = st.tabs([
@@ -670,91 +755,55 @@ with tab2:
 with tab3:
     st.header("OAR Dose Constraints Lookup")
 
-    # 1) choose which set
-    set_labels = [
-        "General Dose Constraints (TG101 & CORSAIR)",
-        "Experimental Dose Constraints (CORSAIR S1)",
-        "Hodgkin Lymphoma Dose Constraints (CORSAIR S2)",
-        "Hypofractionated Breast Constraints (CORSAIR S3)",
-        "Pediatric Dose Constraints (CORSAIR S4)"
-    ]
-    which = st.selectbox("Select constraint set:", set_labels)
+    # fractionation selector
+    fractionation_options = {
+        "Conventional": "conventional",
+        "1 Fraction": "1_fraction",
+        "3 Fractions": "3_fraction",
+        "5 Fractions": "5_fraction",
+        "8 Fractions": "8_fraction",
+    }
+    scheme_label = st.selectbox(
+        "Select a fractionation scheme:",
+        list(fractionation_options.keys())
+    )
+    scheme_key = fractionation_options[scheme_label]
 
-    # map to dict + detect general vs situational
-    if which.startswith("General"):
-        data = general_constraints
-        is_general = True
+    # organ multiselect
+    organ_list = sorted(oar_constraints.keys())
+    selected_organs = st.multiselect(
+        "Select organs at risk:",
+        organ_list
+    )
+
+    # track which references are actually used
+    used_refs = set()
+
+    if selected_organs:
+        st.subheader(f"Constraints for {scheme_label}")
+        for organ in selected_organs:
+            st.markdown(f"#### {organ.replace('_', ' ')}")
+            entries = oar_constraints.get(organ, {}).get(scheme_key, [])
+            if entries:
+                for e in entries:
+                    # extract citation numbers from e.get("source", "")
+                    src = e.get("source","")
+                    nums = re.findall(r"\[(\d+)\]", src)
+                    for n in nums:
+                        used_refs.add(int(n))
+                    line = e["constraint"]
+                    if e.get("category"):
+                        line += f"  ({e['category']})"
+                    if src:
+                        line += f" — {src}"
+                    st.write(f"- {line}")
+            else:
+                st.write("No constraints available for this scheme.")
+
+        # ─── Finally, at the bottom of Tab 3, show the references ───
+        if used_refs:
+            st.markdown("### References")
+            for idx in sorted(used_refs):
+                st.write(f"[{idx}] {references[idx]}")
     else:
-        is_general = False
-        if which.startswith("Experimental"):
-            data = situational_constraints["Experimental_Dose_Constraints"]
-        elif which.startswith("Hodgkin"):
-            data = situational_constraints["Hodgkin_Lymphoma_Dose_Constraints"]
-        elif which.startswith("Hypofractionated"):
-            data = situational_constraints["Hypofractionated_Breast_Constraints"]
-        else:
-            data = situational_constraints["Pediatric_Dose_Constraints"]
-
-    if is_general:
-        # exactly your existing fractionation → lookup logic
-        fractionation_options = {
-            "Conventional": "conventional",
-            "1 Fraction":   "1_fraction",
-            "3 Fractions":  "3_fraction",
-            "5 Fractions":  "5_fraction",
-            "8 Fractions":  "8_fraction",
-        }
-        scheme_label = st.selectbox("Select a fractionation scheme:",
-                                    list(fractionation_options.keys()))
-        scheme_key = fractionation_options[scheme_label]
-
-        organ_list = sorted(data.keys())
-        selected_organs = st.multiselect("Select organs at risk:", organ_list)
-
-        if selected_organs:
-            st.subheader(f"Constraints for {scheme_label}")
-            for organ in selected_organs:
-                st.markdown(f"#### {organ.replace('_',' ')}")
-                entries = data.get(organ, {}).get(scheme_key, [])
-                if entries:
-                    for e in entries:
-                        line = e["constraint"]
-                        if e.get("category"):
-                            line += f"  ({e['category']})"
-                        if e.get("source"):
-                            line += f" — {e['source']}"
-                        st.write(f"- {line}")
-                else:
-                    st.write("No constraints available for this scheme.")
-        else:
-            st.info("Please select one or more organs to see constraints.")
-
-    else:
-        # for S3 only: choose moderate vs ultra
-        sub_key = None
-        if which.startswith("Hypofractionated"):
-            sub_key = st.selectbox(
-                "Select breast scheme:",
-                ["moderate_hypofractionation", "ultra_hypofractionation"]
-            )
-
-        organ_list = sorted(data.keys())
-        selected_organs = st.multiselect("Select organs at risk:", organ_list)
-
-        if selected_organs:
-            st.subheader(which)
-            for organ in selected_organs:
-                st.markdown(f"#### {organ.replace('_',' ')}")
-                entries = data[organ].get(sub_key, []) if sub_key else data[organ]
-                if entries:
-                    for e in entries:
-                        line = e["constraint"]
-                        if e.get("category"):
-                            line += f"  ({e['category']})"
-                        if e.get("source"):
-                            line += f" — {e['source']}"
-                        st.write(f"- {line}")
-                else:
-                    st.write("No constraints available for this selection.")
-        else:
-            st.info("Please select one or more organs to see constraints.")
+        st.info("Please select one or more organs to see constraints.")
