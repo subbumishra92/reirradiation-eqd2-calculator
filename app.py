@@ -10,7 +10,7 @@ import yaml
 # … other imports …
 
 # load your two YAMLs
-yaml_general = Path(__file__).parent / "CORSAIR.TG101.yaml"
+yaml_general = Path(__file__).parent / "CORSAIR_TG101.yaml"
 yaml_sit     = Path(__file__).parent / "Experimental_Dose_Constraints.yaml"
 
 with open(yaml_general, "r") as f:
