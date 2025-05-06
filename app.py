@@ -3,18 +3,24 @@ import pandas as pd
 import math
 import re
 import streamlit.components.v1 as components
-import yaml
 from pathlib import Path
+import yaml
 
-# ——— Load your CORSAIR TG‑101 constraints ———
-yaml_general = Path(__file__).parent / "CORSAIR_TG101.yaml"
-with open(yaml_general, "r") as f:
-    oar_constraints = yaml.safe_load(f)
+base = Path(__file__).parent
 
-# ——— (Optionally) load your experimental constraints too ———
-yaml_experimental = Path(__file__).parent / "Experimental_Dose_Constraints.yaml"
-with open(yaml_experimental, "r") as f:
-    experimental_constraints = yaml.safe_load(f)
+# 1) General adult constraints (CORSAIR_TG101.yaml)
+with open(base / "CORSAIR_TG101.yaml", "r") as f:
+    general_constraints = yaml.safe_load(f)
+
+# 2) Everything else from Experimental_Dose_Constraints.yaml
+with open(base / "Experimental_Dose_Constraints.yaml", "r") as f:
+    all_other = yaml.safe_load(f)
+
+experimental_constraints = all_other["Experimental_Dose_Constraints"]
+hodgkin_constraints      = all_other["Hodgkin_Lymphoma_Dose_Constraints"]
+hypo_constraints         = all_other["Hypofractionated_Breast_Constraints"]
+pediatric_constraints    = all_other["Pediatric_Dose_Constraints"]
+
 
 
     
@@ -455,17 +461,30 @@ tab1, tab2, tab3 = st.tabs([
 
 # ───────────────────────────── Tab 1: EQD₂ calculator ────────────────────
 with tab1:
-    # ——— INPUT STAGE ———
     st.header("Re‑irradiation Dose Limit Calculator")
 
-    # Allow user to pick any of the standard organs + a “Custom” slot
-    all_oars = OARS + ["Custom"]
-    selected = st.multiselect("Select OAR(s) or Custom", all_oars)
+    # ——— Basic user instructions ———
+    st.info(
+        "**How to use this tool:**\n"
+        "- Select one or more OARs from the dropdown, or choose **Custom OAR** to define your own.\n"
+        "- For each selected OAR, enter:\n"
+        "  1. **Max EQD₂ limit** (Gy)\n"
+        "  2. **α/β ratio** (Gy)\n"
+        "  3. Number of prior courses, and for each course:\n"
+        "     - Total dose (Gy)\n"
+        "     - Number of fractions\n"
+        "     - Percent recovery (0–100 %)\n"
+        "- Click **Calculate** to see remaining EQD₂ room and feasible regimens."
+    )
 
-    # We'll collect three parallel dicts:
-    #   prior_data[oar]    = list of {dose, fractions, recovery}
-    #   limit_overrides[oar] = user’s max‑EQD2 override
-    #   ab_overrides[oar]    = user’s α/β override
+    # ——— INPUT stage ———
+    # Put “Custom OAR” first in the list
+    all_oars = ["Custom OAR"] + OARS
+    selected = st.multiselect(
+        "Select OAR(s) or create a custom OAR",
+        all_oars
+    )
+
     prior_data      = {}
     limit_overrides = {}
     ab_overrides    = {}
@@ -476,7 +495,7 @@ with tab1:
         # 1) Max EQD₂ limit override  (0–150 Gy)
         default_limit = (
             OAR_CONSTRAINTS[oar][0]["value"]
-            if oar in OAR_CONSTRAINTS and oar != "Custom"
+            if oar in OAR_CONSTRAINTS and oar != "Custom OAR"
             else 0.0
         )
         limit = st.number_input(
@@ -492,7 +511,8 @@ with tab1:
         # 2) α/β override (0.1–100 Gy)
         default_ab = (
             OAR_ALPHA_BETA.get(oar, 3.0)
-            if oar != "Custom" else 3.0
+            if oar != "Custom OAR"
+            else 3.0
         )
         ab = st.number_input(
             f"{oar} α/β (Gy)",
@@ -504,7 +524,7 @@ with tab1:
         )
         ab_overrides[oar] = ab
 
-        # 3) How many prior courses?
+        # 3) Prior courses
         n_courses = st.number_input(
             f"Number of prior courses for {oar}",
             min_value=0,
@@ -517,20 +537,19 @@ with tab1:
         courses = []
         for i in range(1, int(n_courses) + 1):
             dose = st.number_input(
-                f"Course {i} total dose (Gy)",
+                f"  Course {i} total dose (Gy)",
                 min_value=0.0,
                 step=0.1,
                 key=f"{oar}_dose{i}"
             )
             fx = st.number_input(
-                f"Course {i} fractions",
+                f"  Course {i} fractions",
                 min_value=1,
                 step=1,
                 key=f"{oar}_fx{i}"
             )
-            # NEW: free % recovery input
             recov_pct = st.number_input(
-                f"Course {i} % recovery",
+                f"  Course {i} % recovery",
                 min_value=0,
                 max_value=100,
                 value=0,
@@ -538,14 +557,14 @@ with tab1:
                 key=f"{oar}_recov{i}"
             )
             courses.append({
-                "dose": float(dose),
+                "dose":      float(dose),
                 "fractions": int(fx),
-                "recovery": recov_pct / 100.0
+                "recovery":  recov_pct / 100.0
             })
 
         prior_data[oar] = courses
 
-    # When they click Calculate, stash everything and move to RESULTS
+    # Calculate button
     if st.button("Calculate"):
         st.session_state.prior_data      = prior_data
         st.session_state.limit_overrides = limit_overrides
@@ -554,8 +573,7 @@ with tab1:
         st.session_state.stage           = "results"
         st.rerun()
 
-
-    # ——— RESULTS STAGE ———
+    # ——— RESULTS stage ———
     if st.session_state.get("stage") == "results":
         report = {}
         for oar in st.session_state.selected:
@@ -565,19 +583,18 @@ with tab1:
 
             raw = eff = 0.0
             for c in courses:
-                # compute EQD2 of that prior course
                 eq = eqd2(c["fractions"], c["dose"]/c["fractions"], ab)
                 raw += eq
                 eff += eq * (1 - c["recovery"])
 
             remaining = max(limit - eff, 0.0)
             report[oar] = {
-                "limit":    limit,
-                "raw":      raw,
-                "eff":      eff,
+                "limit":     limit,
+                "raw":       raw,
                 "recovered": raw - eff,
-                "left":     remaining,
-                "ab":       ab
+                "eff":       eff,
+                "left":      remaining,
+                "ab":        ab
             }
 
         st.header("Results")
@@ -590,7 +607,6 @@ with tab1:
                 st.write(f"- **Remaining room:** {r['left']:.1f} Gy")
                 st.info(f"α/β used: {r['ab']:.1f} Gy")
 
-                # feasible regimens
                 st.write("**Permissible regimens:**")
                 for nfx in FRACTION_OPTIONS:
                     d_per_fx = max_d_per_fraction(nfx, r["left"], r["ab"])
@@ -600,6 +616,7 @@ with tab1:
         if st.button("← Back"):
             st.session_state.stage = "input"
             st.rerun()
+
 
 # ───────────────────────── Tab 2: Palliative constraints ──────────────────
 with tab2:
@@ -779,55 +796,75 @@ with tab2:
 with tab3:
     st.header("OAR Dose Constraints Lookup")
 
-    # fractionation selector
-    fractionation_options = {
-        "Conventional": "conventional",
-        "1 Fraction": "1_fraction",
-        "3 Fractions": "3_fraction",
-        "5 Fractions": "5_fraction",
-        "8 Fractions": "8_fraction",
+    # 1) Pick your treatment setting
+    setting_map = {
+        "General (Adult)":             general_constraints,          # CORSAIR TG‑101
+        "Emerging OARs":               experimental_constraints,     # Table S1
+        "Hodgkin’s Lymphoma":          hodgkin_constraints,          # Table S2
+        "Hypofractionated Breast":     hypo_constraints,             # Table S3
+        "Pediatric":                   pediatric_constraints         # Table S4
     }
-    scheme_label = st.selectbox(
-        "Select a fractionation scheme:",
-        list(fractionation_options.keys())
+    setting = st.selectbox(
+        "Select treatment setting:",
+        list(setting_map.keys())
     )
-    scheme_key = fractionation_options[scheme_label]
+    constraints = setting_map[setting]
 
-    # organ multiselect
-    organ_list = sorted(oar_constraints.keys())
+    # 2) Now show only the organs under that setting
+    organs = sorted(constraints.keys())
     selected_organs = st.multiselect(
-        "Select organs at risk:",
-        organ_list
+        f"Select OAR(s) for **{setting}**:",
+        organs
     )
 
-    # track which references are actually used
-    used_refs = set()
+    # 3) Determine which fractionations actually appear for those organs
+    #    and map them to human‐friendly labels.
+    scheme_key_to_label = {
+        "conventional": "Conventional",
+        "1_fraction":  "1 Fraction",
+        "3_fraction":  "3 Fractions",
+        "5_fraction":  "5 Fractions",
+        "8_fraction":  "8 Fractions",
+    }
+    # gather available keys
+    available_keys = set()
+    for organ in selected_organs:
+        for key, entries in constraints[organ].items():
+            if entries: 
+                available_keys.add(key)
 
-    if selected_organs:
-        st.subheader(f"Constraints for {scheme_label}")
+    # build label list in order
+    available_labels = [
+        scheme_key_to_label[k]
+        for k in scheme_key_to_label
+        if k in available_keys
+    ]
+
+    if not available_labels:
+        st.warning("No fractionation data available for your selection.")
+    else:
+        # 4) Let user pick from only the relevant schemes
+        scheme_label = st.selectbox(
+            "Select fractionation scheme:",
+            available_labels
+        )
+        # reverse‐map to the key
+        scheme_key = {
+            v: k for k, v in scheme_key_to_label.items()
+        }[scheme_label]
+
+        # 5) Display the table of constraints
+        st.subheader(f"{setting} – {scheme_label}")
         for organ in selected_organs:
-            st.markdown(f"#### {organ.replace('_', ' ')}")
-            entries = oar_constraints.get(organ, {}).get(scheme_key, [])
+            st.markdown(f"#### {organ.replace('_',' ')}")
+            entries = constraints[organ].get(scheme_key, [])
             if entries:
                 for e in entries:
-                    # extract citation numbers from e.get("source", "")
-                    src = e.get("source","")
-                    nums = re.findall(r"\[(\d+)\]", src)
-                    for n in nums:
-                        used_refs.add(int(n))
                     line = e["constraint"]
                     if e.get("category"):
                         line += f"  ({e['category']})"
-                    if src:
-                        line += f" — {src}"
-                    st.write(f"- {line}")
+                    if e.get("source"):
+                        line += f" — {e['source']}"
+                    st.write(f"- {line}")
             else:
-                st.write("No constraints available for this scheme.")
-
-        # ─── Finally, at the bottom of Tab 3, show the references ───
-        if used_refs:
-            st.markdown("### References")
-            for idx in sorted(used_refs):
-                st.write(f"[{idx}] {references[idx]}")
-    else:
-        st.info("Please select one or more organs to see constraints.")
+                st.write("_No constraints defined for this fractionation._")
