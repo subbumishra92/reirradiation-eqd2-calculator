@@ -455,125 +455,151 @@ tab1, tab2, tab3 = st.tabs([
 
 # ───────────────────────────── Tab 1: EQD₂ calculator ────────────────────
 with tab1:
-    # ------------------ INPUT stage --------------------------------------
-    if st.session_state.stage == "input":
-        selected = st.multiselect("Select OAR(s)", OARS)
-        prior_data = {}
-        for oar in selected:
-            st.subheader(oar)
-            ctype = OAR_CONSTRAINTS[oar][0]["type"]
-            n_courses = st.selectbox(
-                f"How many prior courses for {oar}?", [1, 2, 3], key=f"{oar}_nc"
+    # ——— INPUT STAGE ———
+    st.header("Re‑irradiation Dose Limit Calculator")
+
+    # Allow user to pick any of the standard organs + a “Custom” slot
+    all_oars = OARS + ["Custom"]
+    selected = st.multiselect("Select OAR(s) or Custom", all_oars)
+
+    # We'll collect three parallel dicts:
+    #   prior_data[oar]    = list of {dose, fractions, recovery}
+    #   limit_overrides[oar] = user’s max‑EQD2 override
+    #   ab_overrides[oar]    = user’s α/β override
+    prior_data      = {}
+    limit_overrides = {}
+    ab_overrides    = {}
+
+    for oar in selected:
+        st.subheader(oar)
+
+        # 1) Max EQD₂ limit override  (0–150 Gy)
+        default_limit = (
+            OAR_CONSTRAINTS[oar][0]["value"]
+            if oar in OAR_CONSTRAINTS and oar != "Custom"
+            else 0.0
+        )
+        limit = st.number_input(
+            f"Max EQD₂ limit for {oar} (Gy)",
+            min_value=0.0,
+            max_value=150.0,
+            value=float(default_limit),
+            step=0.1,
+            key=f"{oar}_limit"
+        )
+        limit_overrides[oar] = limit
+
+        # 2) α/β override (0.1–100 Gy)
+        default_ab = (
+            OAR_ALPHA_BETA.get(oar, 3.0)
+            if oar != "Custom" else 3.0
+        )
+        ab = st.number_input(
+            f"{oar} α/β (Gy)",
+            min_value=0.1,
+            max_value=100.0,
+            value=float(default_ab),
+            step=0.1,
+            key=f"{oar}_ab"
+        )
+        ab_overrides[oar] = ab
+
+        # 3) How many prior courses?
+        n_courses = st.number_input(
+            f"Number of prior courses for {oar}",
+            min_value=0,
+            max_value=10,
+            value=0,
+            step=1,
+            key=f"{oar}_nc"
+        )
+
+        courses = []
+        for i in range(1, int(n_courses) + 1):
+            dose = st.number_input(
+                f"Course {i} total dose (Gy)",
+                min_value=0.0,
+                step=0.1,
+                key=f"{oar}_dose{i}"
             )
-            courses = []
-            for i in range(1, n_courses + 1):
-                dose = st.number_input(f"Course {i} {ctype} dose (Gy)",
-                                       min_value=0.0, step=0.1,
-                                       key=f"{oar}_dose{i}")
-                fx = st.number_input(f"Course {i} fractions",
-                                     min_value=1, step=1,
-                                     key=f"{oar}_fx{i}")
-                interval = st.selectbox(f"Time since course {i}",
-                                        RECOVERY_FACTORS.keys(),
-                                        key=f"{oar}_int{i}")
-                if dose and fx:
-                    courses.append({"dose": dose,
-                                    "fractions": int(fx),
-                                    "interval": interval})
-            prior_data[oar] = courses
+            fx = st.number_input(
+                f"Course {i} fractions",
+                min_value=1,
+                step=1,
+                key=f"{oar}_fx{i}"
+            )
+            # NEW: free % recovery input
+            recov_pct = st.number_input(
+                f"Course {i} % recovery",
+                min_value=0,
+                max_value=100,
+                value=0,
+                step=1,
+                key=f"{oar}_recov{i}"
+            )
+            courses.append({
+                "dose": float(dose),
+                "fractions": int(fx),
+                "recovery": recov_pct / 100.0
+            })
 
-        # optional α/β overrides
-        ab_override = {}
-        if selected:
-            st.subheader("Optional α/β overrides")
-            for oar in selected:
-                default = OAR_ALPHA_BETA[oar]
-                ab_override[oar] = st.number_input(
-                    f"{oar} α/β (Gy)", value=float(default),
-                    min_value=0.1, step=0.1, key=f"{oar}_ab"
-                )
+        prior_data[oar] = courses
 
-        if st.button("Calculate"):
-            st.session_state.selected   = selected
-            st.session_state.prior_data = prior_data
-            st.session_state.custom_ab  = ab_override
-            st.session_state.stage      = "results"
-            st.rerun()
+    # When they click Calculate, stash everything and move to RESULTS
+    if st.button("Calculate"):
+        st.session_state.prior_data      = prior_data
+        st.session_state.limit_overrides = limit_overrides
+        st.session_state.ab_overrides    = ab_overrides
+        st.session_state.selected        = selected
+        st.session_state.stage           = "results"
+        st.rerun()
 
-    # ------------------ RESULTS stage ------------------------------------
-    elif st.session_state.stage == "results":
+
+    # ——— RESULTS STAGE ———
+    if st.session_state.get("stage") == "results":
         report = {}
-        for oar, courses in st.session_state.prior_data.items():
-            ab = st.session_state.custom_ab.get(oar, OAR_ALPHA_BETA[oar])
+        for oar in st.session_state.selected:
+            courses = st.session_state.prior_data[oar]
+            ab      = st.session_state.ab_overrides[oar]
+            limit   = st.session_state.limit_overrides[oar]
+
             raw = eff = 0.0
             for c in courses:
-                eq = eqd2(c["fractions"], c["dose"] / c["fractions"], ab)
+                # compute EQD2 of that prior course
+                eq = eqd2(c["fractions"], c["dose"]/c["fractions"], ab)
                 raw += eq
-                eff += eq * (1 - RECOVERY_FACTORS[c["interval"]])
-            limit     = OAR_CONSTRAINTS[oar][0]["value"]
-            remaining = max(limit - eff, 0)
-            report[oar] = dict(limit=limit, raw=raw, eff=eff,
-                               recov=raw - eff, left=remaining, ab=ab)
+                eff += eq * (1 - c["recovery"])
+
+            remaining = max(limit - eff, 0.0)
+            report[oar] = {
+                "limit":    limit,
+                "raw":      raw,
+                "eff":      eff,
+                "recovered": raw - eff,
+                "left":     remaining,
+                "ab":       ab
+            }
 
         st.header("Results")
         for oar, r in report.items():
             with st.expander(oar, expanded=True):
-                st.write(f"- Hard EQD₂ max: **{r['limit']:.1f} Gy**")
-                st.write(f"- Sum raw EQD₂: **{r['raw']:.1f} Gy**")
-                st.write(f"- Total recovered: **{r['recov']:.1f} Gy**")
-                st.write(f"- Effective prior EQD₂: **{r['eff']:.1f} Gy**")
-                st.write(f"- Remaining room: **{r['left']:.1f} Gy**")
-                st.info(f"α/β used: **{r['ab']} Gy**")
-                lines = ["**Permissible regimens:**"]
+                st.write(f"- **Max EQD₂ limit:** {r['limit']:.1f} Gy")
+                st.write(f"- **Sum raw EQD₂:** {r['raw']:.1f} Gy")
+                st.write(f"- **Total recovered:** {r['recovered']:.1f} Gy")
+                st.write(f"- **Effective prior EQD₂:** {r['eff']:.1f} Gy")
+                st.write(f"- **Remaining room:** {r['left']:.1f} Gy")
+                st.info(f"α/β used: {r['ab']:.1f} Gy")
+
+                # feasible regimens
+                st.write("**Permissible regimens:**")
                 for nfx in FRACTION_OPTIONS:
-                    d = max_d_per_fraction(nfx, r["left"], r["ab"])
-                    lines.append(f"- {nfx} fx: {d*nfx:.1f} Gy (*{d:.2f} Gy/fx*)")
-                st.markdown("\n".join(lines))
+                    d_per_fx = max_d_per_fraction(nfx, r["left"], r["ab"])
+                    total_d  = d_per_fx * nfx
+                    st.write(f"- {nfx} fx → {total_d:.1f} Gy ({d_per_fx:.2f} Gy/fx)")
 
-                # OPTIONAL visual: max total dose vs. fractionation ───────────
-                #if st.checkbox("Show regimen plot", key=f"plot_{oar}"):
-                #    fx_labels, total_dose = [], []
-                #    for nfx in FRACTION_OPTIONS:
-                #        d_per_fx = max_d_per_fraction(nfx, r["left"], r["ab"])
-                #        if d_per_fx > 0:
-                #            fx_labels.append(str(nfx))
-                #            total_dose.append(d_per_fx * nfx)
-
-                #   chart_df = pd.DataFrame(
-                #        {"Max total dose (Gy)": total_dose}, index=fx_labels
-                #    )
-                #    st.bar_chart(chart_df)
-
-        c1, c2 = st.columns(2)
-        with c1:
-            if st.button("← Back"):
-                st.session_state.stage = "input"
-                st.rerun()
-        with c2:
-            if st.button("Edit α/β"):
-                st.session_state.stage = "edit_ab"
-                st.rerun()
-
-    # ------------------ EDIT stage ---------------------------------------
-    elif st.session_state.stage == "edit_ab":
-        st.header("Override α/β ratios")
-        new_ab = {}
-        for oar in st.session_state.selected:
-            cur = st.session_state.custom_ab.get(oar, OAR_ALPHA_BETA[oar])
-            new_ab[oar] = st.number_input(
-                f"{oar} α/β (Gy)", value=float(cur),
-                min_value=0.1, step=0.1, key=f"newab_{oar}"
-            )
-        c1, c2 = st.columns(2)
-        with c1:
-            if st.button("← Cancel"):
-                st.session_state.stage = "results"
-                st.rerun()
-        with c2:
-            if st.button("Apply"):
-                st.session_state.custom_ab = new_ab
-                st.session_state.stage = "results"
-                st.rerun()
+        if st.button("← Back"):
+            st.session_state.stage = "input"
+            st.rerun()
 
 # ───────────────────────── Tab 2: Palliative constraints ──────────────────
 with tab2:
