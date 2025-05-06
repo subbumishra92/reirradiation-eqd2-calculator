@@ -180,33 +180,25 @@ Hypofractionated_Breast_Constraints:  # CORSAIR Table S3
         source: "CORSAIR S3 [114]"
       - constraint: "V8 Gy < 10%"
         source: "CORSAIR S3 [114]"
+      - constraint: "Dmean < 6.36 Gy"
+        source: "CORSAIR S3 [111]"  
       - constraint: "Contralateral lung V2.5 Gy < 15%"
         source: "CORSAIR S3 [111]"
-    ultra_hypofractionation:
-      - constraint: "Dmean < 6.36 Gy"
-        source: "CORSAIR S3 [111]"
-  Contralateral_Lung:
-    moderate_hypofractionation:
-      - constraint: "V2.5 Gy < 15%"
-        source: "CORSAIR S3 [111]"
-      - constraint: "If DIBH: V2.5 Gy < 3% (optimal)"
+      - constraint: "If DIBH: V2.5 Gy < 3% to contralateral lung (optimal)"
         source: "CORSAIR S3 [115]"
-      - constraint: "If DIBH: Dmean < 1 Gy (optimal)"
+      - constraint: "If DIBH: Dmean < 1 Gy to contralateral lung (optimal)"
         source: "CORSAIR S3 [115]"
-    ultra_hypofractionation:
-      - constraint: "V5 Gy < 10%"
-        source: "CORSAIR S3 [13]"
-  Ipsilateral_Lung:
-    moderate_hypofractionation:
-      - constraint: "If DIBH: V18 Gy < 10% (optimal)"
+      - constraint: "If DIBH: V18 Gy < 10% to ipsilateral lung (optimal)"
         source: "CORSAIR S3 [115]"
-      - constraint: "If DIBH: Dmean < 6 Gy (optimal)"
+      - constraint: "If DIBH: Dmean < 6 Gy to ipsilateral lung (optimal)"
         source: "CORSAIR S3 [115]"
     ultra_hypofractionation:
       - constraint: "V10 Gy < 20%"
         source: "CORSAIR S3 [13]"
       - constraint: "V8 Gy < 15%"
         source: "CORSAIR S3 [14]"
+      - constraint: "V5 Gy < 10% to contralateral lung"
+        source: "CORSAIR S3 [13]"
 
 Pediatric_Dose_Constraints:  # CORSAIR Table S4
   Brain:
