@@ -15,6 +15,15 @@ with open(base / "CORSAIR_TG101.yaml", "r") as f:
 # 2) Everything else from Experimental_Dose_Constraints.yaml
 with open(base / "Experimental_Dose_Constraints.yaml", "r") as f:
     all_other = yaml.safe_load(f)
+    
+# ——— Wrap list‑only tables under a ‘conventional’ scheme key ———
+for tbl in (experimental_constraints,
+            hodgkin_constraints,
+            pediatric_constraints):
+    for organ, val in list(tbl.items()):
+        # if the YAML gave us organ → [ … ], not → { scheme_key: [ … ] }
+        if isinstance(val, list):
+            tbl[organ] = {"conventional": val}
 
 experimental_constraints = all_other["Experimental_Dose_Constraints"]
 hodgkin_constraints      = all_other["Hodgkin_Lymphoma_Dose_Constraints"]
@@ -793,78 +802,72 @@ with tab2:
             )
 
 # ────────────────────────── Tab 3: OAR Dose Constraints Lookup ──────────────────────────
+# ——— Tab 3: OAR Dose Constraints Lookup ———
 with tab3:
     st.header("OAR Dose Constraints Lookup")
 
-    # 1) Pick your treatment setting
+    # 1) Pick your clinical scenario
     setting_map = {
-        "General (Adult)":             general_constraints,          # CORSAIR TG‑101
-        "Emerging OARs":               experimental_constraints,     # Table S1
-        "Hodgkin’s Lymphoma":          hodgkin_constraints,          # Table S2
-        "Hypofractionated Breast":     hypo_constraints,             # Table S3
-        "Pediatric":                   pediatric_constraints         # Table S4
+        "General (Adult)":         general_constraints,
+        "Emerging OARs":           experimental_constraints,
+        "Hodgkin’s Lymphoma":      hodgkin_constraints,
+        "Hypofractionated Breast": hypo_constraints,
+        "Pediatric":               pediatric_constraints,
     }
-    setting = st.selectbox(
-        "Select treatment setting:",
-        list(setting_map.keys())
-    )
+    setting = st.selectbox("Select treatment setting:", list(setting_map.keys()))
     constraints = setting_map[setting]
 
-    # 2) Now show only the organs under that setting
+    # 2) Pick organs *from only* that scenario
     organs = sorted(constraints.keys())
     selected_organs = st.multiselect(
         f"Select OAR(s) for **{setting}**:",
         organs
     )
 
-    # 3) Determine which fractionations actually appear for those organs
-    #    and map them to human‐friendly labels.
-    scheme_key_to_label = {
-        "conventional": "Conventional",
-        "1_fraction":  "1 Fraction",
-        "3_fraction":  "3 Fractions",
-        "5_fraction":  "5 Fractions",
-        "8_fraction":  "8 Fractions",
-    }
-    # gather available keys
-    available_keys = set()
-    for organ in selected_organs:
-        for key, entries in constraints[organ].items():
-            if entries: 
-                available_keys.add(key)
-
-    # build label list in order
-    available_labels = [
-        scheme_key_to_label[k]
-        for k in scheme_key_to_label
-        if k in available_keys
-    ]
-
-    if not available_labels:
-        st.warning("No fractionation data available for your selection.")
+    if not selected_organs:
+        st.info("Please select one or more organs to see constraints.")
     else:
-        # 4) Let user pick from only the relevant schemes
-        scheme_label = st.selectbox(
-            "Select fractionation scheme:",
-            available_labels
-        )
-        # reverse‐map to the key
-        scheme_key = {
-            v: k for k, v in scheme_key_to_label.items()
-        }[scheme_label]
+        # 3) Figure out which scheme‐keys actually exist
+        scheme_label_map = {
+            "conventional":              "Conventional",
+            "1_fraction":                "1 Fraction",
+            "3_fraction":                "3 Fractions",
+            "5_fraction":                "5 Fractions",
+            "8_fraction":                "8 Fractions",
+            "moderate_hypofractionation":"Moderate hypofractionation",
+            "ultra_hypofractionation":   "Ultra‑hypofractionation",
+        }
+        # collect keys across all selected organs
+        available_keys = {
+            k
+            for organ in selected_organs
+            for k in constraints[organ].keys()
+        } & set(scheme_label_map)
+        if not available_keys:
+            st.warning("No fractionation data available for those organs.")
+        else:
+            # order them in the map order:
+            ordered_keys = [k for k in scheme_label_map if k in available_keys]
+            labels = [scheme_label_map[k] for k in ordered_keys]
 
-        # 5) Display the table of constraints
-        st.subheader(f"{setting} – {scheme_label}")
-        for organ in selected_organs:
-            st.markdown(f"#### {organ.replace('_',' ')}")
-            entries = constraints[organ].get(scheme_key, [])
-            if entries:
-                for e in entries:
-                    line = e["constraint"]
-                    if e.get("category"):
-                        line += f"  ({e['category']})"
-                    if e.get("source"):
-                        line += f" — {e['source']}"
-                    st.write(f"- {line}")
-            else:
-                st.write("_No constraints defined for this fractionation._")
+            # 4) Let user pick only valid schemes
+            scheme_label = st.selectbox("Select fractionation scheme:", labels)
+            inv_map = {v:k for k,v in scheme_label_map.items()}
+            scheme_key = inv_map[scheme_label]
+
+            # 5) Display results
+            st.subheader(f"{setting} — {scheme_label}")
+            for organ in selected_organs:
+                st.markdown(f"#### {organ.replace('_',' ')}")
+                entries = constraints[organ].get(scheme_key, [])
+                if entries:
+                    for e in entries:
+                        line = e["constraint"]
+                        if e.get("category"):
+                            line += f"  ({e['category']})"
+                        if e.get("source"):
+                            line += f" — {e['source']}"
+                        st.write(f"- {line}")
+                else:
+                    st.write("_No constraints defined for this scheme._")
+
