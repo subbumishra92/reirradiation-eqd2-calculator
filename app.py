@@ -5,19 +5,17 @@ import re
 import streamlit.components.v1 as components
 import yaml
 from pathlib import Path
-import yaml
 
-# … other imports …
-
-# load your two YAMLs
-yaml_general = Path(__file__).parent / "CORSAIR_TG101.yaml"
-yaml_sit     = Path(__file__).parent / "Experimental_Dose_Constraints.yaml"
-
+# ——— Load your CORSAIR TG‑101 constraints ———
+yaml_general = Path(__file__).parent / "CORSAIR.TG101.yaml"
 with open(yaml_general, "r") as f:
-    general_constraints = yaml.safe_load(f)
+    oar_constraints = yaml.safe_load(f)
 
-with open(yaml_sit, "r") as f:
-    situational_constraints = yaml.safe_load(f)
+# ——— (Optionally) load your experimental constraints too ———
+yaml_experimental = Path(__file__).parent / "Experimental_Dose_Constraints.yaml"
+with open(yaml_experimental, "r") as f:
+    experimental_constraints = yaml.safe_load(f)
+
 
     
 # ——— Page config ———
