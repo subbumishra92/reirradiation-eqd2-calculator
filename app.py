@@ -6,16 +6,23 @@ import streamlit.components.v1 as components
 from pathlib import Path
 import yaml
 
+# ——— Load all the “other” CORSAIR tables from Experimental_Dose_Constraints.yaml ———
 base = Path(__file__).parent
 
-# 1) General adult constraints (CORSAIR_TG101.yaml)
+# general adult
 with open(base / "CORSAIR_TG101.yaml", "r") as f:
     general_constraints = yaml.safe_load(f)
 
-# 2) Everything else from Experimental_Dose_Constraints.yaml
+# the one YAML that actually contains the 4 other tables:
 with open(base / "Experimental_Dose_Constraints.yaml", "r") as f:
     all_other = yaml.safe_load(f)
-    
+
+# now extract them by their top‑level keys
+experimental_constraints = all_other["Experimental_Dose_Constraints"]
+hodgkin_constraints      = all_other["Hodgkin_Lymphoma_Dose_Constraints"]
+hypo_constraints         = all_other["Hypofractionated_Breast_Constraints"]
+pediatric_constraints    = all_other["Pediatric_Dose_Constraints"]
+
 # ——— Wrap list‑only tables under a ‘conventional’ scheme key ———
 for tbl in (experimental_constraints,
             hodgkin_constraints,
