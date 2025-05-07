@@ -866,8 +866,9 @@ with tab3:
                         line = e["constraint"]
                         src  = e.get("source", "")
                         # extract all numbers from the source string
-                        for num in re.findall(r"\d+", src):
-                            used_refs.add(int(num))
+                        for group in re.findall(r"\[(\d+(?:\s*,\s*\d+)*)\]", src):
+                            for num in group.split(","):
+                                used_refs.add(int(num))
                         if e.get("category"):
                             line += f"  ({e['category']})"
                         if src:
