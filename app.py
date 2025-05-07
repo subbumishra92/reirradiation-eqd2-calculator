@@ -880,3 +880,22 @@ with tab3:
                 else:
                     st.write("_No constraints defined for this scheme._")
 
+    # ——— Show full reference list for any sources used ———
+    # collect all citation numbers from the “source” fields
+    used_refs = set()
+    for organ in selected_organs:
+        entries = constraints[organ].get(scheme_key, [])
+        for e in entries:
+            src = e.get("source", "")
+            # extract all digits, e.g. “5” from “[5]”
+            for num in re.findall(r"\d+", src):
+                used_refs.add(int(num))
+
+    if used_refs:
+        st.markdown("---")
+        st.subheader("References")
+        for num in sorted(used_refs):
+            if num in references:
+                st.write(f"**[{num}]** {references[num]}")
+            else:
+                st.write(f"**[{num}]** (Reference not found)")
