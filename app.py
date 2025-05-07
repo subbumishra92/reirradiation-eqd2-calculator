@@ -801,7 +801,6 @@ with tab2:
                 height=40
             )
 
-# ────────────────────────── Tab 3: OAR Dose Constraints Lookup ──────────────────────────
 with tab3:
     st.header("OAR Dose Constraints Lookup")
 
@@ -856,7 +855,8 @@ with tab3:
             inv_map      = {v: k for k, v in scheme_label_map.items()}
             scheme_key   = inv_map[scheme_label]
 
-            # — Display the constraints —
+            # — Display the constraints and collect used references —
+            used_refs = set()
             st.subheader(f"{setting} — {scheme_label}")
             for organ in selected_organs:
                 st.markdown(f"#### {organ.replace('_',' ')}")
@@ -864,16 +864,24 @@ with tab3:
                 if entries:
                     for e in entries:
                         line = e["constraint"]
+                        src  = e.get("source", "")
+                        # extract all numbers from the source string
+                        for num in re.findall(r"\d+", src):
+                            used_refs.add(int(num))
                         if e.get("category"):
                             line += f"  ({e['category']})"
-                        if e.get("source"):
-                            line += f" — {e['source']}"
+                        if src:
+                            line += f" — {src}"
                         st.write(f"- {line}")
                 else:
                     st.write("_No constraints defined for this scheme._")
 
-            # — Finally, list your REFERENCES dictionary below —
-            st.markdown("---")
-            st.subheader("References")
-            for idx in sorted(references):
-                st.write(f"{idx}. {references[idx]}")
+            # — Finally, list only the references you actually used —
+            if used_refs:
+                st.markdown("---")
+                st.subheader("References")
+                for idx in sorted(used_refs):
+                    # guard in case a number isn’t in your references dict
+                    if idx in references:
+                        st.write(f"{idx}. {references[idx]}")
+
