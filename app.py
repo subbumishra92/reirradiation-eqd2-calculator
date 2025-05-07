@@ -32,13 +32,6 @@ for tbl in (experimental_constraints,
         if isinstance(val, list):
             tbl[organ] = {"conventional": val}
 
-experimental_constraints = all_other["Experimental_Dose_Constraints"]
-hodgkin_constraints      = all_other["Hodgkin_Lymphoma_Dose_Constraints"]
-hypo_constraints         = all_other["Hypofractionated_Breast_Constraints"]
-pediatric_constraints    = all_other["Pediatric_Dose_Constraints"]
-
-
-
     
 # ——— Page config ———
 st.set_page_config(page_title="Palliative Radiotherapy Planning", layout="wide")
@@ -482,14 +475,14 @@ with tab1:
     # ——— Basic user instructions ———
     st.info(
         "**How to use this tool:**\n"
-        "- Select one or more OARs from the dropdown, or choose **Custom OAR** to define your own.\n"
+        "- Select one or more common dose limiting OARs from the dropdown, or choose **Custom OAR** to define your own.\n"
         "- For each selected OAR, enter:\n"
         "  1. **Max EQD₂ limit** (Gy)\n"
         "  2. **α/β ratio** (Gy)\n"
         "  3. Number of prior courses, and for each course:\n"
         "     - Total dose (Gy)\n"
         "     - Number of fractions\n"
-        "     - Percent recovery (0–100 %)\n"
+        "     - Expected percent recovery from prior dose (0–100 %)\n"
         "- Click **Calculate** to see remaining EQD₂ room and feasible regimens."
     )
 
@@ -813,15 +806,24 @@ with tab2:
 with tab3:
     st.header("OAR Dose Constraints Lookup")
 
+    st.info(
+        "**How to use this tab:**\n"
+        "1. **Select a treatment setting** (only that YAML’s OARs will appear).\n"
+        "2. **Pick one or more organs** (limited to those with data).\n"
+        "3. **Choose a fractionation scheme** (only valid options show).\n"
+        "→ Then scroll to see each organ’s constraints."
+    )
+
+
     # 1) Pick your clinical scenario
     setting_map = {
         "General (Adult)":         general_constraints,
-        "Emerging OARs":           experimental_constraints,
+        "Experimental":            experimental_constraints,
         "Hodgkin’s Lymphoma":      hodgkin_constraints,
         "Hypofractionated Breast": hypo_constraints,
         "Pediatric":               pediatric_constraints,
     }
-    setting = st.selectbox("Select treatment setting:", list(setting_map.keys()))
+    setting = st.selectbox("Select a treatment setting:", list(setting_map.keys()))
     constraints = setting_map[setting]
 
     # 2) Pick organs *from only* that scenario
