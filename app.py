@@ -802,51 +802,45 @@ with tab2:
             )
 
 # ────────────────────────── Tab 3: OAR Dose Constraints Lookup ──────────────────────────
-# ——— Tab 3: OAR Dose Constraints Lookup ———
 with tab3:
     st.header("OAR Dose Constraints Lookup")
 
+    # — Friendly user instructions —
     st.info(
-        "**How to use this tab:**\n"
-        "1. **Select a treatment setting** (only that YAML’s OARs will appear).\n"
-        "2. **Pick one or more organs** (limited to those with data).\n"
-        "3. **Choose a fractionation scheme** (only valid options show).\n"
-        "→ Then scroll to see each organ’s constraints."
+        "- **Select treatment setting.**\n"
+        "- **Pick at least one OAR.**\n"
+        "- **Choose a fractionation scheme.**\n\n"
+        "The available dose constraints for your selected OAR(s) per CORSAIR Practical Summary or TG101 are listed below."
     )
 
-
-    # 1) Pick your clinical scenario
+    # — Rename the five dropdown labels —
     setting_map = {
-        "General (Adult)":         general_constraints,
-        "Experimental":            experimental_constraints,
-        "Hodgkin’s Lymphoma":      hodgkin_constraints,
-        "Hypofractionated Breast": hypo_constraints,
-        "Pediatric":               pediatric_constraints,
+        "General (Adult)":                       general_constraints,
+        "Experimental CORSAIR OARs":             experimental_constraints,
+        "Hodgkin’s Lymphoma":                    hodgkin_constraints,
+        "Hypofractionated Breast Radiotherapy":  hypo_constraints,
+        "Pediatric Radiotherapy":                pediatric_constraints,
     }
-    setting = st.selectbox("Select a treatment setting:", list(setting_map.keys()))
+    setting = st.selectbox("Select treatment setting:", list(setting_map.keys()))
     constraints = setting_map[setting]
 
-    # 2) Pick organs *from only* that scenario
+    # — Pick organs in that scenario —
     organs = sorted(constraints.keys())
-    selected_organs = st.multiselect(
-        f"Select OAR(s) for **{setting}**:",
-        organs
-    )
+    selected_organs = st.multiselect(f"Select OAR(s) for **{setting}**:", organs)
 
     if not selected_organs:
         st.info("Please select one or more organs to see constraints.")
     else:
-        # 3) Figure out which scheme‐keys actually exist
+        # — Determine which fractionation schemes are actually present —
         scheme_label_map = {
-            "conventional":              "Conventional",
-            "1_fraction":                "1 Fraction",
-            "3_fraction":                "3 Fractions",
-            "5_fraction":                "5 Fractions",
-            "8_fraction":                "8 Fractions",
-            "moderate_hypofractionation":"Moderate hypofractionation",
-            "ultra_hypofractionation":   "Ultra‑hypofractionation",
+            "conventional":               "Conventional",
+            "1_fraction":                 "1 Fraction",
+            "3_fraction":                 "3 Fractions",
+            "5_fraction":                 "5 Fractions",
+            "8_fraction":                 "8 Fractions",
+            "moderate_hypofractionation": "Moderate hypofractionation",
+            "ultra_hypofractionation":    "Ultra‑hypofractionation",
         }
-        # collect keys across all selected organs
         available_keys = {
             k
             for organ in selected_organs
@@ -855,16 +849,14 @@ with tab3:
         if not available_keys:
             st.warning("No fractionation data available for those organs.")
         else:
-            # order them in the map order:
+            # — Let user pick only valid schemes —
             ordered_keys = [k for k in scheme_label_map if k in available_keys]
-            labels = [scheme_label_map[k] for k in ordered_keys]
-
-            # 4) Let user pick only valid schemes
+            labels       = [scheme_label_map[k] for k in ordered_keys]
             scheme_label = st.selectbox("Select fractionation scheme:", labels)
-            inv_map = {v:k for k,v in scheme_label_map.items()}
-            scheme_key = inv_map[scheme_label]
+            inv_map      = {v: k for k, v in scheme_label_map.items()}
+            scheme_key   = inv_map[scheme_label]
 
-            # 5) Display results
+            # — Display the constraints —
             st.subheader(f"{setting} — {scheme_label}")
             for organ in selected_organs:
                 st.markdown(f"#### {organ.replace('_',' ')}")
@@ -880,22 +872,8 @@ with tab3:
                 else:
                     st.write("_No constraints defined for this scheme._")
 
-    # ——— Show full reference list for any sources used ———
-    # collect all citation numbers from the “source” fields
-    used_refs = set()
-    for organ in selected_organs:
-        entries = constraints[organ].get(scheme_key, [])
-        for e in entries:
-            src = e.get("source", "")
-            # extract all digits, e.g. “5” from “[5]”
-            for num in re.findall(r"\d+", src):
-                used_refs.add(int(num))
-
-    if used_refs:
-        st.markdown("---")
-        st.subheader("References")
-        for num in sorted(used_refs):
-            if num in references:
-                st.write(f"**[{num}]** {references[num]}")
-            else:
-                st.write(f"**[{num}]** (Reference not found)")
+            # — Finally, list your REFERENCES dictionary below —
+            st.markdown("---")
+            st.subheader("References")
+            for idx in sorted(references):
+                st.write(f"{idx}. {references[idx]}")
