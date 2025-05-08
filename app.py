@@ -968,26 +968,26 @@ with tab4:
         }
 
 # ---- display baseline math flow (pretty) ----
-if st.session_state.iso_base:
-    BED1 = st.session_state.iso_base["BED"]
+    if st.session_state.iso_base:
+        BED1 = st.session_state.iso_base["BED"]
 
-    st.markdown("#### Baseline BED calculation")
+        st.markdown("#### Baseline BED calculation")
 
-    # general formula
-    st.latex(r"""
-    \text{BED} = n\,d\left(1+\frac{d}{\alpha/\beta}\right)
-                 -\frac{\ln 2}{\alpha}\,
-                 \frac{T-T_k}{T_d}
-    """)
+        # general formula
+        st.latex(r"""
+        \text{BED} = n\,d\left(1+\frac{d}{\alpha/\beta}\right)
+                     -\frac{\ln 2}{\alpha}\,
+                     \frac{T-T_k}{T_d}
+        """)
 
-    # numbers substituted
-    st.latex(
-        rf"\text{{BED}} = "
-        rf"{n1}\times{d1:.2f}\!\left(1+\frac{{{d1:.2f}}}{{{ab:.2f}}}\right)"
-        rf" - \frac{{\ln 2}}{{{alpha:.2f}}}\,"
-        rf"\frac{{{T1}-{Tk}}}{{{Td}}}"
-        rf" = {BED1:.1f}\;\text{{Gy}}"
-    )
+        # numbers substituted
+        st.latex(
+            rf"\text{{BED}} = "
+            rf"{n1}\times{d1:.2f}\!\left(1+\frac{{{d1:.2f}}}{{{ab:.2f}}}\right)"
+            rf" - \frac{{\ln 2}}{{{alpha:.2f}}}\,"
+            rf"\frac{{{T1}-{Tk}}}{{{Td}}}"
+            rf" = {BED1:.1f}\;\text{{Gy}}"
+        )
 
 
         # ── 2 • Iso‑effective request ─────────────────────────────────
