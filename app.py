@@ -470,9 +470,8 @@ st.markdown(
     "responsible for the use of these tools and any results.",
     unsafe_allow_html=False,
 )
-tab1, tab2, tab3, tab4 = st.tabs([
+tab1, tab3, tab4 = st.tabs([
     "Re‑irradiation Dose Limit Calculator",
-    "Palliative Radiotherapy Planning Protocols",
     "OAR Dose Constraints Lookup",
     "Iso‑effective BED / EQD₂ Calculator",   # ← new tab
 ])
@@ -637,7 +636,7 @@ with tab1:
             st.session_state.stage = "input"
             st.rerun()
 
-
+"""
 # ───────────────────────── Tab 2: Palliative constraints ──────────────────
 with tab2:
     st.header("Protocol Selection")
@@ -811,7 +810,7 @@ with tab2:
                 """,
                 height=40
             )
-
+"""
 with tab3:
     st.header("OAR Dose Constraints Lookup")
 
