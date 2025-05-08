@@ -891,17 +891,16 @@ with tab3:
 with tab4:
     st.header("Iso‑effective Radiotherapy Regimen")
 
-    # ---------- ensure we keep baseline results across reruns ----------
+    # keep baseline results across reruns
     if "iso_base" not in st.session_state:
-        st.session_state.iso_base = None  # will hold a dict later
+        st.session_state.iso_base = None
 
-    # ── Reference banner ───────────────────────────────────────────────
+    # ── References (brief) ──────────────────────────────────────────────
     st.caption(
-        "Calculator uses the linear‑quadratic model from "
-        "*Radiobiology for the Radiologist* (Hall & Giaccia, 8th ed., 2023, Ch 23). "
-        "α/β examples: *Basic Clinical Radiobiology* (Joiner & van der Kogel, 6th ed., 2019, Table 9.1). "
-        "Tumour doubling‑time examples: Hall & Giaccia, Table 22.5. "
-        "For further reading see van Leeuwen CM et al., Radiat Oncol 2018;13:96."
+        "Model: linear‑quadratic with proliferation "
+        "(Hall & Giaccia, *Radiobiology for the Radiologist*, 8th ed., 2023).  "
+        "α/β examples: Joiner & van der Kogel, *Basic Clinical Radiobiology*, 6th ed., 2019.  "
+        "Tumour doubling‑time examples: Hall & Giaccia, Table 22.5."
     )
 
     # ── Helper functions ───────────────────────────────────────────────
@@ -911,103 +910,90 @@ with tab4:
             repop = (math.log(2) / alpha) * (T - Tk) / Td
         return n * d * (1 + d / ab) - repop
 
-    def eqd2_time(n, d, ab, alpha, T, Td, Tk=0):
-        return bed_time(n, d, ab, alpha, T, Td, Tk) / (1 + 2 / ab)
-
     def iso_effective_dose(n2, T2, ab, alpha, Td, BED_goal, Tk=0):
-        R2 = 0.0
-        if T2 > Tk:
-            R2 = (math.log(2) / alpha) * (T2 - Tk) / Td
+        """Return (dose per fraction, total dose)."""
+        R2 = (math.log(2) / alpha) * max(T2 - Tk, 0) / Td
         C = (BED_goal + R2) / n2
         disc = ab**2 + 4 * ab * C
-        d2 = (-ab + math.sqrt(disc)) / 2  # positive root
-        return d2, d2 * n2
+        d2 = (-ab + math.sqrt(disc)) / 2
+        return d2, d2 * n2, R2
 
-    # ── 1.  Baseline regimen inputs ────────────────────────────────────
-    st.subheader("1 . Enter the **baseline** regimen")
+    # ── 1 • Baseline regimen inputs ────────────────────────────────────
+    st.subheader("1 . Baseline regimen")
 
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        d1 = st.number_input("Dose per fraction (Gy)", min_value=0.1,
-                             value=2.0, step=0.1)
-        n1 = st.number_input("# fractions", min_value=1, value=15, step=1)
-    with col2:
-        T1_default = math.ceil(n1 / 5 * 7)  # ~5 tx per 7 days
-        T1 = st.number_input("Overall time T (days)", min_value=1,
-                             value=T1_default, step=1)
-        alpha = st.number_input("α (Gy⁻¹)", min_value=0.05,
-                                value=0.3, step=0.05, format="%.2f")
-    with col3:
-        # ---- α/β dropdowns (examples) ----
+    c1, c2, c3 = st.columns(3)
+    with c1:
+        d1 = st.number_input("Dose per fraction (Gy)", 0.1, 100.0, 2.0, 0.1)
+        n1 = st.number_input("# fractions", 1, 100, 15, 1)
+    with c2:
+        T1_default = math.ceil(n1 / 5 * 7)
+        T1 = st.number_input("Overall time T (days)", 1, 365, T1_default, 1)
+        alpha = st.number_input("α (Gy⁻¹)", 0.05, 2.0, 0.30, 0.05,
+                                format="%.2f")
+    with c3:
         ab_options = {
-            "Head & neck (various) — 10.5 Gy": 10.5,
-            "Larynx — 14.5 Gy":               14.5,
-            "Vocal cord — 13 Gy":              13.0,
-            "Buccal mucosa — 6.6 Gy":           6.6,
-            "Tonsil — 7.2 Gy":                  7.2,
-            "Nasopharynx — 16 Gy":             16.0,
-            "Skin — 8.5 Gy":                    8.5,
-            "Breast — 4.6 Gy":                  4.6,
-            "Oesophagus — 4.9 Gy":              4.9,
-            "Prostate — 1.1 Gy":                1.1,
-            "Melanoma — 0.6 Gy":                0.6,
-            "Liposarcoma — 0.4 Gy":             0.4,
+            "Head & neck — 10.5 Gy": 10.5, "Larynx — 14.5 Gy": 14.5,
+            "Vocal cord — 13 Gy": 13.0, "Buccal mucosa — 6.6 Gy": 6.6,
+            "Tonsil — 7.2 Gy": 7.2, "Nasopharynx — 16 Gy": 16.0,
+            "Skin — 8.5 Gy": 8.5, "Breast — 4.6 Gy": 4.6,
+            "Oesophagus — 4.9 Gy": 4.9, "Prostate — 1.1 Gy": 1.1,
+            "Melanoma — 0.6 Gy": 0.6, "Liposarcoma — 0.4 Gy": 0.4,
             "Custom": None,
         }
-        ab_label = st.selectbox("α/β (Gy)", list(ab_options))
-        ab = (st.number_input(" Custom α/β", value=10.0, key="ab_custom")
+        ab_label = st.selectbox("α/β examples (Gy)", list(ab_options))
+        ab = (st.number_input(" Custom α/β", 0.1, 50.0, 10.0, 0.1,
+                              key="ab_custom")
               if ab_options[ab_label] is None else ab_options[ab_label])
 
-        # ---- Td dropdowns (Hall Table 22.5) ----
         Td_options = {
-            "Lung mets — 40 d":                 40,
-            "Lung mets (colon/rectum) — 96 d":  96,
-            "Primary bronchial ca — 105 d":    105,
-            "Primary bronchial ca — 62 d":      62,
-            "Skeletal sarcoma — 75 d":          75,
+            "Lung mets — 40 d": 40, "Lung mets (colon/rectum) — 96 d": 96,
+            "Primary bronchial ca — 105 d": 105,
+            "Primary bronchial ca — 62 d": 62, "Skeletal sarcoma — 75 d": 75,
             "Custom": None,
         }
-        Td_label = st.selectbox("Tumour doubling time Td (days)", list(Td_options))
-        Td = (st.number_input(" Custom Td", value=40.0, key="td_custom")
+        Td_label = st.selectbox("Tumour doubling time Td (days)",
+                                list(Td_options))
+        Td = (st.number_input(" Custom Td", 1.0, 365.0, 40.0, 1.0,
+                              key="td_custom")
               if Td_options[Td_label] is None else Td_options[Td_label])
 
-    Tk = st.number_input("Tk (days before accelerated repopulation)",
-                         min_value=0, value=0, step=1)
+    Tk = st.number_input("Tk (days before repopulation)", 0, 60, 0, 1)
 
-    # ---- compute & store baseline on button click ----
+    # ---- compute baseline BED and store it ----
     if st.button("Compute baseline BED"):
-        BED1 = bed_time(n1, d1, ab, alpha, T1, Td, Tk)
-        EQD1 = eqd2_time(n1, d1, ab, alpha, T1, Td, Tk)
+        BED_base = bed_time(n1, d1, ab, alpha, T1, Td, Tk)
         st.session_state.iso_base = {
-            "BED":   BED1,
-            "EQD":   EQD1,
-            "ab":    ab,
-            "alpha": alpha,
-            "Td":    Td,
-            "Tk":    Tk,
+            "BED": BED_base, "ab": ab, "alpha": alpha,
+            "Td": Td, "Tk": Tk
         }
 
-    # ---- show baseline if it exists ----
+    # ---- display baseline math flow ----
     if st.session_state.iso_base:
         BED1 = st.session_state.iso_base["BED"]
-        EQD1 = st.session_state.iso_base["EQD"]
-        st.success(
-            f"Baseline **time‑corrected BED** = {BED1:.1f} Gy  \n"
-            f"Baseline **time‑corrected EQD₂** = {EQD1:.1f} Gy"
+        st.markdown(
+f"""**Baseline BED calculation**
+
+$\\displaystyle\\text{{BED}} = n\\,d\\Bigl(1+\\frac{{d}}{{\\alpha/\\beta}}\\Bigr)"
+$\\;-\;\\frac{{\\ln 2}}{{\\alpha}}\\,\\frac{{T-T_k}}{{T_d}}$
+
+Substituting  
+n = {n1}, d = {d1:.2f} Gy, α/β = {ab:.2f} Gy, T = {T1} d, T_d = {Td} d, α = {alpha:.2f} Gy⁻¹, T_k = {Tk} d:
+
+BED = **{BED1:.1f} Gy**
+"""
         )
 
-        # ── 2.  Iso‑effective regimen section ───────────────────────────
+        # ── 2 • Iso‑effective request ─────────────────────────────────
         st.markdown("---")
-        st.subheader("2 . Request an **iso‑effective** regimen")
+        st.subheader("2 . Iso‑effective regimen")
 
-        col4, col5 = st.columns(2)
-        with col4:
-            n2 = st.number_input("Desired # fractions", min_value=1,
-                                 value=5, step=1)
-        with col5:
+        c4, c5 = st.columns(2)
+        with c4:
+            n2 = st.number_input("Desired # fractions", 1, 100, 5, 1)
+        with c5:
             T2_default = n2 if n2 <= 5 else math.ceil(n2 / 5 * 7)
-            T2 = st.number_input("Desired overall time (days)",
-                                 min_value=1, value=T2_default, step=1)
+            T2 = st.number_input("Desired overall time (days)",
+                                 1, 365, T2_default, 1)
 
         if st.button("Compute iso‑effective dose"):
             ab   = st.session_state.iso_base["ab"]
@@ -1016,30 +1002,27 @@ with tab4:
             Tk   = st.session_state.iso_base["Tk"]
             BED_goal = st.session_state.iso_base["BED"]
 
-            d2, total2 = iso_effective_dose(n2, T2, ab, alpha, Td, BED_goal, Tk)
+            d2, total2, R2 = iso_effective_dose(
+                n2, T2, ab, alpha, Td, BED_goal, Tk
+            )
             BED2 = bed_time(n2, d2, ab, alpha, T2, Td, Tk)
-            EQD2 = eqd2_time(n2, d2, ab, alpha, T2, Td, Tk)
 
-            st.info(
-f"""**Result**
+            st.markdown(
+f"""**Iso‑effective solution**
 
-* Dose per fraction: **{d2:.2f} Gy**  
-* Total dose: **{total2:.1f} Gy** in **{n2} fx** over **{T2} d**
+Goal BED = {BED_goal:.1f} Gy  
+n₂ = {n2}, T₂ = {T2} d, α/β = {ab:.2f} Gy, T_d = {Td} d
 
-Verification:
+Solve $n₂ d₂ (1+d₂/αβ) - \\ln2/α · (T₂-T_k)/T_d = \\text{{BED goal}}$
 
-| Quantity | Baseline | New regimen |
-|----------|----------|-------------|
-| BEDₜᵢₘₑ | {BED_goal:.1f} Gy | {BED2:.1f} Gy |
-| EQD₂ₜᵢₘₑ | {EQD1:.1f} Gy | {EQD2:.1f} Gy |
+* Repopulation term R₂ = {R2:.2f} Gy  
+* Quadratic solution → d₂ = **{d2:.2f} Gy/fx**  
+* Total dose = n₂·d₂ = **{total2:.1f} Gy**
 
-(The two columns match within rounding.)"""
+Check: BED(new) = {BED2:.1f} Gy  ≈ goal.
+"""
             )
 
-    # ---- formulas footnote ----
-    st.caption(
-        "Formulae  \n"
-        "• BEDₜᵢₘₑ = n·d·(1 + d/αβ) − (ln 2 / α)·(T − Tk) / Td  \n"
-        "• EQD₂ₜᵢₘₑ = BEDₜᵢₘₑ / (1 + 2/αβ)  \n"
-        "• Iso‑effective d solves: d² + αβ·d − αβ·(BED_goal + repop)/n = 0"
-    )
+    # ---- footer: formula reminder ----
+    st.caption("BED formula with proliferation: "
+               "BED = n d (1+d/αβ) − (ln 2/α)·(T−T_k)/T_d")
