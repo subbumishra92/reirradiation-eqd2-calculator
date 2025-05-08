@@ -462,7 +462,7 @@ references = {
 }
 
 # ——— Main UI ———
-st.title("Palliative Radiotherapy Planning")
+st.title("Radiotherapy Planning Tools")
 tab1, tab2, tab3, tab4 = st.tabs([
     "Re‑irradiation Dose Limit Calculator",
     "Palliative Radiotherapy Planning Protocols",
