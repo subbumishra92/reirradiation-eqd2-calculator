@@ -463,6 +463,13 @@ references = {
 
 # ——— Main UI ———
 st.title("Radiotherapy Planning Tools")
+
+st.markdown(
+    "**Disclaimer:** This calculator is offered freely as a helpful tool. "
+    "All outputs should be independently verified, and the user is solely "
+    "responsible for the use of the calculator and any results.",
+    unsafe_allow_html=False,
+)
 tab1, tab2, tab3, tab4 = st.tabs([
     "Re‑irradiation Dose Limit Calculator",
     "Palliative Radiotherapy Planning Protocols",
