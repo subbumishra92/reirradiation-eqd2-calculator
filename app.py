@@ -461,11 +461,13 @@ references = {
 
 # ——— Main UI ———
 st.title("Palliative Radiotherapy Planning")
-tab1, tab2, tab3 = st.tabs([
+tab1, tab2, tab3, tab4 = st.tabs([
     "Re‑irradiation Dose Limit Calculator",
     "Palliative Radiotherapy Planning Protocols",
-    "OAR Dose Constraints Lookup"
+    "OAR Dose Constraints Lookup",
+    "Iso‑effective BED / EQD₂ Calculator",   # ← new tab
 ])
+
 
 
 # ───────────────────────────── Tab 1: EQD₂ calculator ────────────────────
@@ -886,15 +888,6 @@ with tab3:
                     if idx in references:
                         st.write(f"{idx}. {references[idx]}")
 # ───────────────────────── Tab 4: Iso‑effective BED calculator ───────────
-tab4_label = "Iso‑effective BED / EQD₂ Calculator"
-tabs = st.tabs([
-    "Re‑irradiation Dose Limit Calculator",
-    "Palliative Radiotherapy Planning Protocols",
-    "OAR Dose Constraints Lookup",
-    tab4_label,
-])
-tab1, tab2, tab3, tab4 = tabs   # keep earlier tab variables
-
 with tab4:
     st.header("Iso‑effective Radiotherapy Regimen")
 
