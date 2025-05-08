@@ -34,7 +34,7 @@ for tbl in (experimental_constraints,
 
     
 # ——— Page config ———
-st.set_page_config(page_title="Palliative Radiotherapy Planning", layout="wide")
+st.set_page_config(page_title="Radiotherapy Planning Tools", layout="wide")
 
 # ——— Common Data Definitions ———
 OARS = [
